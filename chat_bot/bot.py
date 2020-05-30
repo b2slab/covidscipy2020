@@ -8,10 +8,14 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
+import os
 
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
+
+DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
+SYSTEM_PATH = os.environ['HOME'] + '/audio-files' # path on system to save audio files
 
 bot = Bot(token=API_TOKEN)
 
@@ -204,9 +208,23 @@ def download_voice(file_id):
     file_path = r.json()["result"]["file_path"]
     url = f"https://api.telegram.org/file/bot{API_TOKEN}/{file_path}"
     r = requests.get(url)
-    # TODO connect to mongo DB
-    with open(f'/Users/Victoria/Desktop/{file_id}.oga', 'wb') as f:
-        f.write(r.content)
+
+
+    audio_blob = r.content
+    # audio_json = {'name', 'audio': audio_blob in str format}
+    try:
+        response = requests.post(DB_URL + '/audio', data=audio_blob)
+        r.raise_for_status()
+    except:
+        """
+            An error has been encounter while uploading audio to db.
+            We save the file to the system as a temporary solution
+        """
+        filename = f'{SYSTEM_PATH}/{file_id}.oga'
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        with open(filename, 'wb') as f:
+            f.write(r.content)
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
