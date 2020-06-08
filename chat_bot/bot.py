@@ -9,14 +9,17 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
 import os
+import numpy as np
+import io
+from io import BytesIO
 
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
 
 DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
-SYSTEM_PATH = os.environ['HOME'] + '/audio-files' # path on system to save audio files
-
+#SYSTEM_PATH = os.environ['HOME'] + './audio-files' # path on system to save audio files
+SYSTEM_PATH = './audio-files' # path on system to save audio files
 bot = Bot(token=API_TOKEN)
 
 # For example use simple MemoryStorage for Dispatcher.
@@ -208,9 +211,12 @@ def download_voice(file_id):
     file_path = r.json()["result"]["file_path"]
     url = f"https://api.telegram.org/file/bot{API_TOKEN}/{file_path}"
     r = requests.get(url)
-
-
     audio_blob = r.content
+    print(audio_blob)
+    #load_bytes = BytesIO(audio_blob)
+    #loaded_np = np.load(load_bytes, allow_pickle=True)
+    #print(loaded_np)
+    #print(type(loaded_np))
     # audio_json = {'name', 'audio': audio_blob in str format}
     try:
         response = requests.post(DB_URL + '/audio', data=audio_blob)
@@ -220,10 +226,77 @@ def download_voice(file_id):
             An error has been encounter while uploading audio to db.
             We save the file to the system as a temporary solution
         """
-        filename = f'{SYSTEM_PATH}/{file_id}.oga'
+        filename = f'{SYSTEM_PATH}/{file_id}.opus'
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'wb') as f:
             f.write(r.content)
+
+    [prediction, features] = create_feature_from_audio(filename)
+    print(prediction)
+    print(features)
+
+
+def create_feature_from_audio(filename):
+    import pyogg
+    import numpy as np
+    import ctypes, numpy, pyogg
+    import matplotlib.pyplot as plt
+    import scipy.io.wavfile
+
+    # https://github.com/Zuzu-Typ/PyOgg/issues/19
+    # file = pyogg.OpusFile(filename)  # stereo
+    # audio_path_opus = "./"
+    file = pyogg.OpusFile(filename)
+    target_datatype = ctypes.c_short * (file.buffer_length // 2)  # always divide by 2 for some reason
+    buffer_as_array = ctypes.cast(file.buffer,
+                                  ctypes.POINTER(target_datatype)).contents
+    if file.channels == 1:
+        wav = numpy.array(buffer_as_array)
+    elif file.channels == 2:
+        wav = numpy.array((wav[0::2],
+                           wav[1::2]))
+    else:
+        raise NotImplementedError()
+    # This is the final numpy array
+    signal = numpy.transpose(wav)
+    sampling_rate = 48000
+    print(numpy.shape(wav))
+
+    #plt.figure
+    #plt.title("Signal Wave...")
+    #plt.plot(signal)
+    #plt.show()
+
+    # Calculating features from final_data
+    from pyAudioAnalysis import MidTermFeatures as mF
+    from pyAudioAnalysis import ShortTermFeatures as sF
+    from pyAudioAnalysis import audioBasicIO
+
+    mid_window = round(0.1 * sampling_rate)
+    mid_step = round(0.1 * sampling_rate)
+    short_window = round(sampling_rate * 0.01)
+    short_step = round(sampling_rate * 0.01)
+
+    signal = audioBasicIO.stereo_to_mono(signal)
+    print(type(signal))
+    # print(np.shape(signal))
+    signal = signal.astype('float64')  # this line is because librosa was making an error - need floats
+
+    [mid_features, short_features, mid_feature_names] = mF.mid_feature_extraction(signal, sampling_rate, mid_window,
+                                                                                  mid_step, short_window, short_step);
+    mid_features = np.transpose(mid_features)
+    mid_term_features = mid_features.mean(axis=0)
+    mid_term_features = np.reshape(mid_term_features, (-1, 1))
+    mid_term_features = np.transpose(mid_term_features)
+    # print(np.shape(mid_term_features))
+    # len(mid_feature_names)
+
+    # Getting the classification result with Cough=0, No_Cough=1
+    from joblib import dump, load
+    cough_classifier = load('Cough_NoCough_classifier.joblib')
+    prediction = cough_classifier.predict(mid_term_features)  # coughs=0 , no_cough = 1
+    return prediction, mid_term_features
+
 
 
 if __name__ == '__main__':
