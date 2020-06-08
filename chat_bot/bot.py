@@ -213,10 +213,6 @@ def download_voice(file_id):
     r = requests.get(url)
     audio_blob = r.content
     print(audio_blob)
-    #load_bytes = BytesIO(audio_blob)
-    #loaded_np = np.load(load_bytes, allow_pickle=True)
-    #print(loaded_np)
-    #print(type(loaded_np))
     # audio_json = {'name', 'audio': audio_blob in str format}
     try:
         response = requests.post(DB_URL + '/audio', data=audio_blob)
@@ -233,8 +229,8 @@ def download_voice(file_id):
 
     [prediction, features] = create_feature_from_audio(filename)
     print(prediction)
+    print(np.shape(features))
     print(features)
-
 
 def create_feature_from_audio(filename):
     import pyogg
