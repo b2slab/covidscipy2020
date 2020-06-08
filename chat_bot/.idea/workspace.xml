@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23baf8b3-719e-4a80-81fe-5f2b67cc8530" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/.ipynb_checkpoints/Audio2Feature2JSON-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/.ipynb_checkpoints/Audio2Feature2JSON-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/Audio2Feature2JSON.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/Audio2Feature2JSON.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/spec.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/svm_linearMEANS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/svm_rbf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/svm_rbf.arff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/svm_rbfMEANS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/your_file.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/your_file1.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../machine_learning/Dry_wet_cough_classification/dry_vs_wet_cough.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Dry_wet_cough_classification/dry_vs_wet_cough.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,29 +102,34 @@
       <screen x="0" y="0" width="1304" height="768" />
     </state>
     <state x="432" y="140" key="FileChooserDialogImpl/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1591042701931" />
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1591045844865">
-      <screen x="-1920" y="-305" width="1920" height="1040" />
+    <state width="1283" height="93" key="GridCell.Tab.0.bottom" timestamp="1591626078840">
+      <screen x="0" y="0" width="1304" height="768" />
     </state>
+    <state width="1283" height="93" key="GridCell.Tab.0.bottom/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591626078840" />
     <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.bottom/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
-    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1591045844865">
-      <screen x="-1920" y="-305" width="1920" height="1040" />
+    <state width="1283" height="93" key="GridCell.Tab.0.center" timestamp="1591626078840">
+      <screen x="0" y="0" width="1304" height="768" />
     </state>
+    <state width="1283" height="93" key="GridCell.Tab.0.center/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591626078840" />
     <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.center/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
-    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1591045844865">
-      <screen x="-1920" y="-305" width="1920" height="1040" />
+    <state width="1283" height="93" key="GridCell.Tab.0.left" timestamp="1591626078840">
+      <screen x="0" y="0" width="1304" height="768" />
     </state>
+    <state width="1283" height="93" key="GridCell.Tab.0.left/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591626078840" />
     <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.left/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
-    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1591045844865">
-      <screen x="-1920" y="-305" width="1920" height="1040" />
+    <state width="1283" height="93" key="GridCell.Tab.0.right" timestamp="1591626078840">
+      <screen x="0" y="0" width="1304" height="768" />
     </state>
+    <state width="1283" height="93" key="GridCell.Tab.0.right/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591626078840" />
     <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.right/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
-    <state x="-1408" y="-22" key="com.intellij.ide.util.TipDialog" timestamp="1591170357729">
-      <screen x="-1920" y="-305" width="1920" height="1040" />
+    <state x="348" y="209" key="com.intellij.ide.util.TipDialog" timestamp="1591625727167">
+      <screen x="0" y="0" width="1304" height="768" />
     </state>
+    <state x="348" y="209" key="com.intellij.ide.util.TipDialog/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591625727167" />
     <state x="-1408" y="-22" key="com.intellij.ide.util.TipDialog/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591170357729" />
     <state x="348" y="209" key="com.intellij.ide.util.TipDialog/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1591042650340" />
   </component>

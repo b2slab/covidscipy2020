@@ -293,8 +293,10 @@ def create_feature_from_audio(filename):
 
     # Getting the classification result with Cough=0, No_Cough=1
     from joblib import dump, load
+    from sklearn import preprocessing
     cough_classifier = load('Cough_NoCough_classifier.joblib')
-    prediction = cough_classifier.predict(mid_term_features)  # coughs=0 , no_cough = 1
+    features = preprocessing.StandardScaler().fit_transform(mid_term_features)
+    prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
     return prediction, mid_term_features
 
 
