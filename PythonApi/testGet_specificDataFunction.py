@@ -1,19 +1,26 @@
 import requests as req
 import json    # or `import simplejson as json` if on Python < 2.6
 
-def getSpecific(username, value): 
-    
-
-#Get all
+def getSpecific(username, values): 
     url = 'http://127.0.0.1:5000/data/'+username+'?pretty'
     resp = req.get(url)
     jsondata=resp.text
     obj = json.loads(jsondata) 
-    print(username, value, ":", obj[value])
-    
-    return obj[value]
+#    print(username, values, ":", obj[values])
+#    return obj[values]
 
-getSpecific("Christian","age")
+    specificValues = []
+    print(username, ":")
+    for element in values:
+        print(element, ": ", obj[element])
+#        specificValues.append(element)
+        specificValues.append(obj[element])
+    return specificValues
+
+print(getSpecific("Christian",["age", "gender"])) # or simply getSpecific("Christian",["age", "gender"])
+
+#getSpecific("Christian","age")
+
 #print(resp.text) # Printing response
 
 #Get specific user (can perform url request with either
