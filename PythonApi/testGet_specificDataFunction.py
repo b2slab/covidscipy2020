@@ -17,14 +17,15 @@ def getSpecific(username, values):
         specificValues.append(obj[element])
     return specificValues
 
-print(getSpecific("Christian",["age", "gender"])) # or simply getSpecific("Christian",["age", "gender"])
+if __name__ == "__main__":
+    print(getSpecific("Christian",["age", "gender"])) # or simply getSpecific("Christian",["age", "gender"])
 
-#getSpecific("Christian","age")
+    #getSpecific("Christian","age")
 
-#print(resp.text) # Printing response
+    #print(resp.text) # Printing response
 
-#Get specific user (can perform url request with either
-# /data/<username> or /data/<_id>)
-#url = 'http://127.0.0.1:5000/data/TestUser130?pretty'
-#resp = req.get(url)
-#print(resp.text) # Printing response
+    #Get specific user (can perform url request with either
+    # /data/<username> or /data/<_id>)
+    #url = 'http://127.0.0.1:5000/data/TestUser130?pretty'
+    #resp = req.get(url)
+    #print(resp.text) # Printing response
