@@ -530,10 +530,10 @@ dataSchema = {
 # 	}
 }
 
- audioSchema = {
-     	"audio_file": {    
-             'type': 'media',
-             'required': False
+audioSchema = {
+    	"audio_file": {    
+            'type': 'media',
+            'required': False
   	},
 	"username": {  #as free input
 		'type': 'string',
@@ -565,18 +565,18 @@ dataEndpoint = {
     'schema': dataSchema
 }
 
- audioEndpoint = {
-     # 'title' tag used in item links. Defaults to the resource title minus
+audioEndpoint = {
+    # 'title' tag used in item links. Defaults to the resource title minus
      # the final, plural 's' (works fine in most cases but not for 'people')
-     'item_title': 'audioData',
+    'item_title': 'audioData',
 
      # by default the standard item entry point is defined as
      # '/data/<ObjectId>'. We can add an additional endpoint.
  	# This way consumers can also perform
      # GET requests at '/data/<user_id>'.
-      'additional_lookup': { #???
-          'url': 'regex("[\w]+")',
-          'field': 'username'
+     'additional_lookup': { #???
+         'url': 'regex("[\w]+")',
+         'field': 'username'
      },
 
 
@@ -587,6 +587,6 @@ dataEndpoint = {
  }
 
 DOMAIN = {
-	'data': dataEndpoint
+	'data': dataEndpoint,
     	'rawAudio': audioEndpoint 
 }
