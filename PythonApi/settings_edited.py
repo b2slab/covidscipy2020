@@ -43,7 +43,7 @@ dataSchema = {
 
 	"location": {  #maybe as GPS-Data (=> Data-type?), only users from Spain (allow districts as input) => Victoria 
         'type': 'dict',
-		'required': True,
+		'required': False,
         'schema': {
             'country': {
 				'type': 'string',
@@ -530,12 +530,19 @@ dataSchema = {
 # 	}
 }
 
-# audioSchema = {
-#     	"audio_file": {    
-#             'type': 'media',
-#             'required': True #False?
-#  	},
-# }
+ audioSchema = {
+     	"audio_file": {    
+             'type': 'media',
+             'required': False
+  	},
+	"username": {  #as free input
+		'type': 'string',
+		'required': True,
+		'unique': True,
+		'minlength': 1,
+		'maxlength': 16
+	}
+ }
 
 dataEndpoint = {
     # 'title' tag used in item links. Defaults to the resource title minus
@@ -558,28 +565,28 @@ dataEndpoint = {
     'schema': dataSchema
 }
 
-# audioEndpoint = {
-#     # 'title' tag used in item links. Defaults to the resource title minus
-#     # the final, plural 's' (works fine in most cases but not for 'people')
-#     'item_title': 'audioData',
+ audioEndpoint = {
+     # 'title' tag used in item links. Defaults to the resource title minus
+     # the final, plural 's' (works fine in most cases but not for 'people')
+     'item_title': 'audioData',
 
-#     # by default the standard item entry point is defined as
-#     # '/data/<ObjectId>'. We can add an additional endpoint.
-# 	# This way consumers can also perform
-#     # GET requests at '/data/<user_id>'.
-#     # 'additional_lookup': { #???
-#     #     'url': 'regex("[\w]+")',
-#     #     'field': 'username'
-#     },
+     # by default the standard item entry point is defined as
+     # '/data/<ObjectId>'. We can add an additional endpoint.
+ 	# This way consumers can also perform
+     # GET requests at '/data/<user_id>'.
+      'additional_lookup': { #???
+          'url': 'regex("[\w]+")',
+          'field': 'username'
+     },
 
 
-#     # most global settings can be overridden at resource level
-#     #'resource_methods': ['GET', 'POST'],
+     # most global settings can be overridden at resource level
+     #'resource_methods': ['GET', 'POST'],
 
-#     'schema': audioSchema
-# }
+     'schema': audioSchema
+ }
 
 DOMAIN = {
 	'data': dataEndpoint
-    #'rawAudio': audioEndpoint ?
+    	'rawAudio': audioEndpoint 
 }
