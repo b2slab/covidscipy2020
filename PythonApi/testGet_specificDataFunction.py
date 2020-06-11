@@ -12,14 +12,15 @@ def getSpecific(username, values):
     specificValues = []
     print(username, ":")
     for element in values:
-        print(element, ": ", obj[element])
+#        print(element, ": ", obj[element])
 #        specificValues.append(element)
         specificValues.append(obj[element])
     return specificValues
 
 if __name__ == "__main__":
-    print(getSpecific("Christian",["age", "gender"])) # or simply getSpecific("Christian",["age", "gender"])
-
+    print(getSpecific("Christian",["age", "gender"])) 
+    # or simply getSpecific("Christian",["age", "gender"]) if print statement in function is uncommented
+    
     #getSpecific("Christian","age")
 
     #print(resp.text) # Printing response
