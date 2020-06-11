@@ -3,13 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="23baf8b3-719e-4a80-81fe-5f2b67cc8530" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../machine_learning/Cough_NoCough_classification/SVM_Training.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Cough_NoCough_classification/SVM_Training.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/.ipynb_checkpoints/Audio2Feature2JSON-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/.ipynb_checkpoints/Audio2Feature2JSON-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/.ipynb_checkpoints/Feature_Extraction-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/.ipynb_checkpoints/Feature_Extraction-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/Audio2Feature2JSON.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/Audio2Feature2JSON.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/Feature_Extraction.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/Feature_Extraction.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/First_Coughing_Sneezing_Test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../machine_learning/Coughing_Sneezing_pyAudioProcessing/First_Coughing_Sneezing_Test.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,10 +116,10 @@
     <state width="1283" height="228" key="GridCell.Tab.0.right/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591631082462" />
     <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.right/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
-    <state x="348" y="209" key="com.intellij.ide.util.TipDialog" timestamp="1591625727167">
+    <state x="348" y="209" key="com.intellij.ide.util.TipDialog" timestamp="1591777974722">
       <screen x="0" y="0" width="1304" height="768" />
     </state>
-    <state x="348" y="209" key="com.intellij.ide.util.TipDialog/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591625727167" />
+    <state x="348" y="209" key="com.intellij.ide.util.TipDialog/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1591777974722" />
     <state x="-1408" y="-22" key="com.intellij.ide.util.TipDialog/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591170357729" />
     <state x="348" y="209" key="com.intellij.ide.util.TipDialog/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1591042650340" />
   </component>

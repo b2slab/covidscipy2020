@@ -5,7 +5,7 @@ url = 'http://127.0.0.1:5000/data'
 headers = {'content-type': 'application/json'}
 
 testObject = {
-    "username": "TestUser112",
+    "username": "TestUser100",
     "age": 11,
 	"body_temp": 39,
 	"location": { 
