@@ -29,8 +29,7 @@ dp = Dispatcher(bot, storage=storage)
 
 # States
 class Form(StatesGroup):
-    firstname = State()
-    surname = State()
+    username = State()
     age = State()
     gender = State()
     height = State()
@@ -47,9 +46,9 @@ async def cmd_start(message: types.Message):
     Conversation's entry point
     """
     # Set state
-    await Form.firstname.set()
+    await Form.username.set()
 
-    await message.reply("Hi there! What's your name?")
+    await message.reply("Hi there! Please, enter your username.")
 
 
 # You can use state '*' if you need to handle all states
@@ -70,25 +69,13 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     await message.reply('Cancelled.', reply_markup=types.ReplyKeyboardRemove())
 
 
-@dp.message_handler(state=Form.firstname)
-async def process_name(message: types.Message, state: FSMContext):
+@dp.message_handler(state=Form.username)
+async def process_username(message: types.Message, state: FSMContext):
     """
     Process user name
     """
     async with state.proxy() as data:
-        data['firstname'] = message.text
-
-    await Form.next()
-    await message.reply("What's your surname?")
-
-
-@dp.message_handler(state=Form.surname)
-async def process_name(message: types.Message, state: FSMContext):
-    """
-    Process user name
-    """
-    async with state.proxy() as data:
-        data['surname'] = message.text
+        data['username'] = message.text
 
     await Form.next()
     await message.reply("How old are you?")
@@ -185,7 +172,7 @@ async def process_has_corona(message: types.Message, state: FSMContext):
         await bot.send_message(
             message.chat.id,
             md.text(
-                md.text('Hi! Nice to meet you,', md.bold(data['firstname'])),
+                md.text('Hi! Nice to meet you,', md.bold(data['username'])),
                 md.text('Age:', md.code(data['age'])),
                 md.text('Gender:', data['gender']),
                 md.text('Height:', data['height']),
@@ -231,6 +218,7 @@ def download_voice(file_id):
     print(prediction)
     print(np.shape(features))
     print(features)
+
 
 def create_feature_from_audio(filename):
     import pyogg
