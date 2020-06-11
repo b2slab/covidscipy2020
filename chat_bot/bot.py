@@ -13,6 +13,8 @@ import numpy as np
 import io
 from io import BytesIO
 
+from covidscipy2020.machine_learning.Cough_NoCough_classification.yamnet import classifier
+
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
@@ -141,17 +143,28 @@ async def process_age(message: types.Message, state: FSMContext):
     await message.reply("Please cough")
 
 
-@dp.message_handler(state=Form.cough,content_types=types.message.ContentType.VOICE)
+@dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
-    download_voice(message.voice.file_id)
-    await Form.next()
-    # Configure ReplyKeyboardMarkup
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Yes", "No")
-    markup.add("Not certain")
+    await bot.send_message(
+        message.chat.id,
+        "Please, give me a second while I annalyze you cough..."
+    )
+    if not is_cough(message.voice.file_id):
+        return await bot.send_message(
+            message.chat.id,
+            "Sorry, we didn't recognize this as cough. Please, cough again"
+        )
 
-    await message.reply("Do you have corona?", reply_markup=markup)
+    else:
+        await bot.send_message(message.chat.id, "Thank you!")
+        await Form.next()
+        # Configure ReplyKeyboardMarkup
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add("Yes", "No")
+        markup.add("Not certain")
+
+        await message.reply("Do you have corona?", reply_markup=markup)
 
 
 @dp.message_handler(state=Form.has_corona)
@@ -172,8 +185,8 @@ async def process_has_corona(message: types.Message, state: FSMContext):
         await bot.send_message(
             message.chat.id,
             md.text(
-                md.text('Hi! Nice to meet you,', md.bold(data['username'])),
-                md.text('Age:', md.code(data['age'])),
+                md.text('Hi! Nice to meet you,', data['username']),
+                md.text('Age:', data['age']),
                 md.text('Gender:', data['gender']),
                 md.text('Height:', data['height']),
                 md.text(f'You {corona_states[data["has_corona"]]} have corona'),
@@ -192,32 +205,54 @@ async def process_has_corona(message: types.Message, state: FSMContext):
 #     logging.info(message)
 
 
-def download_voice(file_id):
+def is_cough(file_id):
     url = f"https://api.telegram.org/bot{API_TOKEN}/getFile?file_id={file_id}"
     r = requests.get(url)
     file_path = r.json()["result"]["file_path"]
     url = f"https://api.telegram.org/file/bot{API_TOKEN}/{file_path}"
     r = requests.get(url)
     audio_blob = r.content
-    print(audio_blob)
-    # audio_json = {'name', 'audio': audio_blob in str format}
-    try:
-        response = requests.post(DB_URL + '/audio', data=audio_blob)
-        r.raise_for_status()
-    except:
-        """
-            An error has been encounter while uploading audio to db.
-            We save the file to the system as a temporary solution
-        """
-        filename = f'{SYSTEM_PATH}/{file_id}.opus'
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        with open(filename, 'wb') as f:
-            f.write(r.content)
 
-    [prediction, features] = create_feature_from_audio(filename)
-    print(prediction)
-    print(np.shape(features))
-    print(features)
+    # audio_json = {'name', 'audio': audio_blob in str format}
+    # try:
+    #     response = requests.post(DB_URL + '/audio', data=audio_blob)
+    #     r.raise_for_status()
+    # except:
+    """
+        An error has been encounter while uploading audio to db.
+        We save the file to the system as a temporary solution
+    """
+    file_dir = SYSTEM_PATH
+    os.makedirs(file_dir, exist_ok=True)
+    filename = os.path.join(file_dir, f"{file_id}.ogg")
+    with open(filename, 'wb') as f:
+        f.write(r.content)
+
+    wav_file_path = convert_to_wav(filename)
+    top_labels = classifier.classify(wav_file_path)
+    accepted = "Cough" in top_labels
+    print("TOP LABELS: ", top_labels)
+    return accepted
+
+
+def convert_to_wav(input_file):
+    file_dir, filename = os.path.split(os.path.abspath(input_file))
+    basename = filename.split('.')[0]
+    output_file = os.path.join(file_dir, f"{basename}.wav")
+    os.system(f'ffmpeg -y -i {input_file} {output_file}')
+    return output_file
+
+
+
+def upload_to_database(file_id):
+    pass
+
+    # [prediction, features] = create_feature_from_audio(filename)
+    # print(prediction)
+    # print(np.shape(features))
+    # print(features)
+
+
 
 
 def create_feature_from_audio(filename):
