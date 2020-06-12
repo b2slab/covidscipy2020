@@ -10,19 +10,23 @@ def getSpecific(username, values):
 #    return obj[values]
 
     specificValues = []
-    print(username, ":")
+    print("Username: ", username, ":")
     for element in values:
-#        print(element, ": ", obj[element])
+        print(element, ": ", obj[element])
 #        specificValues.append(element)
         specificValues.append(obj[element])
     return specificValues
 
 if __name__ == "__main__":
-    print(getSpecific("Christian",["age", "gender"])) 
-    # or simply getSpecific("Christian",["age", "gender"]) if print statement in function is uncommented
+    user = input('Enter the username: ')
+    dataentries = []
+    while True:
+        dataentry = input('Enter the keys for the desired data entries: ')
+        if dataentry == "":
+            break
+        dataentries.append(dataentry)
+    print(getSpecific(user,dataentries))
     
-    #getSpecific("Christian","age")
-
     #print(resp.text) # Printing response
 
     #Get specific user (can perform url request with either
