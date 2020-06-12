@@ -10,7 +10,7 @@ def getSpecific(username, values):
 #    return obj[values]
 
     specificValues = []
-    print("Username: ", username, ":")
+    print("Username: ", username)
     for element in values:
         print(element, ": ", obj[element])
 #        specificValues.append(element)
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     user = input('Enter the username: ')
     dataentries = []
     while True:
-        dataentry = input('Enter the keys for the desired data entries: ')
+        dataentry = input('Enter a key for a desired data entry or finish by pressing enter : ')
         if dataentry == "":
             break
         dataentries.append(dataentry)
