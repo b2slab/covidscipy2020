@@ -9,14 +9,19 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
 import os
+import numpy as np
+import io
+from io import BytesIO
+
+from covidscipy2020.machine_learning.Cough_NoCough_classification.yamnet import classifier
 
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
 
 DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
-SYSTEM_PATH = os.environ['HOME'] + '/audio-files' # path on system to save audio files
-
+#SYSTEM_PATH = os.environ['HOME'] + './audio-files' # path on system to save audio files
+SYSTEM_PATH = './audio-files' # path on system to save audio files
 bot = Bot(token=API_TOKEN)
 
 # For example use simple MemoryStorage for Dispatcher.
@@ -26,8 +31,7 @@ dp = Dispatcher(bot, storage=storage)
 
 # States
 class Form(StatesGroup):
-    firstname = State()
-    surname = State()
+    username = State()
     age = State()
     gender = State()
     height = State()
@@ -44,9 +48,9 @@ async def cmd_start(message: types.Message):
     Conversation's entry point
     """
     # Set state
-    await Form.firstname.set()
+    await Form.username.set()
 
-    await message.reply("Hi there! What's your name?")
+    await message.reply("Hi there! Please, enter your username.")
 
 
 # You can use state '*' if you need to handle all states
@@ -67,25 +71,13 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     await message.reply('Cancelled.', reply_markup=types.ReplyKeyboardRemove())
 
 
-@dp.message_handler(state=Form.firstname)
-async def process_name(message: types.Message, state: FSMContext):
+@dp.message_handler(state=Form.username)
+async def process_username(message: types.Message, state: FSMContext):
     """
     Process user name
     """
     async with state.proxy() as data:
-        data['firstname'] = message.text
-
-    await Form.next()
-    await message.reply("What's your surname?")
-
-
-@dp.message_handler(state=Form.surname)
-async def process_name(message: types.Message, state: FSMContext):
-    """
-    Process user name
-    """
-    async with state.proxy() as data:
-        data['surname'] = message.text
+        data['username'] = message.text
 
     await Form.next()
     await message.reply("How old are you?")
@@ -131,7 +123,7 @@ async def process_gender(message: types.Message, state: FSMContext):
         markup = types.ReplyKeyboardRemove()
 
     await Form.next()
-    await message.reply("Please enter your height in cm?", reply_markup=markup)
+    await message.reply("What is your height?", reply_markup=markup)
 
 
 # Check age. Height gotta be digit
@@ -148,20 +140,31 @@ async def process_age(message: types.Message, state: FSMContext):
     # Update state and data
     await Form.next()
     await state.update_data(height=int(message.text))
-    await message.reply("Please record your cough (5 seconds at least)")
+    await message.reply("Please cough")
 
 
-@dp.message_handler(state=Form.cough,content_types=types.message.ContentType.VOICE)
+@dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
-    download_voice(message.voice.file_id)
-    await Form.next()
-    # Configure ReplyKeyboardMarkup
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Yes", "No")
-    markup.add("Not certain")
+    await bot.send_message(
+        message.chat.id,
+        "Please, give me a second while I annalyze you cough..."
+    )
+    if not is_cough(message.voice.file_id):
+        return await bot.send_message(
+            message.chat.id,
+            "Sorry, we didn't recognize this as cough. Please, cough again"
+        )
 
-    await message.reply("Do you have corona?", reply_markup=markup)
+    else:
+        await bot.send_message(message.chat.id, "Thank you!")
+        await Form.next()
+        # Configure ReplyKeyboardMarkup
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add("Yes", "No")
+        markup.add("Not certain")
+
+        await message.reply("Do you have corona?", reply_markup=markup)
 
 
 @dp.message_handler(state=Form.has_corona)
@@ -182,8 +185,8 @@ async def process_has_corona(message: types.Message, state: FSMContext):
         await bot.send_message(
             message.chat.id,
             md.text(
-                md.text('Hi! Nice to meet you,', md.bold(data['firstname'])),
-                md.text('Age:', md.code(data['age'])),
+                md.text('Hi! Nice to meet you,', data['username']),
+                md.text('Age:', data['age']),
                 md.text('Gender:', data['gender']),
                 md.text('Height:', data['height']),
                 md.text(f'You {corona_states[data["has_corona"]]} have corona'),
@@ -202,29 +205,120 @@ async def process_has_corona(message: types.Message, state: FSMContext):
 #     logging.info(message)
 
 
-def download_voice(file_id):
+def is_cough(file_id):
     url = f"https://api.telegram.org/bot{API_TOKEN}/getFile?file_id={file_id}"
     r = requests.get(url)
     file_path = r.json()["result"]["file_path"]
     url = f"https://api.telegram.org/file/bot{API_TOKEN}/{file_path}"
     r = requests.get(url)
-
-
     audio_blob = r.content
-    # audio_json = {'name', 'audio': audio_blob in str format}
 
-    try:
-        response = requests.post(DB_URL + '/audio', data=audio_blob)
-        r.raise_for_status()
-    except:
-        """
-            An error has been encounter while uploading audio to db.
-            We save the file to the system as a temporary solution
-        """
-        filename = f'{SYSTEM_PATH}/{file_id}.oga'
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        with open(filename, 'wb') as f:
-            f.write(r.content)
+    # audio_json = {'name', 'audio': audio_blob in str format}
+    # try:
+    #     response = requests.post(DB_URL + '/audio', data=audio_blob)
+    #     r.raise_for_status()
+    # except:
+    """
+        An error has been encounter while uploading audio to db.
+        We save the file to the system as a temporary solution
+    """
+    file_dir = SYSTEM_PATH
+    os.makedirs(file_dir, exist_ok=True)
+    filename = os.path.join(file_dir, f"{file_id}.ogg")
+    with open(filename, 'wb') as f:
+        f.write(r.content)
+
+    wav_file_path = convert_to_wav(filename)
+    top_labels = classifier.classify(wav_file_path)
+    accepted = "Cough" in top_labels
+    print("TOP LABELS: ", top_labels)
+    return accepted
+
+
+def convert_to_wav(input_file):
+    file_dir, filename = os.path.split(os.path.abspath(input_file))
+    basename = filename.split('.')[0]
+    output_file = os.path.join(file_dir, f"{basename}.wav")
+    os.system(f'ffmpeg -y -i {input_file} {output_file}')
+    return output_file
+
+
+
+def upload_to_database(file_id):
+    pass
+
+    # [prediction, features] = create_feature_from_audio(filename)
+    # print(prediction)
+    # print(np.shape(features))
+    # print(features)
+
+
+
+
+def create_feature_from_audio(filename):
+    import pyogg
+    import numpy as np
+    import ctypes, numpy, pyogg
+    import matplotlib.pyplot as plt
+    import scipy.io.wavfile
+
+    # https://github.com/Zuzu-Typ/PyOgg/issues/19
+    # file = pyogg.OpusFile(filename)  # stereo
+    # audio_path_opus = "./"
+    file = pyogg.OpusFile(filename)
+    target_datatype = ctypes.c_short * (file.buffer_length // 2)  # always divide by 2 for some reason
+    buffer_as_array = ctypes.cast(file.buffer,
+                                  ctypes.POINTER(target_datatype)).contents
+    if file.channels == 1:
+        wav = numpy.array(buffer_as_array)
+    elif file.channels == 2:
+        wav = numpy.array((wav[0::2],
+                           wav[1::2]))
+    else:
+        raise NotImplementedError()
+    # This is the final numpy array
+    signal = numpy.transpose(wav)
+    sampling_rate = 48000
+    print(numpy.shape(wav))
+
+    #plt.figure
+    #plt.title("Signal Wave...")
+    #plt.plot(signal)
+    #plt.show()
+
+    # Calculating features from final_data
+    from pyAudioAnalysis import MidTermFeatures as mF
+    from pyAudioAnalysis import ShortTermFeatures as sF
+    from pyAudioAnalysis import audioBasicIO
+
+    mid_window = round(0.1 * sampling_rate)
+    mid_step = round(0.1 * sampling_rate)
+    short_window = round(sampling_rate * 0.01)
+    short_step = round(sampling_rate * 0.01)
+
+    signal = audioBasicIO.stereo_to_mono(signal)
+    print(type(signal))
+    # print(np.shape(signal))
+    signal = signal.astype('float64')  # this line is because librosa was making an error - need floats
+
+    [mid_features, short_features, mid_feature_names] = mF.mid_feature_extraction(signal, sampling_rate, mid_window,
+                                                                                  mid_step, short_window, short_step);
+    mid_features = np.transpose(mid_features)
+    mid_term_features = mid_features.mean(axis=0)
+    mid_term_features = np.reshape(mid_term_features, (-1, 1))
+    mid_term_features = np.transpose(mid_term_features)
+    # print(np.shape(mid_term_features))
+    # len(mid_feature_names)
+
+    # Getting the classification result with Cough=0, No_Cough=1
+    from joblib import dump, load
+    from sklearn import preprocessing
+    cough_classifier = load('Cough_NoCough_classifier.joblib')
+    features = preprocessing.StandardScaler().fit_transform(mid_term_features)
+    prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
+    return prediction, mid_term_features
+
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
