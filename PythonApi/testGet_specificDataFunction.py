@@ -9,9 +9,20 @@ def getSpecific(username, values):
 #    print(username, values, ":", obj[values])
 #    return obj[values]
 
+    # Pseudocode 1: check if username exists
+    # if username doesn't exist:
+    #     print("No data for this username")
+    #     return None
+    
     specificValues = []
     print("Username: ", username)
     for element in values:
+        
+        # Pseudocode 2: check if element exists as a key in obj
+        # if element isn't part of obj:
+        #   print(element, " is not a valid key for this username")
+        #   pass
+        
         print(element, ": ", obj[element])
 #        specificValues.append(element)
         specificValues.append(obj[element])
