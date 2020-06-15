@@ -102,9 +102,14 @@ def split_sound(sound, name , mini):
     new_names = []
     length = len(sound)
     if (length > 2*mini):
-        num_splits = math.floor(length/mini)
+        num_splits = math.floor(length/mini) 
         for i in range(num_splits - 1):
-            new_sounds.append(sound[i*mini:(i + 1)*mini])
+            if i == (num_splits-1):
+               new_sound = sound[i*mini:-1] 
+            else:
+                new_sound = sound[i*mini:(i + 1)*mini]
+
+            new_sounds.append(new_sound)
             new_names.append((name + '_' + str(i)))
     else:
         new_sounds = sound
@@ -142,7 +147,9 @@ def export_timmed_files(split = None):
      
         for sound, name in zip(new_sounds, new_names): 
             sound = trim(sound)
-            sound.export(name+'.wav', format="wav")
+            
+            if len(sound) >= stats[MINIMUM]:
+                sound.export(name+'.wav', format="wav")
     else:
         for sound, name in zip((wet + dry), (wet_name + dry_name)): 
             sound.export(name+'.wav', format="wav")
@@ -284,12 +291,11 @@ def remove_trimmed_data():
 
         
 if __name__=="__main__":
-    export_timmed_files() # Split on selections: 'mini', 'mean', 'median'
-   
-  
+    #export_timmed_files('mini') # Split on selections: 'mini', 'mean', 'median'
+    
     wet, dry = load_data('trimmed_cough_data')
     stats = get_stats_length(wet,dry)
     
     save_images(stats[MAXIMUM], False)
     
-    
+ 
