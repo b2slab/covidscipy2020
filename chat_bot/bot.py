@@ -14,9 +14,7 @@ import io
 from io import BytesIO
 import sys
 
-#sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020')
-#sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020\\machine_learning')
-from machine_learning.Cough_NoCough_classification.yamnet import classifier
+from Cough_NoCough_classification.yamnet import classifier
 
 logging.basicConfig(level=logging.INFO)
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
@@ -345,6 +343,7 @@ async def process_others(message: types.Message, state: FSMContext):
             "Thank you very much for you collaboration!\n"
             "Please, give me a second while I upload the data."
         )
+    print(data)
     await state.finish()
 
 
@@ -368,6 +367,7 @@ def is_cough(file_id):
     top_labels = classifier.classify(wav_file_path)
     accepted = "Cough" in top_labels
     print("TOP LABELS: ", top_labels)
+
     return accepted
 
 
@@ -380,12 +380,8 @@ def convert_to_wav(input_file):
     return output_file
 
 
-def upload_to_database(filename, data):
-    # pass
-    if data["has_corona"] == "Yes":
-        label = 0
-    else:
-        label = 1
+def upload_to_database():
+    
     feature_dictionary = create_feature_from_audio(filename, label)
 
 
