@@ -219,7 +219,7 @@ async def process_has_corona_invalid(message: types.Message):
 @dp.message_handler(state=Form.has_corona)
 async def process_has_corona(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['diagnosis'] = (message.text == "yes")
+        data['diagnosis'] = message.text
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
