@@ -14,12 +14,11 @@ import io
 from io import BytesIO
 import sys
 
+sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020')
+sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020\\machine_learning')
 from machine_learning.Cough_NoCough_classification.yamnet import classifier
-#sys.path.append(
-#    'C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project')
 
 logging.basicConfig(level=logging.INFO)
-
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
 
 DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
@@ -53,8 +52,6 @@ class Form(StatesGroup):
     shortness_breath = State()
     chest_pain = State()
     others = State()
-
-
 
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
@@ -359,7 +356,10 @@ def is_cough(file_id):
 
     file_dir = SYSTEM_PATH
     os.makedirs(file_dir, exist_ok=True)
-    filename = os.path.join(file_dir, f"{file_id}.ogg")
+    #audio_name = 'test'
+    #filename = os.path.join(file_dir, f"{file_id}.ogg")
+    #filename = os.path.join(file_dir, f"{audio_name}.ogg")
+    filename = './audio-files/test.ogg'
     with open(filename, 'wb') as f:
         f.write(r.content)
 
@@ -373,7 +373,8 @@ def is_cough(file_id):
 def convert_to_wav(input_file):
     file_dir, filename = os.path.split(os.path.abspath(input_file))
     basename = filename.split('.')[0]
-    output_file = os.path.join(file_dir, f"{basename}.wav")
+    #output_file = os.path.join(file_dir, f"{basename}.wav")
+    output_file = './audio-files/test.wav'
     os.system(f'ffmpeg -y -i {input_file} {output_file}')
     return output_file
 
@@ -453,7 +454,7 @@ def create_feature_from_audio(filename, label):
     # cough_classifier = load('Cough_NoCough_classifier.joblib')
     # features = preprocessing.StandardScaler().fit_transform(mid_term_features)
     # prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
-    return feature_dictionary
+    return feature_dict
 
 
 if __name__ == '__main__':
