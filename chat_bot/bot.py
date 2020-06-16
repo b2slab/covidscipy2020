@@ -12,8 +12,11 @@ import os
 import numpy as np
 import io
 from io import BytesIO
+import sys
 
 from machine_learning.Cough_NoCough_classification.yamnet import classifier
+#sys.path.append(
+#    'C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project')
 
 logging.basicConfig(level=logging.INFO)
 
@@ -21,11 +24,11 @@ API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
 
 DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
 DB_DATA_URL = f"{DB_URL}/data" # url where db is hosted
-
 HEADERS = {'content-type': 'application/json'}
 
 #SYSTEM_PATH = os.environ['HOME'] + './audio-files' # path on system to save audio files
 SYSTEM_PATH = './audio-files' # path on system to save audio files
+
 bot = Bot(token=API_TOKEN)
 
 # For example use simple MemoryStorage for Dispatcher.
@@ -344,7 +347,6 @@ async def process_others(message: types.Message, state: FSMContext):
             "Thank you very much for you collaboration!\n"
             "Please, give me a second while I upload the data."
         )
-
     await state.finish()
 
 
@@ -375,7 +377,17 @@ def convert_to_wav(input_file):
     os.system(f'ffmpeg -y -i {input_file} {output_file}')
     return output_file
 
-def create_feature_from_audio(filename):
+
+def upload_to_database(filename, data):
+    # pass
+    if data["has_corona"] == "Yes":
+        label = 0
+    else:
+        label = 1
+    feature_dictionary = create_feature_from_audio(filename, label)
+
+
+def create_feature_from_audio(filename, label):
     import pyogg
     import numpy as np
     import ctypes, numpy, pyogg
@@ -401,10 +413,10 @@ def create_feature_from_audio(filename):
     sampling_rate = 48000
     print(numpy.shape(wav))
 
-    #plt.figure
-    #plt.title("Signal Wave...")
-    #plt.plot(signal)
-    #plt.show()
+    # plt.figure
+    # plt.title("Signal Wave...")
+    # plt.plot(signal)
+    # plt.show()
 
     # Calculating features from final_data
     from pyAudioAnalysis import MidTermFeatures as mF
@@ -427,17 +439,21 @@ def create_feature_from_audio(filename):
     mid_term_features = mid_features.mean(axis=0)
     mid_term_features = np.reshape(mid_term_features, (-1, 1))
     mid_term_features = np.transpose(mid_term_features)
+
+    import json
+    features_list = features.tolist()
+    feature_dict = dict(zip(['label'] + mid_feature_names, [label] + features_list))
+
     # print(np.shape(mid_term_features))
     # len(mid_feature_names)
 
     # Getting the classification result with Cough=0, No_Cough=1
-    from joblib import dump, load
-    from sklearn import preprocessing
-    cough_classifier = load('Cough_NoCough_classifier.joblib')
-    features = preprocessing.StandardScaler().fit_transform(mid_term_features)
-    prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
-    return prediction, mid_term_features
-
+    # from joblib import dump, load
+    # from sklearn import preprocessing
+    # cough_classifier = load('Cough_NoCough_classifier.joblib')
+    # features = preprocessing.StandardScaler().fit_transform(mid_term_features)
+    # prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
+    return feature_dictionary
 
 
 if __name__ == '__main__':

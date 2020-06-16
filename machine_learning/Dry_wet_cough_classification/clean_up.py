@@ -14,7 +14,9 @@ from pyAudioAnalysis import ShortTermFeatures as sF
 from pyAudioAnalysis import audioBasicIO
 import matplotlib.pyplot as plt
 import shutil
-
+import math
+from statistics import mean 
+from statistics import median 
 
 '''
 For creating spektogram of signal, and save
@@ -61,8 +63,8 @@ def detect_silence(sound, silence_threshold=-50.0, chunk_size=10):
 
     return trim_ms
 
-def trim(file):
-    sound = AudioSegment.from_file(file, format="wav")
+def trim(sound):
+    #sound = AudioSegment.from_file(file, format="wav")
     
     start_trim = detect_silence(sound)
     end_trim = detect_silence(sound.reverse())
@@ -72,18 +74,89 @@ def trim(file):
     return trimmed_sound
 
 def trim_files():
+    wet = []
+    dry = []
+    wet_name = []
+    dry_name = []
     for sub_dir in os.listdir(data_dir):
         i = 0
         for cough in os.listdir(data_dir + sub_dir):
             path = (data_dir + sub_dir)
             new_path  = (cwd + '/trimmed_cough_data/' + sub_dir)
-            new_name = new_path + '/' + 'trimmed_' + sub_dir+str(i)+'.wav'
+            new_name = new_path + '/' + 'trimmed_' + sub_dir+str(i)
             i = i+1
-            test_file = trim(path + '/' + cough)
-            test_file.export(new_name, format="wav")
             
-            
+            sound = AudioSegment.from_file((path + '/' + cough), format="wav")
+            test_file = trim(sound)
+            if sub_dir == 'dry':
+                dry.append(test_file)
+                dry_name.append(new_name)
+            elif sub_dir == 'wet':
+                wet.append(test_file)
+                wet_name.append(new_name)
+            #test_file.export(new_name, format="wav")
+    return wet, dry, wet_name, dry_name    
+ 
+def split_sound(sound, name , mini):
+    new_sounds = []
+    new_names = []
+    length = len(sound)
+    if (length > 2*mini):
+        num_splits = math.floor(length/mini) 
+        for i in range(num_splits - 1):
+            if i == (num_splits-1):
+               new_sound = sound[i*mini:-1] 
+            else:
+                new_sound = sound[i*mini:(i + 1)*mini]
 
+            new_sounds.append(new_sound)
+            new_names.append((name + '_' + str(i)))
+    else:
+        new_sounds = sound
+        new_names = name
+    return new_sounds, new_names  
+     
+def export_timmed_files(split = None):
+    print('Split setting: ',split)
+    remove_trimmed_data()
+    wet,dry, wet_name, dry_name = trim_files()
+
+    stats = get_stats_length(wet,dry)
+    
+    new_sounds = []
+    new_names = []
+    
+    if split == 'mini': 
+        split_on = stats[MINIMUM]
+    elif split == 'mean' :
+        split_on = stats[MEAN]
+    elif split == 'median' :
+        split_on = stats[MEDIAN]
+        
+        
+    if split: 
+        for sound, name in zip((wet + dry), (wet_name + dry_name)): 
+            new_sound, new_name = split_sound(sound, name, split_on)
+            
+            if type(new_sound) == list:
+                new_sounds = new_sounds + new_sound
+                new_names = new_names + new_name
+            else:
+                new_sounds.append(new_sound)
+                new_names.append(new_name)
+     
+        for sound, name in zip(new_sounds, new_names): 
+            sound = trim(sound)
+            
+            if len(sound) >= stats[MINIMUM]:
+                sound.export(name+'.wav', format="wav")
+    else:
+        for sound, name in zip((wet + dry), (wet_name + dry_name)): 
+            sound.export(name+'.wav', format="wav")
+    
+    
+    
+  
 
 def scale_minmax(X, mini=0.0, maxi=1.0):
     X_std = (X - X.min()) / (X.max() - X.min())
@@ -103,11 +176,12 @@ def spectrogram_image(y, sr,  hop_length, n_mels):
     return img
 
 
-def get_img(file,maxi):
+def get_img(file,maxi, padd = True):
     [sampling_rate, signal] = audioBasicIO.read_audio_file(file)
     signal = audioBasicIO.stereo_to_mono(signal)
     signal = signal.astype('float64') 
-    signal = add_padding(signal,maxi)  # Will add a padding so that all images matches 
+    if padd:
+        signal = add_padding(signal,maxi)  # Will add a padding so that all images matches 
     #plt.plot(signal)
  
     X = librosa.stft(signal)
@@ -132,13 +206,14 @@ def get_img(file,maxi):
 
     return pil_img
 
-def save_images(maxi):
+def save_images(maxi, padd = True):
+    remove_spec_images()
     path = cwd + '/spectrogram'
     
     for sub_dir in os.listdir(trimmed_data_dir):
         for cough in os.listdir(trimmed_data_dir + '/' +  sub_dir):
             file_path = trimmed_data_dir + '/' +  sub_dir + '/' + cough
-            img = get_img(file_path, maxi)
+            img = get_img(file_path, maxi, padd)
             
             name = cough.split('.')[0] + '.jpeg'
             destination = ''
@@ -150,10 +225,10 @@ def save_images(maxi):
             img.save(destination, "JPEG", quality=80, optimize=True, progressive=True)
 
 
-def load_data():
+def load_data(folder):
     dry = []
     wet = []
-    data_path = cwd + '/trimmed_cough_data'
+    data_path = cwd + '/' + folder
     for sub_dir in os.listdir(data_path):
         for cough in os.listdir(data_path + '/' +  sub_dir):
             file_path = data_path + '/' +  sub_dir + '/' + cough
@@ -168,14 +243,17 @@ def load_data():
     dry = np.asarray(dry)
     return wet, dry
 
-
-def get_max_min_length():
-    wet, dry = load_data()
+MINIMUM = 0
+MAXIMUM = 1
+MEAN = 2
+MEDIAN = 3
+def get_stats_length(wet,dry):
     tot = np.append(wet,dry)
     maxi = max([len(elm) for elm in tot])
     mini = min([len(elm) for elm in tot])
-    
-    return mini, maxi
+    me = mean([len(elm) for elm in tot])
+    med = median([len(elm) for elm in tot])
+    return [mini, maxi, me, med]
 
 def add_padding(signal, maxi):
     if len(signal)%2 !=0:
@@ -203,10 +281,21 @@ def remove_spec_images():
         shutil.rmtree(path + f)   
     os.mkdir(path + 'dry/')
     os.mkdir(path + 'wet/')
+    
+def remove_trimmed_data():
+    path = cwd + '/trimmed_cough_data/'
+    for f in os.listdir(path):
+        shutil.rmtree(path + f)   
+    os.mkdir(path + 'dry/')
+    os.mkdir(path + 'wet/')
+
         
 if __name__=="__main__":
-    wet, dry = load_data()
-    mini,maxi = get_max_min_length()
+    #export_timmed_files('mini') # Split on selections: 'mini', 'mean', 'median'
     
-    save_images(maxi)
+    wet, dry = load_data('trimmed_cough_data')
+    stats = get_stats_length(wet,dry)
     
+    save_images(stats[MAXIMUM], False)
+    
+ 
