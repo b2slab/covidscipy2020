@@ -392,8 +392,8 @@ def upload_features(data_object):
     print('object data:')
     print(data_object)
     data_object_json = json.dumps(data_object)
-    #x = requests.post(url, json=data_object, headers=headers)
-    #print(x.json())
+    x = requests.post(url, json=data_object, headers=headers)
+    print(x.json())
     #
 
 
@@ -406,9 +406,9 @@ def upload_audio(audio_numpy, sample_rate, username):
     print('audio data:')
     print(data_audio)
     data_audio_json = json.dumps(data_audio)
-    #x = requests.post(url, json=data_audio_json, headers=headers)
-    #print(x.json())
-    #feature_dictionary = create_feature_from_audio(filename, label)
+    x = requests.post(url, json=data_audio_json, headers=headers)
+    print(x.json())
+
 
 
 def create_feature_from_audio(filename):

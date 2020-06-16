@@ -541,6 +541,10 @@ audioSchema = {
 		'unique': True,
 		'minlength': 1,
 		'maxlength': 16
+	},
+	"sample_rate": {
+		'type': 'string',
+		'required': True
 	}
  }
 
