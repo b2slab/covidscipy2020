@@ -10,18 +10,17 @@ from aiogram.types import ParseMode
 from aiogram.utils import executor
 import os
 import numpy as np
-import io
-from io import BytesIO
-import sys
+import json
+
 
 from Cough_NoCough_classification.yamnet import classifier
 
 logging.basicConfig(level=logging.INFO)
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
 
-DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
-DB_DATA_URL = f"{DB_URL}/data" # url where db is hosted
-HEADERS = {'content-type': 'application/json'}
+#DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
+#DB_DATA_URL = f"{DB_URL}/data" # url where db is hosted
+#HEADERS = {'content-type': 'application/json'}
 
 #SYSTEM_PATH = os.environ['HOME'] + './audio-files' # path on system to save audio files
 SYSTEM_PATH = './audio-files' # path on system to save audio files
@@ -50,6 +49,7 @@ class Form(StatesGroup):
     shortness_breath = State()
     chest_pain = State()
     others = State()
+    upload_Data = State()
 
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
@@ -134,7 +134,7 @@ async def process_gender(message: types.Message, state: FSMContext):
     markup.add("Sweden")
     await Form.next()
     await message.reply("In which country are you righ now?", reply_markup=markup)
-    print(data)
+
 
 
 @dp.message_handler(lambda message: message.text not in ["Spain", "France", "Sweden"], state=Form.country)
@@ -188,22 +188,27 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         message.chat.id,
         "Please, give me a second while I annalyze you cough..."
     )
-    if not is_cough(message.voice.file_id):
+    [accepted, audio_features, audio_numpy, sample_rate] = is_cough(message.voice.file_id)
+    if not accepted:
         return await bot.send_message(
             message.chat.id,
             "Sorry, we didn't recognize this as cough. Please, cough again"
         )
 
     else:
+        async with state.proxy() as data:
+            data['audio_features'] = audio_features
+            username = data['username']
+            upload_audio(audio_numpy, sample_rate, username)
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add("Yes")
-        markup.add("No")
-        markup.add("Unknown")
+        markup.add("positive")
+        markup.add("negative")
+        markup.add("unknown")
         await Form.next()
         await message.reply("Do you have Covid-19?", reply_markup=markup)
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No", "Unknown"], state=Form.has_corona)
+@dp.message_handler(lambda message: message.text not in ["positive", "negative", "unknown"], state=Form.has_corona)
 async def process_has_corona_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
@@ -214,16 +219,15 @@ async def process_has_corona_invalid(message: types.Message):
 @dp.message_handler(state=Form.has_corona)
 async def process_has_corona(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['diagnosis'] = message.text
+        data['diagnosis'] = (message.text == "yes")
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Yes", "No")
-    markup.add("Unknown")
+    markup.add("yes", "no")
     await message.reply("Do you have a dry cough?", reply_markup=markup)
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No", "Unknown"], state=Form.dry_cough)
+@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.dry_cough)
 async def process_dry_cough_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
@@ -235,16 +239,16 @@ async def process_dry_cough_invalid(message: types.Message):
 async def process_dry_cough(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms'] = {}
-        data['symptoms']['dry cough'] = message.text
+        data['symptoms']['dry cough'] = (message.text == "yes")
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Yes", "No")
+    markup.add("yes", "no")
     await message.reply("Thank you very much! Now let us ask you some questions about your"
                         "symptoms.\n Do you have fever?", reply_markup=markup)
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.fever)
+@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.fever)
 async def process_fever_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
@@ -256,13 +260,13 @@ async def process_fever_invalid(message: types.Message):
 async def process_fever(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms'] = {}
-        data['symptoms']['fever'] = message.text
+        data['symptoms']['fever'] = (message.text == "yes")
 
     await Form.next()
     await message.reply("Do you feel more tired than usual?")
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.tiredness)
+@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.tiredness)
 async def process_tiredness_invalid(message: types.Message):
     return await message.reply("Bad answer. Please, choose between the keyboard options.")
 
@@ -270,13 +274,13 @@ async def process_tiredness_invalid(message: types.Message):
 @dp.message_handler(state=Form.tiredness)
 async def process_tiredness(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['tiredness'] = message.text
+        data['symptoms']['tiredness'] = (message.text == "yes")
 
     await Form.next()
     await message.reply("Do you feel that you have lost/diminished your sense of smell?")
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.smell_loss)
+@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.smell_loss)
 async def process_loss_smell_invalid(message: types.Message):
     return await message.reply("Bad answer. Please, choose between the keyboard options.")
 
@@ -284,13 +288,13 @@ async def process_loss_smell_invalid(message: types.Message):
 @dp.message_handler(state=Form.smell_loss)
 async def process_loss_smell(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['loss of taste or smell'] = message.text
+        data['symptoms']['loss of taste or smell'] = (message.text == "yes")
 
     await Form.next()
     await message.reply("Do you have a headache?")
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.head_ache)
+@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.head_ache)
 async def process_headache_invalid(message: types.Message):
     return await message.reply("Bad answer. Please, choose between the keyboard options.")
 
@@ -298,13 +302,13 @@ async def process_headache_invalid(message: types.Message):
 @dp.message_handler(state=Form.head_ache)
 async def process_headache(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['headache'] = message.text
+        data['symptoms']['headache'] = (message.text == "yes")
 
     await Form.next()
     await message.reply("Do you have difficulty breathing or shortness of breath?")
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.shortness_breath)
+@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.shortness_breath)
 async def process_shortness_breath_invalid(message: types.Message):
     return await message.reply("Bad answer. Please, choose between the keyboard options.")
 
@@ -312,13 +316,13 @@ async def process_shortness_breath_invalid(message: types.Message):
 @dp.message_handler(state=Form.shortness_breath)
 async def process_shortness_breath(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['difficulty breathing or shortness of breath'] = message.text
+        data['symptoms']['difficulty breathing or shortness of breath'] = (message.text == "yes")
 
     await Form.next()
     await message.reply("Do you have chest pain or pressure?")
 
 
-@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.chest_pain)
+@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.chest_pain)
 async def process_chest_pain_invalid(message: types.Message):
     return await message.reply("Bad answer. Please, choose between the keyboard options.")
 
@@ -326,7 +330,7 @@ async def process_chest_pain_invalid(message: types.Message):
 @dp.message_handler(state=Form.chest_pain)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['chest pain or pressure'] = message.text
+        data['symptoms']['chest pain or pressure'] = (message.text == "yes")
         markup = types.ReplyKeyboardRemove()
 
     await Form.next()
@@ -343,7 +347,8 @@ async def process_others(message: types.Message, state: FSMContext):
             "Thank you very much for you collaboration!\n"
             "Please, give me a second while I upload the data."
         )
-    print(data)
+    print(data.as_dict())
+    #upload_features(data_dict)
     await state.finish()
 
 
@@ -367,8 +372,8 @@ def is_cough(file_id):
     top_labels = classifier.classify(wav_file_path)
     accepted = "Cough" in top_labels
     print("TOP LABELS: ", top_labels)
-
-    return accepted
+    feature_dictionary, audio_numpy, sample_rate = create_feature_from_audio(filename)
+    return accepted, feature_dictionary, audio_numpy, sample_rate
 
 
 def convert_to_wav(input_file):
@@ -380,12 +385,33 @@ def convert_to_wav(input_file):
     return output_file
 
 
-def upload_to_database():
-    
-    feature_dictionary = create_feature_from_audio(filename, label)
+def upload_features(data_object):
+    import requests
+    url = 'http://127.0.0.1:5000/data'
+    headers = {'content-type': 'application/json'}
+    print('object data:')
+    print(data_object)
+    data_object_json = json.dumps(data_object)
+    #x = requests.post(url, json=data_object, headers=headers)
+    #print(x.json())
+    #
 
 
-def create_feature_from_audio(filename, label):
+def upload_audio(audio_numpy, sample_rate, username):
+    import requests
+    url = 'http://127.0.0.1:5000/rawAudio'
+    headers = {'content-type': 'application/json'}
+    audio_numpy_str = np.array2string(audio_numpy)
+    data_audio = {"username": username, "audio_file": audio_numpy_str, "sample_rate": str(sample_rate)}
+    print('audio data:')
+    print(data_audio)
+    data_audio_json = json.dumps(data_audio)
+    #x = requests.post(url, json=data_audio_json, headers=headers)
+    #print(x.json())
+    #feature_dictionary = create_feature_from_audio(filename, label)
+
+
+def create_feature_from_audio(filename):
     import pyogg
     import numpy as np
     import ctypes, numpy, pyogg
@@ -399,11 +425,11 @@ def create_feature_from_audio(filename, label):
     target_datatype = ctypes.c_short * (file.buffer_length // 2)  # always divide by 2 for some reason
     buffer_as_array = ctypes.cast(file.buffer,
                                   ctypes.POINTER(target_datatype)).contents
+   # wav = numpy.array(buffer_as_array)
     if file.channels == 1:
         wav = numpy.array(buffer_as_array)
     elif file.channels == 2:
-        wav = numpy.array((wav[0::2],
-                           wav[1::2]))
+        wav = numpy.array((wav[0::2], wav[1::2]))
     else:
         raise NotImplementedError()
     # This is the final numpy array
@@ -435,15 +461,10 @@ def create_feature_from_audio(filename, label):
                                                                                   mid_step, short_window, short_step);
     mid_features = np.transpose(mid_features)
     mid_term_features = mid_features.mean(axis=0)
-    mid_term_features = np.reshape(mid_term_features, (-1, 1))
-    mid_term_features = np.transpose(mid_term_features)
+    mid_term_features_list = mid_term_features.tolist()
+    label = 1
+    feature_dict = dict(zip(['label'] + mid_feature_names, [label] + mid_term_features_list))
 
-    import json
-    features_list = features.tolist()
-    feature_dict = dict(zip(['label'] + mid_feature_names, [label] + features_list))
-
-    # print(np.shape(mid_term_features))
-    # len(mid_feature_names)
 
     # Getting the classification result with Cough=0, No_Cough=1
     # from joblib import dump, load
@@ -451,7 +472,7 @@ def create_feature_from_audio(filename, label):
     # cough_classifier = load('Cough_NoCough_classifier.joblib')
     # features = preprocessing.StandardScaler().fit_transform(mid_term_features)
     # prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
-    return feature_dict
+    return feature_dict, signal, sampling_rate
 
 
 if __name__ == '__main__':
