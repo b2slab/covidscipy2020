@@ -13,13 +13,17 @@ import numpy as np
 import io
 from io import BytesIO
 
-from covidscipy2020.machine_learning.Cough_NoCough_classification.yamnet import classifier
+from machine_learning.Cough_NoCough_classification.yamnet import classifier
 
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = '995583036:AAGmrBpgnGvI0tXccH1bIf9xaQZ5i9mWLdk'
 
 DB_URL = 'http://127.0.0.1:5000' # url where db is hosted
+DB_DATA_URL = f"{DB_URL}/data" # url where db is hosted
+
+HEADERS = {'content-type': 'application/json'}
+
 #SYSTEM_PATH = os.environ['HOME'] + './audio-files' # path on system to save audio files
 SYSTEM_PATH = './audio-files' # path on system to save audio files
 bot = Bot(token=API_TOKEN)
@@ -34,12 +38,19 @@ class Form(StatesGroup):
     username = State()
     age = State()
     gender = State()
-    height = State()
+    country = State()
+    city = State()
     cough = State()
     has_corona = State()
-    coughing_frecuency = State()
-    temperature = State()
-    health_issue = State()
+    dry_cough = State()
+    fever = State()
+    tiredness = State()
+    smell_loss = State()
+    head_ache = State()
+    shortness_breath = State()
+    chest_pain = State()
+    others = State()
+
 
 
 @dp.message_handler(commands='start')
@@ -119,28 +130,56 @@ async def process_gender(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['gender'] = message.text
 
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("Spain")
+    markup.add("France")
+    markup.add("Sweden")
+    await Form.next()
+    await message.reply("In which country are you righ now?", reply_markup=markup)
+
+
+@dp.message_handler(lambda message: message.text not in ["Spain", "France", "Sweden"], state=Form.country)
+async def process_country_invalid(message: types.Message):
+    """
+    In this example gender has to be one of: Male, Female, Other.
+    """
+    return await message.reply("Bad country name. Choose country from the options.")
+
+
+@dp.message_handler(state=Form.country)
+async def process_country(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['location'] = {}
+        data['location']['country'] = message.text
+
+        # Remove keyboard
+        types.ReplyKeyboardRemove()
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("Barcelona")
+    markup.add("Madrid")
+    await Form.next()
+    await message.reply("In which city are you right now?", reply_markup=markup)
+
+
+@dp.message_handler(lambda message: message.text not in ["Barcelona", "Madrid"], state=Form.city)
+async def process_city_invalid(message: types.Message):
+    """
+    In this example gender has to be one of: Male, Female, Other.
+    """
+    return await message.reply("Bad city name. Choose country from the options.")
+
+
+@dp.message_handler(state=Form.city)
+async def process_city(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['location']['city'] = message.text
+
         # Remove keyboard
         markup = types.ReplyKeyboardRemove()
 
     await Form.next()
-    await message.reply("What is your height?", reply_markup=markup)
-
-
-# Check age. Height gotta be digit
-@dp.message_handler(lambda message: not message.text.isdigit(), state=Form.height)
-async def process_height_invalid(message: types.Message):
-    """
-    If height is invalid
-    """
-    return await message.reply("Height gotta be a number.\nWhat is your height? (digits only)")
-
-
-@dp.message_handler(lambda message: message.text.isdigit(), state=Form.height)
-async def process_age(message: types.Message, state: FSMContext):
-    # Update state and data
-    await Form.next()
-    await state.update_data(height=int(message.text))
-    await message.reply("Please cough")
+    await message.reply("Please, cough", reply_markup=markup)
 
 
 @dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
@@ -157,52 +196,156 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         )
 
     else:
-        await bot.send_message(message.chat.id, "Thank you!")
-        await Form.next()
-        # Configure ReplyKeyboardMarkup
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add("Yes", "No")
-        markup.add("Not certain")
+        markup.add("Yes")
+        markup.add("No")
+        markup.add("Unknown")
+        await Form.next()
+        await message.reply("Do you have Covid-19?", reply_markup=markup)
 
-        await message.reply("Do you have corona?", reply_markup=markup)
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No", "Unknown"], state=Form.has_corona)
+async def process_has_corona_invalid(message: types.Message):
+    """
+    In this example gender has to be one of: Male, Female, Other.
+    """
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
 
 
 @dp.message_handler(state=Form.has_corona)
 async def process_has_corona(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['has_corona'] = message.text
+        data['diagnosis'] = message.text
 
-        corona_states = {
-            "Yes": "do",
-            "No": "do not",
-            "Not certain": "do not know if you"
-        }
+    await Form.next()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("Yes", "No")
+    markup.add("Unknown")
+    await message.reply("Do you have a dry cough?", reply_markup=markup)
 
-        # Remove keyboard
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No", "Unknown"], state=Form.dry_cough)
+async def process_dry_cough_invalid(message: types.Message):
+    """
+    In this example gender has to be one of: Male, Female, Other.
+    """
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+
+
+@dp.message_handler(state=Form.dry_cough)
+async def process_dry_cough(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms'] = {}
+        data['symptoms']['dry cough'] = message.text
+
+    await Form.next()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("Yes", "No")
+    await message.reply("Thank you very much! Now let us ask you some questions about your"
+                        "symptoms.\n Do you have fever?", reply_markup=markup)
+
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.fever)
+async def process_fever_invalid(message: types.Message):
+    """
+    In this example gender has to be one of: Male, Female, Other.
+    """
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+
+
+@dp.message_handler(state=Form.fever)
+async def process_fever(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms'] = {}
+        data['symptoms']['fever'] = message.text
+
+    await Form.next()
+    await message.reply("Do you feel more tired than usual?")
+
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.tiredness)
+async def process_tiredness_invalid(message: types.Message):
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+
+
+@dp.message_handler(state=Form.tiredness)
+async def process_tiredness(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms']['tiredness'] = message.text
+
+    await Form.next()
+    await message.reply("Do you feel that you have lost/diminished your sense of smell?")
+
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.smell_loss)
+async def process_loss_smell_invalid(message: types.Message):
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+
+
+@dp.message_handler(state=Form.smell_loss)
+async def process_loss_smell(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms']['loss of taste or smell'] = message.text
+
+    await Form.next()
+    await message.reply("Do you have a headache?")
+
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.head_ache)
+async def process_headache_invalid(message: types.Message):
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+
+
+@dp.message_handler(state=Form.head_ache)
+async def process_headache(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms']['headache'] = message.text
+
+    await Form.next()
+    await message.reply("Do you have difficulty breathing or shortness of breath?")
+
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.shortness_breath)
+async def process_shortness_breath_invalid(message: types.Message):
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+
+
+@dp.message_handler(state=Form.shortness_breath)
+async def process_shortness_breath(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms']['difficulty breathing or shortness of breath'] = message.text
+
+    await Form.next()
+    await message.reply("Do you have chest pain or pressure?")
+
+
+@dp.message_handler(lambda message: message.text not in ["Yes", "No"], state=Form.chest_pain)
+async def process_chest_pain_invalid(message: types.Message):
+    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+
+
+@dp.message_handler(state=Form.chest_pain)
+async def process_chest_pain(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms']['chest pain or pressure'] = message.text
         markup = types.ReplyKeyboardRemove()
 
-        # And send message
+    await Form.next()
+    await message.reply("Do you have any other information you would like to add?", reply_markup=markup)
+
+
+@dp.message_handler(state=Form.others)
+async def process_others(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['symptoms']['others'] = message.text
+
         await bot.send_message(
             message.chat.id,
-            md.text(
-                md.text('Hi! Nice to meet you,', data['username']),
-                md.text('Age:', data['age']),
-                md.text('Gender:', data['gender']),
-                md.text('Height:', data['height']),
-                md.text(f'You {corona_states[data["has_corona"]]} have corona'),
-                sep='\n',
-            ),
-            reply_markup=markup,
-            parse_mode=ParseMode.MARKDOWN,
+            "Thank you very much for you collaboration!\n"
+            "Please, give me a second while I upload the data."
         )
 
     await state.finish()
-#
-# @dp.message_handler(content_types=types.message.ContentType.VOICE)
-# async def echo(message: types.voice.Voice):
-#     # old style:
-#     # await bot.send_message(message.chat.id, message.text)
-#     logging.info(message)
 
 
 def is_cough(file_id):
@@ -211,17 +354,7 @@ def is_cough(file_id):
     file_path = r.json()["result"]["file_path"]
     url = f"https://api.telegram.org/file/bot{API_TOKEN}/{file_path}"
     r = requests.get(url)
-    audio_blob = r.content
 
-    # audio_json = {'name', 'audio': audio_blob in str format}
-    # try:
-    #     response = requests.post(DB_URL + '/audio', data=audio_blob)
-    #     r.raise_for_status()
-    # except:
-    """
-        An error has been encounter while uploading audio to db.
-        We save the file to the system as a temporary solution
-    """
     file_dir = SYSTEM_PATH
     os.makedirs(file_dir, exist_ok=True)
     filename = os.path.join(file_dir, f"{file_id}.ogg")
@@ -241,19 +374,6 @@ def convert_to_wav(input_file):
     output_file = os.path.join(file_dir, f"{basename}.wav")
     os.system(f'ffmpeg -y -i {input_file} {output_file}')
     return output_file
-
-
-
-def upload_to_database(file_id):
-    pass
-
-    # [prediction, features] = create_feature_from_audio(filename)
-    # print(prediction)
-    # print(np.shape(features))
-    # print(features)
-
-
-
 
 def create_feature_from_audio(filename):
     import pyogg

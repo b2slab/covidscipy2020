@@ -4,10 +4,10 @@ import soundfile as sf
 import tensorflow as tf
 import numpy as np
 
-import covidscipy2020.machine_learning.Cough_NoCough_classification.yamnet.yamnet as yamnet_model
-from covidscipy2020.machine_learning.Cough_NoCough_classification.yamnet import params
+import machine_learning.Cough_NoCough_classification.yamnet.yamnet as yamnet_model
+from machine_learning.Cough_NoCough_classification.yamnet import params
 
-YAMNET_DIR = "covidscipy2020/machine_learning/Cough_NoCough_classification/yamnet/"
+YAMNET_DIR = os.path.join("machine_learning", "Cough_NoCough_classification", "yamnet")
 
 
 def classify(file):
