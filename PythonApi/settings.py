@@ -17,7 +17,7 @@ PAGINATION = False
 
 
 dataSchema = {
-	"username": {
+	"username": {  #as free input
 		'type': 'string',
 		'required': True,
 		'unique': True,
@@ -25,19 +25,25 @@ dataSchema = {
 		'maxlength': 16
 	},
 
-	"age": {
+	"age": {   #as free input or as slider in range bewteen 0 and 110
 		'type': 'integer',
 		'required': True
 	},
-
-	"body_temp": {
-		'type': 'number',
-		'required': True
+    
+	"gender": {
+		'type': 'string',
+		'required': True,
+        'allowed': ["male", "female", "other"]
 	},
 
-	"location": {
+# 	"body_temp": {
+# 		'type': 'number',
+# 		'required': False
+# 	},
+
+	"location": {  #maybe as GPS-Data (=> Data-type?), only users from Spain (allow districts as input) => Victoria 
         'type': 'dict',
-		'required': True,
+		'required': False,
         'schema': {
             'country': {
 				'type': 'string',
@@ -46,9 +52,57 @@ dataSchema = {
 			},
             'city': {
 				'type': 'string',
-				'required': False,
-				'allowed': ["Barcelona", "Madrid"]
+				'required': False, 
+				'allowed': ["Barcelona", "Madrid"] 
 			}
+        },
+    },
+
+	"diagnosis": {     #as choice from selection in chatbot
+        'type': 'string',
+		'required': True,
+        'allowed': ["positive", "negative", "unknown"] 
+    },
+    
+    "symptoms": {  #as single yes/no-questions or as choice from selection in the chatbot?
+        'type': 'dict',
+		'required': True, #False?
+        'schema': {
+            'dry cough': {  #maybe also wet cough?
+				'type': 'boolean',
+				'required': True
+			},
+            
+            'fever': {
+				'type': 'boolean',
+				'required': True
+			},
+            'tiredness': {
+				'type': 'boolean',
+				'required': True
+			},      
+            'loss of taste or smell': {
+				'type': 'boolean',
+				'required': True
+			},             
+            'headache': {
+				'type': 'boolean',
+				'required': True
+			}, 
+            'difficulty breathing or shortness of breath': {
+				'type': 'boolean',
+				'required': True
+			}, 
+            'chest pain or pressure': {
+				'type': 'boolean',
+				'required': True
+			},      
+            'others': {
+				'type': 'string',
+				'required': False,
+                'minlength': 1,
+		        'maxlength': 50
+			},  
         },
     },
 
@@ -470,11 +524,25 @@ dataSchema = {
 		}
 	},
 
-	"audio_file": {
-		'type': 'media',
-		'required': False
-	}
+# 	"audio_file": {    #in seperate Endpoint?
+# 		'type': 'media',
+# 		'required': False     #True
+# 	}
 }
+
+audioSchema = {
+    	"audio_file": {    
+            'type': 'media',
+            'required': False
+  	},
+	"username": {  #as free input
+		'type': 'string',
+		'required': True,
+		'unique': True,
+		'minlength': 1,
+		'maxlength': 16
+	}
+ }
 
 dataEndpoint = {
     # 'title' tag used in item links. Defaults to the resource title minus
@@ -497,7 +565,28 @@ dataEndpoint = {
     'schema': dataSchema
 }
 
+audioEndpoint = {
+    # 'title' tag used in item links. Defaults to the resource title minus
+     # the final, plural 's' (works fine in most cases but not for 'people')
+    'item_title': 'audioData',
+
+     # by default the standard item entry point is defined as
+     # '/data/<ObjectId>'. We can add an additional endpoint.
+ 	# This way consumers can also perform
+     # GET requests at '/data/<user_id>'.
+     'additional_lookup': { #???
+         'url': 'regex("[\w]+")',
+         'field': 'username'
+     },
+
+
+     # most global settings can be overridden at resource level
+     #'resource_methods': ['GET', 'POST'],
+
+     'schema': audioSchema
+ }
 
 DOMAIN = {
-	'data': dataEndpoint
+	'data': dataEndpoint,
+    	'rawAudio': audioEndpoint 
 }
