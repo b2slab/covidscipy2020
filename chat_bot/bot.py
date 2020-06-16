@@ -136,7 +136,7 @@ async def process_gender(message: types.Message, state: FSMContext):
     markup.add("Sweden")
     await Form.next()
     await message.reply("In which country are you righ now?", reply_markup=markup)
-    print(data)
+    #print(data)
 
 
 @dp.message_handler(lambda message: message.text not in ["Spain", "France", "Sweden"], state=Form.country)
@@ -380,13 +380,11 @@ def convert_to_wav(input_file):
     return output_file
 
 
-def upload_to_database(filename, data):
-    # pass
-    if data["has_corona"] == "Yes":
-        label = 0
-    else:
-        label = 1
-    feature_dictionary = create_feature_from_audio(filename, label)
+def upload_features():
+    
+    
+def upload_raw_audio():
+
 
 
 def create_feature_from_audio(filename, label):
