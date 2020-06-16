@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23baf8b3-719e-4a80-81fe-5f2b67cc8530" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/chat_bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/chat_bot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDJ17eSFwcJ5vrjmaT3N_fwnpsCO3aAAL0BQAC1kX4UjeiYatZluP-GgQ.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDN17eSK8qj7Z8ZGXBNw3xsqRY6-6QAAL1BQAC1kX4UqWb0ccbhlzHGgQ.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDRV7eSYXfo_73Ls8AARlQo4m5nnmMwwAC9gUAAtZF-FJQnpwFE39r9RoE.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDVV7eS7Q_sYeBvjjFgtmJ4f7Jx5X7AAL3BQAC1kX4Uv_KKw8BP9AwGgQ.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDZV7eTD2eTYHzo8tfSuIksl46h35QAAL4BQAC1kX4Uj3ihDhGS_bhGgQ.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDdV7eTIAP-Vz9QWhVCiXKd1jo4BdvAAL5BQAC1kX4UpoL1VjDa3PaGgQ.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDhF7eTMI4ULzGn2qVCAJOCat-ntidAAL6BQAC1kX4Us5VQNqnZgg_GgQ.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDkl7eTqepV3UdotZ0KKQB2hVNLj6HAAL7BQAC1kX4UgTc5HiHUkn0GgQ.opus" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio-files/AwACAgQAAxkBAAIDoF7eW2JDG7oyHgyLwrWPs7bYvCcZAAL9BQAC1kX4UrlFISL3HFCDGgQ.opus" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/audio-files/test.ogg" beforeDir="false" afterPath="$PROJECT_DIR$/audio-files/test.ogg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/audio-files/test.wav" beforeDir="false" afterPath="$PROJECT_DIR$/audio-files/test.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,31 +110,31 @@
       <screen x="0" y="0" width="1304" height="768" />
     </state>
     <state x="432" y="140" key="FileChooserDialogImpl/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1591042701931" />
-    <state width="1133" height="270" key="GridCell.Tab.0.bottom" timestamp="1592297777147">
+    <state width="1133" height="182" key="GridCell.Tab.0.bottom" timestamp="1592300978121">
       <screen x="0" y="0" width="1304" height="768" />
     </state>
-    <state width="1133" height="270" key="GridCell.Tab.0.bottom/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592297777147" />
+    <state width="1133" height="182" key="GridCell.Tab.0.bottom/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592300978121" />
     <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.bottom/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
     <state width="1283" height="228" key="GridCell.Tab.0.bottom/0.0.1304.768@0.0.1304.768" timestamp="1591979290293" />
-    <state width="1133" height="270" key="GridCell.Tab.0.center" timestamp="1592297777146">
+    <state width="1133" height="182" key="GridCell.Tab.0.center" timestamp="1592300978121">
       <screen x="0" y="0" width="1304" height="768" />
     </state>
-    <state width="1133" height="270" key="GridCell.Tab.0.center/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592297777146" />
+    <state width="1133" height="182" key="GridCell.Tab.0.center/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592300978121" />
     <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.center/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
     <state width="1283" height="228" key="GridCell.Tab.0.center/0.0.1304.768@0.0.1304.768" timestamp="1591979290293" />
-    <state width="1133" height="270" key="GridCell.Tab.0.left" timestamp="1592297777146">
+    <state width="1133" height="182" key="GridCell.Tab.0.left" timestamp="1592300978120">
       <screen x="0" y="0" width="1304" height="768" />
     </state>
-    <state width="1133" height="270" key="GridCell.Tab.0.left/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592297777146" />
+    <state width="1133" height="182" key="GridCell.Tab.0.left/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592300978120" />
     <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.left/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
     <state width="1283" height="228" key="GridCell.Tab.0.left/0.0.1304.768@0.0.1304.768" timestamp="1591979290293" />
-    <state width="1133" height="270" key="GridCell.Tab.0.right" timestamp="1592297777146">
+    <state width="1133" height="182" key="GridCell.Tab.0.right" timestamp="1592300978121">
       <screen x="0" y="0" width="1304" height="768" />
     </state>
-    <state width="1133" height="270" key="GridCell.Tab.0.right/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592297777146" />
+    <state width="1133" height="182" key="GridCell.Tab.0.right/0.0.1304.768/-1680.65.1680.1010@0.0.1304.768" timestamp="1592300978121" />
     <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1304.768/-1920.-305.1920.1040@-1920.-305.1920.1040" timestamp="1591045844865" />
     <state width="1246" height="176" key="GridCell.Tab.0.right/0.0.1304.768/-1920.-305.1920.1040@0.0.1304.768" timestamp="1590957311151" />
     <state width="1283" height="228" key="GridCell.Tab.0.right/0.0.1304.768@0.0.1304.768" timestamp="1591979290293" />

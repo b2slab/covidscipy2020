@@ -14,8 +14,8 @@ import io
 from io import BytesIO
 import sys
 
-sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020')
-sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020\\machine_learning')
+#sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020')
+#sys.path.append('C:\\Users\\matth\\Dropbox\\1UNI\\Erasmus\\ETSEIB\\FINAL_Auswahl\\240AR064 Scientific Phyton for Engineers\\Project\\covidscipy2020\\machine_learning')
 from machine_learning.Cough_NoCough_classification.yamnet import classifier
 
 logging.basicConfig(level=logging.INFO)
@@ -136,6 +136,7 @@ async def process_gender(message: types.Message, state: FSMContext):
     markup.add("Sweden")
     await Form.next()
     await message.reply("In which country are you righ now?", reply_markup=markup)
+    print(data)
 
 
 @dp.message_handler(lambda message: message.text not in ["Spain", "France", "Sweden"], state=Form.country)
