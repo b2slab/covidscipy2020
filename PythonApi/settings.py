@@ -20,7 +20,7 @@ dataSchema = {
 	"username": {  #as free input
 		'type': 'string',
 		'required': True,
-		'unique': True,
+		'unique': False,
 		'minlength': 1,
 		'maxlength': 16
 	},
@@ -539,6 +539,10 @@ audioSchema = {
 		'maxlength': 16
 	},
 	"sample_rate": {
+		'type': 'string',
+		'required': True
+	},
+	"label": {
 		'type': 'string',
 		'required': True
 	}

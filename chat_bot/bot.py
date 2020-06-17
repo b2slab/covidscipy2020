@@ -12,6 +12,7 @@ import os
 import numpy as np
 import json
 from scipy.io import wavfile
+import requests
 
 from Cough_NoCough_classification.yamnet import classifier
 
@@ -39,8 +40,8 @@ class Form(StatesGroup):
     gender = State()
     country = State()
     city = State()
-    cough = State()
     has_corona = State()
+    cough = State()
     dry_cough = State()
     fever = State()
     tiredness = State()
@@ -174,38 +175,12 @@ async def process_city(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['location']['city'] = message.text
 
-        # Remove keyboard
-        markup = types.ReplyKeyboardRemove()
-
     await Form.next()
-    await message.reply("Please, cough", reply_markup=markup)
-
-
-@dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
-async def process_cough(message: types.voice.Voice, state: FSMContext):
-    # Update state and data
-    await bot.send_message(
-        message.chat.id,
-        "Please, give me a second while I annalyze you cough..."
-    )
-    [accepted, audio_features, audio_numpy, sample_rate] = is_cough(message.voice.file_id)
-    if not accepted:
-        return await bot.send_message(
-            message.chat.id,
-            "Sorry, we didn't recognize this as cough. Please, cough again"
-        )
-
-    else:
-        async with state.proxy() as data:
-            data['audio_features'] = audio_features
-            username = data['username']
-            upload_audio(audio_numpy, sample_rate, username)
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add("positive")
-        markup.add("negative")
-        markup.add("unknown")
-        await Form.next()
-        await message.reply("Do you have Covid-19?", reply_markup=markup)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("positive")
+    markup.add("negative")
+    markup.add("unknown")
+    await message.reply("Do you have Covid-19?", reply_markup=markup)
 
 
 @dp.message_handler(lambda message: message.text not in ["positive", "negative", "unknown"], state=Form.has_corona)
@@ -220,11 +195,38 @@ async def process_has_corona_invalid(message: types.Message):
 async def process_has_corona(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['diagnosis'] = message.text
+        markup = types.ReplyKeyboardRemove()
 
     await Form.next()
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("yes", "no")
-    await message.reply("Do you have a dry cough?", reply_markup=markup)
+    await message.reply("Please, cough", reply_markup=markup)
+
+
+@dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
+async def process_cough(message: types.voice.Voice, state: FSMContext):
+    # Update state and data
+    await bot.send_message(
+        message.chat.id,
+        "Please, give me a second while I annalyze you cough..."
+    )
+    accepted, wav_file = is_cough(message.voice.file_id)
+    if not accepted:
+        return await bot.send_message(
+            message.chat.id,
+            "Sorry, we didn't recognize this as cough. Please, cough again"
+        )
+
+    else:
+        async with state.proxy() as data:
+            username = data['username']
+            label = data['diagnosis']
+            audio_features, audio_numpy, sample_rate = create_feature_from_audio(wav_file, label)
+            data['audio_features'] = audio_features
+            upload_audio(audio_numpy, sample_rate, username, label)
+
+        await Form.next()
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add("yes", "no")
+        await message.reply("Do you have a dry cough?", reply_markup=markup)
 
 
 @dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.dry_cough)
@@ -367,9 +369,7 @@ def is_cough(file_id):
 
     file_dir = SYSTEM_PATH
     os.makedirs(file_dir, exist_ok=True)
-    #audio_name = 'test'
-    #filename = os.path.join(file_dir, f"{file_id}.ogg")
-    #filename = os.path.join(file_dir, f"{audio_name}.ogg")
+
     filename = './audio-files/test.ogg'
     with open(filename, 'wb') as f:
         f.write(r.content)
@@ -377,8 +377,7 @@ def is_cough(file_id):
     top_labels = classifier.classify(wav_file_path)
     accepted = "Cough" in top_labels
     print("TOP LABELS: ", top_labels)
-    feature_dictionary, audio_numpy, sample_rate = create_feature_from_audio(filename)
-    return accepted, feature_dictionary, audio_numpy, sample_rate
+    return accepted, wav_file_path
 
 
 def convert_to_wav(input_file):
@@ -402,46 +401,25 @@ def upload_features(data_object):
     return x
 
 
-def upload_audio(audio_numpy, sample_rate, username):
-    import requests
+def upload_audio(audio_numpy, sample_rate, username, label):
     url = 'http://127.0.0.1:5000/rawAudio'
     headers = {'content-type': 'application/json'}
     audio_numpy_str = json.dumps(audio_numpy.tolist())
-    data_audio = {"username": username, "audio_file": audio_numpy_str, "sample_rate": str(sample_rate)}
-    # data_audio_json = json.dumps(data_audio)
+    data_audio = {"username": username, "audio_file": audio_numpy_str, "sample_rate": str(sample_rate), "label": str(label)}
     x = requests.post(url, json=data_audio, headers=headers)
+    print(x.json())
     return x
 
 
-def create_feature_from_audio(filename):
+def create_feature_from_audio(filename, label):
     import numpy as np
-    import ctypes, numpy, pyogg
+    import numpy
 
-    # https://github.com/Zuzu-Typ/PyOgg/issues/19
-    # file = pyogg.OpusFile(filename)  # stereo
-    # audio_path_opus = "./"
-   #  file = pyogg.OpusFile(filename)
-   #  target_datatype = ctypes.c_short * (file.buffer_length // 2)  # always divide by 2 for some reason
-   #  buffer_as_array = ctypes.cast(file.buffer,
-   #                                ctypes.POINTER(target_datatype)).contents
-   # # wav = numpy.array(buffer_as_array)
-   #  if file.channels == 1:
-   #      wav = numpy.array(buffer_as_array)
-   #  elif file.channels == 2:
-   #      wav = numpy.array((wav[0::2], wav[1::2]))
-   #  else:
-   #      raise NotImplementedError()
     # This is the final numpy array
-    wav_file = convert_to_wav(filename)
-    sampling_rate, wav = wavfile.read(wav_file)
+    sampling_rate, wav = wavfile.read(filename)
     wavfile.write('testing.wav', sampling_rate, wav)
     signal = numpy.transpose(wav)
     print(numpy.shape(wav))
-
-    # plt.figure
-    # plt.title("Signal Wave...")
-    # plt.plot(signal)
-    # plt.show()
 
     # Calculating features from final_data
     from pyAudioAnalysis import MidTermFeatures as mF
@@ -453,9 +431,7 @@ def create_feature_from_audio(filename):
     short_window = round(sampling_rate * 0.01)
     short_step = round(sampling_rate * 0.01)
 
-    signal = audioBasicIO.stereo_to_mono(wav)
-    print(type(signal))
-    # print(np.shape(signal))
+    signal = audioBasicIO.stereo_to_mono(signal)
     signal = signal.astype('float64')  # this line is because librosa was making an error - need floats
 
     [mid_features, short_features, mid_feature_names] = mF.mid_feature_extraction(signal, sampling_rate, mid_window,
@@ -464,17 +440,9 @@ def create_feature_from_audio(filename):
     mid_term_features = mid_features.mean(axis=0)
     mid_term_features_list = mid_term_features.tolist()
     mid_term_features_list = list(map(str, mid_term_features_list))
-    label = "1"
     feature_dict = dict(zip(['label'] + mid_feature_names, [label] + mid_term_features_list))
 
-
-    # Getting the classification result with Cough=0, No_Cough=1
-    # from joblib import dump, load
-    # from sklearn import preprocessing
-    # cough_classifier = load('Cough_NoCough_classifier.joblib')
-    # features = preprocessing.StandardScaler().fit_transform(mid_term_features)
-    # prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
-    return feature_dict, wav, sampling_rate
+    return feature_dict, signal, sampling_rate
 
 
 if __name__ == '__main__':
