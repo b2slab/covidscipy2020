@@ -2,7 +2,7 @@ import requests as req
 import json    # or `import simplejson as json` if on Python < 2.6
 
 def userEntry(username):
-  url = 'http://127.0.0.1:5000/data/' + user + '?pretty'
+  url = 'http://127.0.0.1:5000/data/' + username + '?pretty'
   resp = req.get(url)
   jsondata=resp.text
   obj = json.loads(jsondata) 
