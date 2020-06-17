@@ -346,7 +346,15 @@ async def process_others(message: types.Message, state: FSMContext):
             "Thank you very much for you collaboration!\n"
             "Please, give me a second while I upload the data."
         )
-        upload_features(data.as_dict())
+        resp = upload_features(data.as_dict())
+        if resp.json()['_status'] == "OK":
+            await bot.send_message(message.chat.id, "Upload successful! Have a great day")
+        else:
+            await bot.send_message(
+                message.chat.id,
+                "Sorry, something went wrong..."
+            )
+        
     await state.finish()
 
 
@@ -365,8 +373,6 @@ def is_cough(file_id):
     filename = './audio-files/test.ogg'
     with open(filename, 'wb') as f:
         f.write(r.content)
-    print("***content", r.content)
-    print("***type: ", type(r.content))
     wav_file_path = convert_to_wav(filename)
     top_labels = classifier.classify(wav_file_path)
     accepted = "Cough" in top_labels
@@ -393,7 +399,7 @@ def upload_features(data_object):
     # data_object_json = json.dumps(data_object)
     x = requests.post(url, json=data_object, headers=headers)
     print(x.json())
-
+    return x
 
 
 def upload_audio(audio_numpy, sample_rate, username):
@@ -402,11 +408,9 @@ def upload_audio(audio_numpy, sample_rate, username):
     headers = {'content-type': 'application/json'}
     audio_numpy_str = json.dumps(audio_numpy.tolist())
     data_audio = {"username": username, "audio_file": audio_numpy_str, "sample_rate": str(sample_rate)}
-    print('audio data:')
-    print(data_audio)
     # data_audio_json = json.dumps(data_audio)
     x = requests.post(url, json=data_audio, headers=headers)
-    print(x.json())
+    return x
 
 
 def create_feature_from_audio(filename):
