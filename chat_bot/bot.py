@@ -365,7 +365,8 @@ def is_cough(file_id):
     filename = './audio-files/test.ogg'
     with open(filename, 'wb') as f:
         f.write(r.content)
-
+    print("***content", r.content)
+    print("***type: ", type(r.content))
     wav_file_path = convert_to_wav(filename)
     top_labels = classifier.classify(wav_file_path)
     accepted = "Cough" in top_labels
@@ -399,7 +400,7 @@ def upload_audio(audio_numpy, sample_rate, username):
     import requests
     url = 'http://127.0.0.1:5000/rawAudio'
     headers = {'content-type': 'application/json'}
-    audio_numpy_str = np.array2string(audio_numpy)
+    audio_numpy_str = json.dumps(audio_numpy.tolist())
     data_audio = {"username": username, "audio_file": audio_numpy_str, "sample_rate": str(sample_rate)}
     print('audio data:')
     print(data_audio)
@@ -429,6 +430,7 @@ def create_feature_from_audio(filename):
     # This is the final numpy array
     wav_file = convert_to_wav(filename)
     sampling_rate, wav = wavfile.read(wav_file)
+    wavfile.write('testing.wav', sampling_rate, wav)
     signal = numpy.transpose(wav)
     print(numpy.shape(wav))
 
@@ -447,7 +449,7 @@ def create_feature_from_audio(filename):
     short_window = round(sampling_rate * 0.01)
     short_step = round(sampling_rate * 0.01)
 
-    signal = audioBasicIO.stereo_to_mono(signal)
+    signal = audioBasicIO.stereo_to_mono(wav)
     print(type(signal))
     # print(np.shape(signal))
     signal = signal.astype('float64')  # this line is because librosa was making an error - need floats
@@ -468,7 +470,7 @@ def create_feature_from_audio(filename):
     # cough_classifier = load('Cough_NoCough_classifier.joblib')
     # features = preprocessing.StandardScaler().fit_transform(mid_term_features)
     # prediction = cough_classifier.predict(features)  # coughs=0 , no_cough = 1
-    return feature_dict, signal, sampling_rate
+    return feature_dict, wav, sampling_rate
 
 
 if __name__ == '__main__':
