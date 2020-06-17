@@ -24,6 +24,6 @@ def classify(file):
     with graph.as_default():
         scores, spectrogram = yamnet.predict(np.reshape(waveform, [1, -1]), steps=1)
     mean_scores = np.mean(scores, axis=0)
-    top_N = 10
+    top_N = 3
     top_class_indices = np.argsort(mean_scores)[::-1][:top_N]
     return class_names[top_class_indices]

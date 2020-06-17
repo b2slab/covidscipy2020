@@ -11,7 +11,7 @@ from aiogram.utils import executor
 import os
 import numpy as np
 import json
-
+from scipy.io import wavfile
 
 from Cough_NoCough_classification.yamnet import classifier
 
@@ -109,13 +109,13 @@ async def process_age(message: types.Message, state: FSMContext):
 
     # Configure ReplyKeyboardMarkup
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Male", "Female")
-    markup.add("Other")
+    markup.add("male", "female")
+    markup.add("other")
 
     await message.reply("What is your gender?", reply_markup=markup)
 
 
-@dp.message_handler(lambda message: message.text not in ["Male", "Female", "Other"], state=Form.gender)
+@dp.message_handler(lambda message: message.text not in ["male", "female", "other"], state=Form.gender)
 async def process_gender_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
@@ -259,7 +259,6 @@ async def process_fever_invalid(message: types.Message):
 @dp.message_handler(state=Form.fever)
 async def process_fever(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms'] = {}
         data['symptoms']['fever'] = (message.text == "yes")
 
     await Form.next()
@@ -347,8 +346,7 @@ async def process_others(message: types.Message, state: FSMContext):
             "Thank you very much for you collaboration!\n"
             "Please, give me a second while I upload the data."
         )
-    print(data.as_dict())
-    #upload_features(data_dict)
+        upload_features(data.as_dict())
     await state.finish()
 
 
@@ -391,10 +389,10 @@ def upload_features(data_object):
     headers = {'content-type': 'application/json'}
     print('object data:')
     print(data_object)
-    data_object_json = json.dumps(data_object)
+    # data_object_json = json.dumps(data_object)
     x = requests.post(url, json=data_object, headers=headers)
     print(x.json())
-    #
+
 
 
 def upload_audio(audio_numpy, sample_rate, username):
@@ -405,36 +403,33 @@ def upload_audio(audio_numpy, sample_rate, username):
     data_audio = {"username": username, "audio_file": audio_numpy_str, "sample_rate": str(sample_rate)}
     print('audio data:')
     print(data_audio)
-    data_audio_json = json.dumps(data_audio)
-    x = requests.post(url, json=data_audio_json, headers=headers)
+    # data_audio_json = json.dumps(data_audio)
+    x = requests.post(url, json=data_audio, headers=headers)
     print(x.json())
 
 
-
 def create_feature_from_audio(filename):
-    import pyogg
     import numpy as np
     import ctypes, numpy, pyogg
-    import matplotlib.pyplot as plt
-    import scipy.io.wavfile
 
     # https://github.com/Zuzu-Typ/PyOgg/issues/19
     # file = pyogg.OpusFile(filename)  # stereo
     # audio_path_opus = "./"
-    file = pyogg.OpusFile(filename)
-    target_datatype = ctypes.c_short * (file.buffer_length // 2)  # always divide by 2 for some reason
-    buffer_as_array = ctypes.cast(file.buffer,
-                                  ctypes.POINTER(target_datatype)).contents
-   # wav = numpy.array(buffer_as_array)
-    if file.channels == 1:
-        wav = numpy.array(buffer_as_array)
-    elif file.channels == 2:
-        wav = numpy.array((wav[0::2], wav[1::2]))
-    else:
-        raise NotImplementedError()
+   #  file = pyogg.OpusFile(filename)
+   #  target_datatype = ctypes.c_short * (file.buffer_length // 2)  # always divide by 2 for some reason
+   #  buffer_as_array = ctypes.cast(file.buffer,
+   #                                ctypes.POINTER(target_datatype)).contents
+   # # wav = numpy.array(buffer_as_array)
+   #  if file.channels == 1:
+   #      wav = numpy.array(buffer_as_array)
+   #  elif file.channels == 2:
+   #      wav = numpy.array((wav[0::2], wav[1::2]))
+   #  else:
+   #      raise NotImplementedError()
     # This is the final numpy array
+    wav_file = convert_to_wav(filename)
+    sampling_rate, wav = wavfile.read(wav_file)
     signal = numpy.transpose(wav)
-    sampling_rate = 48000
     print(numpy.shape(wav))
 
     # plt.figure
@@ -462,7 +457,8 @@ def create_feature_from_audio(filename):
     mid_features = np.transpose(mid_features)
     mid_term_features = mid_features.mean(axis=0)
     mid_term_features_list = mid_term_features.tolist()
-    label = 1
+    mid_term_features_list = list(map(str, mid_term_features_list))
+    label = "1"
     feature_dict = dict(zip(['label'] + mid_feature_names, [label] + mid_term_features_list))
 
 

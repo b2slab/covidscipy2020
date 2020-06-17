@@ -36,10 +36,6 @@ dataSchema = {
         'allowed': ["male", "female", "other"]
 	},
 
-# 	"body_temp": {
-# 		'type': 'number',
-# 		'required': False
-# 	},
 
 	"location": {  #maybe as GPS-Data (=> Data-type?), only users from Spain (allow districts as input) => Victoria 
         'type': 'dict',
@@ -532,13 +528,13 @@ dataSchema = {
 
 audioSchema = {
     	"audio_file": {    
-            'type': 'media',
+            'type': 'string',
             'required': False
   	},
 	"username": {  #as free input
 		'type': 'string',
 		'required': True,
-		'unique': True,
+		'unique': False,
 		'minlength': 1,
 		'maxlength': 16
 	},
