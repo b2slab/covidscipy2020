@@ -518,10 +518,6 @@ dataSchema = {
 		}
 	},
 
-# 	"audio_file": {    #in seperate Endpoint?
-# 		'type': 'media',
-# 		'required': False     #True
-# 	}
 }
 
 audioSchema = {
