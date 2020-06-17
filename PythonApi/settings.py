@@ -44,12 +44,10 @@ dataSchema = {
             'country': {
 				'type': 'string',
 				'required': True,
-				'allowed': ["Spain", "France", "Sweden"]
 			},
-            'city': {
+            'postcode': {
 				'type': 'string',
 				'required': False, 
-				'allowed': ["Barcelona", "Madrid"] 
 			}
         },
     },
@@ -527,9 +525,9 @@ dataSchema = {
 }
 
 audioSchema = {
-    	"audio_file": {    
-            'type': 'string',
-            'required': False
+	"audio_file": {
+		'type': 'string',
+		'required': False
   	},
 	"username": {  #as free input
 		'type': 'string',

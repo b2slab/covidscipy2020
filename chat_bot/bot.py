@@ -39,7 +39,7 @@ class Form(StatesGroup):
     age = State()
     gender = State()
     country = State()
-    city = State()
+    postcode = State()
     has_corona = State()
     cough = State()
     dry_cough = State()
@@ -128,22 +128,19 @@ async def process_gender_invalid(message: types.Message):
 async def process_gender(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['gender'] = message.text
+        markup = types.ReplyKeyboardRemove()
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Spain")
-    markup.add("France")
-    markup.add("Sweden")
     await Form.next()
-    await message.reply("In which country are you righ now?", reply_markup=markup)
+    await message.reply("In which country are you right now?", reply_markup=markup)
 
 
-
-@dp.message_handler(lambda message: message.text not in ["Spain", "France", "Sweden"], state=Form.country)
+@dp.message_handler(lambda message: not message.text.isalpha(), state=Form.country)
 async def process_country_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
     """
-    return await message.reply("Bad country name. Choose country from the options.")
+    print(message.text)
+    return await message.reply("Bad country name. Country should only contain letters")
 
 
 @dp.message_handler(state=Form.country)
@@ -152,28 +149,22 @@ async def process_country(message: types.Message, state: FSMContext):
         data['location'] = {}
         data['location']['country'] = message.text
 
-        # Remove keyboard
-        types.ReplyKeyboardRemove()
-
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Barcelona")
-    markup.add("Madrid")
     await Form.next()
-    await message.reply("In which city are you right now?", reply_markup=markup)
+    await message.reply("What is your zip code?")
 
 
-@dp.message_handler(lambda message: message.text not in ["Barcelona", "Madrid"], state=Form.city)
-async def process_city_invalid(message: types.Message):
+@dp.message_handler(lambda message: not message.text.isalnum(), state=Form.postcode)
+async def process_postcode_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
     """
-    return await message.reply("Bad city name. Choose country from the options.")
+    return await message.reply("Bad postcode. Postcode should be alphanumeric.")
 
 
-@dp.message_handler(state=Form.city)
-async def process_city(message: types.Message, state: FSMContext):
+@dp.message_handler(state=Form.postcode)
+async def process_postcode(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['location']['city'] = message.text
+        data['location']['postcode'] = message.text
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
