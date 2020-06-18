@@ -46,7 +46,7 @@ dataSchema = {
 				'required': True,
 			},
             'postcode': {
-				'type': 'string',
+				'type': 'integer',
 				'required': False, 
 			}
         },
@@ -518,10 +518,6 @@ dataSchema = {
 		}
 	},
 
-# 	"audio_file": {    #in seperate Endpoint?
-# 		'type': 'media',
-# 		'required': False     #True
-# 	}
 }
 
 audioSchema = {
