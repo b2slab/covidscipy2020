@@ -46,7 +46,7 @@ dataSchema = {
 				'required': True,
 			},
             'postcode': {
-				'type': 'string',
+				'type': 'integer',
 				'required': False, 
 			}
         },
