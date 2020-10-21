@@ -1,4 +1,5 @@
 import pymysql
+import numpy as np
 from multipledispatch import dispatch
 
 class DataBase:
@@ -105,8 +106,76 @@ class DataBase:
         self.connection.close()
         print("Hemos realizado correctamente la desconexión de la BBDD")
 
+    def insert_patient_symptoms(self, suffer):
+
+        '''
+        Esta función nos servirá para guardar el id del paciente con todos
+        los posibles síntomas del covid y si los sufre o no
+        '''
+        def get_patient_ID(self):
+
+            '''
+            Esta función se encargará de descubrir el id del último paciente registrado
+            para que de esta forma podamos saber el id que se le atribuirá al paciente
+            que se está registrando en este momento
+            '''
+
+            sql = "SELECT MAX(patient_id) FROM project_covid_creb.patients"
+
+            try:
+                self.cursor.execute(sql)
+                id = self.cursor.fetchone()
+                return id+1
+
+            except Exception as e:
+                raise
+
+        def get_num_symptoms(self):
+
+            '''
+            Esta función se encargará de descubrir cuántos síntomas en total tenemos
+            alojados en la base de datos. Por supuesto, deberá coincidir con la largada
+            del input array 'suffer' de variables binarias
+            '''
+
+            sql = "SELECT COUNT(symptom_id) FROM project_covid_creb.symptoms"
+
+            try:
+                self.cursor.execute(sql)
+                count_symp = self.cursor.fetchone()
+                return count_symp
+
+            except Exception as e:
+                raise
+
+        patient_id = get_patient_ID(self)
+        num_symptoms = get_num_symptoms(self)
+
+        def check_input_length(self, suffer, num_symptoms):
+
+            '''
+            Esta función se encargará de comprobar si la longitud del array input 'suffer'
+            coincide con la longitud total de los síntomas. De esta forma, sabemos que
+            el paciente ha respondido a todas las preguntas sobre síntomas
+            '''
+            if len(suffer != num_symptoms):
+                print("Incorrect input length")
+            else:
+                print("Correct Input")
+                return suffer
+
+        self.suffer = check_input_length(suffer)
+        self.patient_id = patient_id
+        self.symptoms_id = np.arange(1,num_symptoms+1)
+
+        print("Paciente: ", self.patient_id)
+        print("Síntomas: ", self.symptoms_id)
+        print("Los sufre?: ", self.suffer)
 
 
+###########################################################################################
+###########################################################################################
+###########################################################################################
 
 database = DataBase()
 database.select_user(1)
@@ -125,3 +194,10 @@ de los argumentos de entrada de la función a decorar.
 Si el tipo de los argumentos no concuerda con el insertado en el decorador,
 que salte un error especificando el problema.
 '''
+
+
+
+suffering = np.array([1,0,0,0,1,1,0,0,0,1,0,1,0,1,0,1,0,0,1,0,1,1,0,1,0])
+len(suffering)
+
+database.insert_patient_symptoms(suffering)

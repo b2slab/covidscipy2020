@@ -7,6 +7,10 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema project_covid_CREB
 -- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema project_covid_CREB
+-- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `project_covid_CREB` DEFAULT CHARACTER SET utf8 ;
 USE `project_covid_CREB` ;
 
@@ -50,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `project_covid_CREB`.`patients_symptoms` (
   `suffer` TINYINT NOT NULL,
   PRIMARY KEY (`patient_id`, `symptom_id`),
   INDEX `fk_symptoms_idx` (`symptom_id` ASC) VISIBLE,
-  CONSTRAINT `fk_patients`
+  CONSTRAINT `fk_patients_symptoms`
     FOREIGN KEY (`patient_id`)
     REFERENCES `project_covid_CREB`.`patients` (`patient_id`)
     ON DELETE NO ACTION
@@ -85,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `project_covid_CREB`.`patients_illnesses` (
   `years_suffered` TINYINT(3) UNSIGNED NULL,
   PRIMARY KEY (`patient_id`, `illness_id`),
   INDEX `fk_illnesses_idx` (`illness_id` ASC) VISIBLE,
-  CONSTRAINT `fk_patients`
+  CONSTRAINT `fk_patients_illnesses`
     FOREIGN KEY (`patient_id`)
     REFERENCES `project_covid_CREB`.`patients` (`patient_id`)
     ON DELETE NO ACTION
@@ -118,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `project_covid_CREB`.`patients_coronavirus` (
   `time_since_suffered` TINYINT(3) NULL COMMENT 'Cuánto tiempo hace que sufriste/experimentaste la situación',
   PRIMARY KEY (`covid_id`, `patient_id`),
   INDEX `fk_patients_idx` (`patient_id` ASC) VISIBLE,
-  CONSTRAINT `fk_patients`
+  CONSTRAINT `fk_patients_coronavirus`
     FOREIGN KEY (`patient_id`)
     REFERENCES `project_covid_CREB`.`patients` (`patient_id`)
     ON DELETE NO ACTION
@@ -138,11 +142,9 @@ CREATE TABLE IF NOT EXISTS `project_covid_CREB`.`treatment` (
   `treatment_id` INT NOT NULL AUTO_INCREMENT,
   `patient_id` INT NOT NULL,
   `prob_corona` DECIMAL(5,2) NULL COMMENT '100.00%',
-  # `audio_file_path` nvarchar(260)
-  # `audio_extraction_features`
   PRIMARY KEY (`treatment_id`),
   UNIQUE INDEX `patient_id_UNIQUE` (`patient_id` ASC) VISIBLE,
-  CONSTRAINT `fk_patients`
+  CONSTRAINT `fk_patients_treatment`
     FOREIGN KEY (`patient_id`)
     REFERENCES `project_covid_CREB`.`patients` (`patient_id`)
     ON DELETE NO ACTION
