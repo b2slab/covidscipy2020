@@ -1,15 +1,36 @@
 import pymysql
 import numpy as np
-from multipledispatch import dispatch
+from sshtunnel import SSHTunnelForwarder
+#from multipledispatch import dispatch
 
 class DataBase:
     def __init__(self):
+
+        sql_hostname = '127.0.0.1'
+        sql_username = 'guillembonilla'
+        sql_password = 'B2SLab2020!!!!'
+        sql_main_database = 'project_covid_CREB'
+        sql_port = 3306
+        ssh_host = 'covidbot.upc.edu'
+        ssh_user = 'covidbot'
+        ssh_pass = 'B2SLab2020!!!!'
+        ssh_port = 2244
+
+
+        self.server = SSHTunnelForwarder(
+            (ssh_host, ssh_port),
+            ssh_username=ssh_user,
+            ssh_password=ssh_pass,
+            remote_bind_address=(sql_hostname, sql_port))
+
+        self.server.start()
+
         self.connection = pymysql.connect(
-            host = 'localhost',
-            user = 'root',
-            password = 'projectecovid',
-            database = 'project_covid_creb'
-        )
+            host = '127.0.0.1',
+            user = sql_username,
+            password = sql_password,
+            database = sql_main_database,
+            port = self.server.local_bind_port)
 
         self.cursor = self.connection.cursor()
         print('Conexión establecida correctamente')
@@ -102,10 +123,6 @@ class DataBase:
         except Exception as e:
             raise
 
-    def close(self):
-        self.connection.close()
-        print("Hemos realizado correctamente la desconexión de la BBDD")
-
     def insert_patient_symptoms(self, suffer):
 
         '''
@@ -120,12 +137,12 @@ class DataBase:
             que se está registrando en este momento
             '''
 
-            sql = "SELECT MAX(patient_id) FROM project_covid_creb.patients"
+            sql = "SELECT MAX(patient_id) FROM project_covid_CREB.patients"
 
             try:
                 self.cursor.execute(sql)
                 id = self.cursor.fetchone()
-                return id+1
+                return id[0]
 
             except Exception as e:
                 raise
@@ -138,12 +155,12 @@ class DataBase:
             del input array 'suffer' de variables binarias
             '''
 
-            sql = "SELECT COUNT(symptom_id) FROM project_covid_creb.symptoms"
+            sql = "SELECT COUNT(symptom_id) FROM project_covid_CREB.symptoms"
 
             try:
                 self.cursor.execute(sql)
                 count_symp = self.cursor.fetchone()
-                return count_symp
+                return count_symp[0]
 
             except Exception as e:
                 raise
@@ -151,26 +168,51 @@ class DataBase:
         patient_id = get_patient_ID(self)
         num_symptoms = get_num_symptoms(self)
 
-        def check_input_length(self, suffer, num_symptoms):
+        def check_input_length(suffer, num_symptoms):
 
             '''
             Esta función se encargará de comprobar si la longitud del array input 'suffer'
             coincide con la longitud total de los síntomas. De esta forma, sabemos que
-            el paciente ha respondido a todas las preguntas sobre síntomas
+            el paciente ha respondido a todas las preguntas sobre sintomatología
             '''
-            if len(suffer != num_symptoms):
+            if len(suffer) != num_symptoms:
                 print("Incorrect input length")
             else:
                 print("Correct Input")
                 return suffer
 
-        self.suffer = check_input_length(suffer)
+        self.suffer = check_input_length(suffer, num_symptoms)
         self.patient_id = patient_id
         self.symptoms_id = np.arange(1,num_symptoms+1)
 
         print("Paciente: ", self.patient_id)
         print("Síntomas: ", self.symptoms_id)
         print("Los sufre?: ", self.suffer)
+
+        array_patient_ID = np.repeat(self.patient_id, num_symptoms+1)
+        array_symptoms_ID = self.symptoms_id
+        array_suffering = self.suffer
+
+        for i in range(len(array_suffering)):
+
+            '''
+            Aquí tendremos que insertar los datos de la misma forma que el query en SQL
+            llamado 'insert_patient_symptoms'
+            '''
+
+        sql = "INSERT INTO patients_symptoms(patient_id, symptom_id, suffer) VALUES ('{}','{}','{}')".format(array_patient_ID, array_symptoms_ID, array_suffering)
+
+        try:
+            self.cursor.execute(sql)
+            self.connection.commit()
+            print("Hemos realizado un cambio permanente")
+        except Exception as e:
+            raise
+
+    def close(self):
+        self.connection.close()
+        self.server.stop()
+        print("Hemos realizado correctamente la desconexión de la BBDD")
 
 
 ###########################################################################################
@@ -181,11 +223,9 @@ database = DataBase()
 database.select_user(1)
 database.select_all_users()
 database.update_user(3,99)
-database.select_user(1) # IT WORKED -- watch out with 'commit()' statement as it upload permanently our BBDD
+database.select_user(3) # IT WORKED -- watch out with 'commit()' statement as it upload permanently our BBDD
 database.insert_user('female', 43, 190, 90,'Cádiz', 1)
 database.close()
-
-
 
 '''
 SUGERENCIA:
@@ -196,8 +236,21 @@ que salte un error especificando el problema.
 '''
 
 
-
+'''
+A medida que el usuario nos vaya respondiendo preguntas sobre sintomatología,
+podemos ir realizando 'append's' a la array correspondiente que almacene las respuestas binarias  s
+'''
 suffering = np.array([1,0,0,0,1,1,0,0,0,1,0,1,0,1,0,1,0,0,1,0,1,1,0,1,0])
 len(suffering)
 
+len(range(len(suffering)))
+
 database.insert_patient_symptoms(suffering)
+
+
+np.repeat(1, 25)
+np.arange(1,25+1,1)
+
+
+
+"INSERT INTO patients_symptoms(patient_id, symptom_id, suffer) VALUES ('{}','{}','{}')".format(np.repeat(1, 25), np.arange(1,25+1,1), suffering)
