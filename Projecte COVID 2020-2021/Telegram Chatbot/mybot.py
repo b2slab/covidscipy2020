@@ -41,6 +41,70 @@ class Form(StatesGroup):
     upload_Data = State()
 
 
+'''
+DATABASE CONNECTION
+'''
+
+import pymongo
+from sshtunnel import SSHTunnelForwarder
+
+class DataBase:
+
+    def __init__(self):
+
+        '''
+        Inicializamos la clase con este CONSTRUCTOR. De esta forma, cada vez que instanciemos
+        la clase 'DataBase', nos conectaremos a la BBDD de MongoDB ubicada en el servidor
+        remoto de la UPC.
+
+        Para realizar la conexión remota, utilizaremos un túnel SSH mediante la función
+        'SSHTunnelForwarder' del módulo 'sshtunnel'.
+
+        Posteriormente, nos connectaremos a la base de datos 'Project_COVID'. De momento,
+        accederemos a la única Colección de la base de datos, llamada 'Patients'. Las colecciones
+        en MongoDB son el equivalente a las tablas en MySQL.
+        '''
+
+        sql_hostname = '127.0.0.1'
+        sql_username = 'guillembonilla'
+        sql_password = 'B2SLab2020!!!!'
+        sql_main_database = 'Project_COVID'
+        sql_port = 27017
+        ssh_host = 'covidbot.upc.edu'
+        ssh_user = 'covidbot'
+        ssh_pass = 'B2SLab2020!!!!'
+        ssh_port = 2244
+
+
+        self.server = SSHTunnelForwarder(
+            (ssh_host, ssh_port),
+            ssh_username=ssh_user,
+            ssh_password=ssh_pass,
+            remote_bind_address=(sql_hostname, sql_port))
+
+        self.server.start()
+
+        self.client = pymongo.MongoClient(sql_hostname, self.server.local_bind_port)
+        self.db = self.client[sql_main_database]
+        self.collection = self.db['Patients']
+        print('Colecciones de la BBDD: ', self.db.collection_names())
+        print('Conexión establecida correctamente')
+    def close(self):
+
+        '''
+        Cerramos connexión con el servidor
+        '''
+
+        self.server.stop()
+        print("Hemos realizado correctamente la desconexión de la BBDD")
+
+database = DataBase()
+
+'''
+DATABASE CONNECTED
+'''
+
+
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
     """
@@ -84,7 +148,18 @@ async def stop_handler(message: types.Message, state: FSMContext):
             "Allright we'll stop here\n"
             "Please, give me a second while I upload the data."
         )
-        save_features(data.as_dict())
+        #save_features(data.as_dict())
+
+        '''
+        Insertamos los datos con formato diccionario. No hace falta
+        convertirlos a JSON ya que la propia BBDD de MongoDB los convierte
+        a BSON al insertar el documento
+
+        Un hecho relevante es que la propia Colección le agrega un ID único
+        a cada Documento (a cada paciente)
+        '''
+        database.collection.insert_one(data.as_dict())
+
         await bot.send_message(
             message.chat.id,
             "That's it!"
@@ -344,28 +419,39 @@ async def process_others(message: types.Message, state: FSMContext):
             "Thank you very much for you collaboration!\n"
             "Please, give me a second while I upload the data."
         )
-        save_features(data.as_dict())
+        #save_features(data.as_dict())
+
+        '''
+        Insertamos los datos con formato diccionario. No hace falta
+        convertirlos a JSON ya que la propia BBDD de MongoDB los convierte
+        a BSON al insertar el documento
+
+        Un hecho relevante es que la propia Colección le agrega un ID único
+        a cada Documento (a cada paciente). Este ID es del tipo Object_id el
+        cual también almacena el momento en el que el usuario se ha registrado.
+        '''
+        database.collection.insert_one(data.as_dict())
+
+
         await bot.send_message(
             message.chat.id,
             "That's it!"
         )
+
+
 #functions
 
-def save_features(data_object):
-    outputFileName = "Patient #.txt"
-    outputVersion = 1
-    while os.path.isfile(save_path + outputFileName.replace("#", str(outputVersion))):
-        outputVersion += 1
-    outputFileName = outputFileName.replace("#", str(outputVersion))
-    filepath = os.path.join(save_path, outputFileName)
-    with open(filepath, 'w') as outfile:
-        json.dump(data_object, outfile)
-    # data_object_json = json.dumps(data_object)
+#def save_features(data_object):
+#    outputFileName = "Patient #.txt"
+#    outputVersion = 1
+#    while os.path.isfile(save_path + outputFileName.replace("#", str(outputVersion))):
+#        outputVersion += 1
+#    outputFileName = outputFileName.replace("#", str(outputVersion))
+#    filepath = os.path.join(save_path, outputFileName)
+#    with open(filepath, 'w') as outfile:
+#        json.dump(data_object, outfile)
+#     data_object_json = json.dumps(data_object)
 
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
-
-
-
-

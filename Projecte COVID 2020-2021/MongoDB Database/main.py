@@ -39,7 +39,8 @@ class DataBase:
 
         self.client = pymongo.MongoClient(sql_hostname, self.server.local_bind_port)
         self.db = self.client[sql_main_database]
-        self.collection = self.db['Patients']
+        #self.collection = self.db['Patients']
+        self.collection = self.db['TEST']
         print('Colecciones de la BBDD: ', self.db.collection_names())
         print('Conexión establecida correctamente')
 
