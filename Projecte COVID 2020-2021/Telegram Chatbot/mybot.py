@@ -26,8 +26,9 @@ class Form(StatesGroup):
     username = State()
     age = State()
     gender = State()
-    country = State()
-    postcode = State()
+    location = State()
+    #country = State()
+    #postcode = State()
     has_corona = State()
     cough = State()
     dry_cough = State()
@@ -87,7 +88,7 @@ class DataBase:
         self.client = pymongo.MongoClient(sql_hostname, self.server.local_bind_port)
         self.db = self.client[sql_main_database]
         self.collection = self.db['Patients']
-        print('Colecciones de la BBDD: ', self.db.collection_names())
+        print('Colecciones de la BBDD: ', self.db.list_collection_names())
         print('Conexión establecida correctamente')
     def close(self):
 
@@ -112,7 +113,6 @@ async def cmd_start(message: types.Message):
     """
     # Set state
     await Form.username.set()
-
     await message.reply("Hi there! Please, enter your username.")
 
 
@@ -211,39 +211,22 @@ async def process_gender_invalid(message: types.Message):
 async def process_gender(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['gender'] = message.text
-        markup = types.ReplyKeyboardRemove()
+        #markup = types.ReplyKeyboardRemove()
+
+        location_keyboard  = types.KeyboardButton(text="Send Current Location", request_location=True)
+        reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
 
     await Form.next()
-    await message.reply("In which country are you right now?", reply_markup=markup)
+    #await message.reply("In which country are you right now?", reply_markup=markup)
+    await message.reply("Would you mind to send us your current location?", reply_markup=reply_markup)
 
-@dp.message_handler(lambda message: not message.text.isalpha(), state=Form.country)
-async def process_country_invalid(message: types.Message):
-    """
-    In this example country must not contain numbers
-    """
-    print(message.text)
-    return await message.reply("Bad country name. Country should only contain letters")
-
-@dp.message_handler(state=Form.country)
-async def process_country(message: types.Message, state: FSMContext):
+@dp.message_handler(state=Form.location, content_types=['location'])
+async def process_location(message, state: FSMContext):
     async with state.proxy() as data:
         data['location'] = {}
-        data['location']['country'] = message.text
-
-    await Form.next()
-    await message.reply("What is your zip code?")
-
-@dp.message_handler(lambda message: not message.text.isalnum(), state=Form.postcode)
-async def process_postcode_invalid(message: types.Message):
-    """
-    Postcode filter
-    """
-    return await message.reply("Bad postcode. Postcode should be alphanumeric.")
-
-@dp.message_handler(state=Form.postcode)
-async def process_postcode(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['location']['postcode'] = message.text
+        data['location']['latitude'] = message.location.latitude
+        data['location']['longitude'] = message.location.longitude
+        #print("{0}, {1}".format(message.location.latitude, message.location.longitude))
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -251,6 +234,43 @@ async def process_postcode(message: types.Message, state: FSMContext):
     markup.add("negative")
     markup.add("unknown")
     await message.reply("Do you have Covid-19?", reply_markup=markup)
+
+
+#@dp.message_handler(lambda message: not message.text.isalpha(), state=Form.country)
+#async def process_country_invalid(message: types.Message):
+#    """
+#    In this example country must not contain numbers
+#    """
+#    print(message.text)
+#    return await message.reply("Bad country name. Country should only contain letters")
+
+#@dp.message_handler(state=Form.country)
+#async def process_country(message: types.Message, state: FSMContext):
+#    async with state.proxy() as data:
+#        data['location'] = {}
+#        data['location']['country'] = message.text
+
+#    await Form.next()
+#    await message.reply("What is your zip code?")
+
+#@dp.message_handler(lambda message: not message.text.isalnum(), state=Form.postcode)
+#async def process_postcode_invalid(message: types.Message):
+#    """
+#    Postcode filter
+#    """
+#    return await message.reply("Bad postcode. Postcode should be alphanumeric.")
+
+#@dp.message_handler(state=Form.postcode)
+#async def process_postcode(message: types.Message, state: FSMContext):
+#    async with state.proxy() as data:
+#        data['location']['postcode'] = message.text
+
+#    await Form.next()
+#    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+#    markup.add("positive")
+#    markup.add("negative")
+#    markup.add("unknown")
+#    await message.reply("Do you have Covid-19?", reply_markup=markup)
 
 @dp.message_handler(lambda message: message.text not in ["positive", "negative", "unknown"], state=Form.has_corona)
 async def process_has_corona_invalid(message: types.Message):
