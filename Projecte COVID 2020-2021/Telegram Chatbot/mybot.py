@@ -106,6 +106,14 @@ DATABASE CONNECTED
 '''
 
 
+
+
+
+
+'''
+START CHATBOT
+'''
+
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
     """
@@ -235,42 +243,43 @@ async def process_location(message, state: FSMContext):
     markup.add("unknown")
     await message.reply("Do you have Covid-19?", reply_markup=markup)
 
+'''
+@dp.message_handler(lambda message: not message.text.isalpha(), state=Form.country)
+async def process_country_invalid(message: types.Message):
+    """
+    In this example country must not contain numbers
+    """
+    print(message.text)
+    return await message.reply("Bad country name. Country should only contain letters")
 
-#@dp.message_handler(lambda message: not message.text.isalpha(), state=Form.country)
-#async def process_country_invalid(message: types.Message):
-#    """
-#    In this example country must not contain numbers
-#    """
-#    print(message.text)
-#    return await message.reply("Bad country name. Country should only contain letters")
+@dp.message_handler(state=Form.country)
+async def process_country(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['location'] = {}
+        data['location']['country'] = message.text
 
-#@dp.message_handler(state=Form.country)
-#async def process_country(message: types.Message, state: FSMContext):
-#    async with state.proxy() as data:
-#        data['location'] = {}
-#        data['location']['country'] = message.text
+    await Form.next()
+    await message.reply("What is your zip code?")
 
-#    await Form.next()
-#    await message.reply("What is your zip code?")
+@dp.message_handler(lambda message: not message.text.isalnum(), state=Form.postcode)
+async def process_postcode_invalid(message: types.Message):
+    """
+    Postcode filter
+    """
+    return await message.reply("Bad postcode. Postcode should be alphanumeric.")
 
-#@dp.message_handler(lambda message: not message.text.isalnum(), state=Form.postcode)
-#async def process_postcode_invalid(message: types.Message):
-#    """
-#    Postcode filter
-#    """
-#    return await message.reply("Bad postcode. Postcode should be alphanumeric.")
+@dp.message_handler(state=Form.postcode)
+async def process_postcode(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['location']['postcode'] = message.text
 
-#@dp.message_handler(state=Form.postcode)
-#async def process_postcode(message: types.Message, state: FSMContext):
-#    async with state.proxy() as data:
-#        data['location']['postcode'] = message.text
-
-#    await Form.next()
-#    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-#    markup.add("positive")
-#    markup.add("negative")
-#    markup.add("unknown")
-#    await message.reply("Do you have Covid-19?", reply_markup=markup)
+    await Form.next()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("positive")
+    markup.add("negative")
+    markup.add("unknown")
+    await message.reply("Do you have Covid-19?", reply_markup=markup)
+'''
 
 @dp.message_handler(lambda message: message.text not in ["positive", "negative", "unknown"], state=Form.has_corona)
 async def process_has_corona_invalid(message: types.Message):
@@ -286,14 +295,56 @@ async def process_has_corona(message: types.Message, state: FSMContext):
         markup = types.ReplyKeyboardRemove()
 
     await Form.next()
-    await Form.next() #this line is to be removed after cough implementation
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("yes", "no")
-    await message.reply("Thank you. Now let us ask you some questions about your symptoms."
-                        "Do you have a dry cough?", reply_markup=markup)
+    #await Form.next() #this line is to be removed after cough implementation
+    #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    #markup.add("yes", "no")
+    #await message.reply("Thank you. Now let us ask you some questions about your symptoms."
+                        #"Do you have a dry cough?", reply_markup=markup)
+    await message.reply("Could you send us a recording of your cough?", reply_markup=markup)
 
 #cough yet to be implemented
-"""
+@dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
+async def process_cough(message: types.voice.Voice, state: FSMContext):
+    # Update state and data
+    await bot.send_message(
+        message.chat.id,
+        "Please, give me a second while I annalyze you cough..."
+    )
+
+    wav_file_name = '{}'.format(message.voice.file_id)
+    sample_rate, wav_data = wavfile.read('{}'.format(wav_file_name))
+    sample_rate, wav_data = ensure_sample_rate(sample_rate, wav_data)
+
+    waveform = wav_data / tf.int16.max
+    waveform2 = np.mean(waveform, axis = 1)
+
+    # Run the model, check the output.
+    scores, embeddings, spectrogram = model(waveform2)
+
+    scores_np = scores.numpy()
+    spectrogram_np = spectrogram.numpy()
+    infered_class = class_names[scores_np.mean(axis=0).argmax()]
+
+    if infered_class != 'cough':
+        return await bot.send_message(
+            message.chat.id,
+            "Sorry, we didn't recognize this as cough. Please, cough again"
+        )
+
+    else:
+        return await bot.send_message(
+            message.chat.id,
+            "Thanks for your cough"
+        )
+
+
+        await Form.next()
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add("yes", "no")
+        await message.reply("Do you have a dry cough?", reply_markup=markup)
+
+'''
+#cough yet to be implemented
 @dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
@@ -320,7 +371,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add("yes", "no")
         await message.reply("Do you have a dry cough?", reply_markup=markup)
-"""
+'''
 
 @dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.dry_cough)
 async def process_dry_cough_invalid(message: types.Message):
@@ -471,6 +522,94 @@ async def process_others(message: types.Message, state: FSMContext):
 #    with open(filepath, 'w') as outfile:
 #        json.dump(data_object, outfile)
 #     data_object_json = json.dumps(data_object)
+
+SYSTEM_PATH = 'C:/Users/Guillem/Desktop/Bot Telegram/Prueba' # path on system to save audio files
+
+def is_cough(file_id):
+    url = 'https://api.telegram.org/bot{}/getFile?file_id={}'.format(API_TOKEN, file_id)
+    r = requests.get(url)
+    file_path = r.json()["result"]["file_path"]
+    url = 'https://api.telegram.org/file/bot{}/{}'.format(API_TOKEN, file_path)
+    r = requests.get(url)  # Descargamos el archivo de audio
+
+    file_dir = SYSTEM_PATH
+    os.makedirs(file_dir, exist_ok=True)
+
+    filename = './Prueba/test.oga'
+    with open(filename, 'wb') as f:
+        f.write(r.content)
+    wav_file_path = convert_to_wav(filename)
+    top_labels = classifier.classify(wav_file_path)
+    accepted = "Cough" in top_labels
+    print("TOP LABELS: ", top_labels)
+    return accepted, wav_file_path
+
+
+def convert_to_wav(input_file):
+    file_dir, filename = os.path.split(os.path.abspath(input_file))
+    basename = filename.split('.')[0]
+    #output_file = os.path.join(file_dir, f"{basename}.wav")
+    output_file = './Prueba/test.wav'
+    os.system(f'ffmpeg -y -i {input_file} {output_file}')
+    return output_file
+
+
+file_dir, filename = os.path.split(os.path.abspath('file_2.oga'))
+basename = filename.split('.')[0]
+#output_file = os.path.join(file_dir, f"{basename}.wav")
+output_file = './Prueba/test.wav'
+os.system('ffmpeg -y -i {} {}'.format('file_2.oga', output_file))
+
+# ffmpeg -y -i 'file_2.oga' './Prueba/test.wav'
+
+
+
+'''
+WE LOAD THE TENSORFLOW TRAINED MODEL CALLED YAMNET
+'''
+
+import tensorflow as tf
+import tensorflow_hub as hub
+import numpy as np
+import csv
+import io
+
+import matplotlib.pyplot as plt
+from IPython.display import Audio
+from scipy.io import wavfile
+from scipy import signal
+
+# Load the model.
+model = hub.load('https://tfhub.dev/google/yamnet/1')
+
+def class_names_from_csv(class_map_csv_text):
+  """Returns list of class names corresponding to score vector."""
+  class_names = []
+  with open(class_map_csv_text, newline='\r\n') as csvfile:
+      reader = csv.DictReader(csvfile)
+      for row in reader:
+          class_names.append(row['display_name'])
+
+  return class_names
+
+class_map_path = model.class_map_path().numpy()
+class_names = class_names_from_csv(class_map_path)
+
+
+def ensure_sample_rate(original_sample_rate, waveform,desired_sample_rate=16000):
+    """Resample waveform if required."""
+    if original_sample_rate != desired_sample_rate:
+        desired_length = int(round(float(len(waveform)) / original_sample_rate * desired_sample_rate))
+        waveform = signal.resample(waveform, desired_length)
+
+    return desired_sample_rate, waveform
+
+
+'''
+END OF YAMNET IMPORTATION
+'''
+
+
 
 
 if __name__ == '__main__':
