@@ -311,37 +311,24 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         "Please, give me a second while I annalyze you cough..."
     )
 
-    wav_file_name = '{}'.format(message.voice.file_id)
-    sample_rate, wav_data = wavfile.read('{}'.format(wav_file_name))
-    sample_rate, wav_data = ensure_sample_rate(sample_rate, wav_data)
+    accepted = is_cough(message.voice.file_id)
 
-    waveform = wav_data / tf.int16.max
-    waveform2 = np.mean(waveform, axis = 1)
-
-    # Run the model, check the output.
-    scores, embeddings, spectrogram = model(waveform2)
-
-    scores_np = scores.numpy()
-    spectrogram_np = spectrogram.numpy()
-    infered_class = class_names[scores_np.mean(axis=0).argmax()]
-
-    if infered_class != 'cough':
+    if accepted == False:
         return await bot.send_message(
             message.chat.id,
             "Sorry, we didn't recognize this as cough. Please, cough again"
-        )
+         )
 
     else:
-        return await bot.send_message(
-            message.chat.id,
-            "Thanks for your cough"
-        )
+         return await bot.send_message(
+             message.chat.id,
+             "Thanks for your cough"
+         )
 
-
-        await Form.next()
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add("yes", "no")
-        await message.reply("Do you have a dry cough?", reply_markup=markup)
+         await Form.next()
+         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+         markup.add("yes", "no")
+         await message.reply("Do you have a dry cough?", reply_markup=markup)
 
 '''
 #cough yet to be implemented
@@ -523,7 +510,6 @@ async def process_others(message: types.Message, state: FSMContext):
 #        json.dump(data_object, outfile)
 #     data_object_json = json.dumps(data_object)
 
-SYSTEM_PATH = 'C:/Users/Guillem/Desktop/Bot Telegram/Prueba' # path on system to save audio files
 
 def is_cough(file_id):
     url = 'https://api.telegram.org/bot{}/getFile?file_id={}'.format(API_TOKEN, file_id)
@@ -532,36 +518,47 @@ def is_cough(file_id):
     url = 'https://api.telegram.org/file/bot{}/{}'.format(API_TOKEN, file_path)
     r = requests.get(url)  # Descargamos el archivo de audio
 
-    file_dir = SYSTEM_PATH
-    os.makedirs(file_dir, exist_ok=True)
+    #file_dir = SYSTEM_PATH
+    #os.makedirs(file_dir, exist_ok=True)
 
-    filename = './Prueba/test.oga'
+    filename = 'C:/Users/Guillem/Desktop/Bot_Telegram/Prueba/{}.oga'.format(file_id)
     with open(filename, 'wb') as f:
         f.write(r.content)
     wav_file_path = convert_to_wav(filename)
-    top_labels = classifier.classify(wav_file_path)
-    accepted = "Cough" in top_labels
-    print("TOP LABELS: ", top_labels)
-    return accepted, wav_file_path
+    accepted = yamnet_classifier(wav_file_path)
+
+    return print(accepted)
 
 
 def convert_to_wav(input_file):
     file_dir, filename = os.path.split(os.path.abspath(input_file))
+    input_file_path = os.path.abspath(input_file)
     basename = filename.split('.')[0]
-    #output_file = os.path.join(file_dir, f"{basename}.wav")
-    output_file = './Prueba/test.wav'
-    os.system(f'ffmpeg -y -i {input_file} {output_file}')
+    output_file = os.path.join(file_dir, '{}.wav'.format(basename))
+    #output_file = 'C:/Users/Guillem/Desktop/Bot Telegram/Prueba/test.wav'
+    ffmpeg_instruction = 'ffmpeg -y -i {} {}'.format(input_file_path,output_file)
+    os.system(ffmpeg_instruction)
     return output_file
 
 
-file_dir, filename = os.path.split(os.path.abspath('file_2.oga'))
-basename = filename.split('.')[0]
-#output_file = os.path.join(file_dir, f"{basename}.wav")
-output_file = './Prueba/test.wav'
-os.system('ffmpeg -y -i {} {}'.format('file_2.oga', output_file))
+def yamnet_classifier(wav_file_path):
+    sample_rate, wav_data = wavfile.read(wav_file_path)
+    sample_rate, wav_data = ensure_sample_rate(sample_rate, wav_data)
 
-# ffmpeg -y -i 'file_2.oga' './Prueba/test.wav'
+    waveform = wav_data / tf.int16.max
+    #waveform2 = np.mean(waveform, axis = 1)   # If the audio is stereo and not mono
 
+    # Run the model, check the output.
+    scores, embeddings, spectrogram = model(waveform)
+
+    scores_np = scores.numpy()
+    spectrogram_np = spectrogram.numpy()
+    infered_class = class_names[scores_np.mean(axis=0).argmax()]
+
+    if infered_class == 'Cough':
+        return True
+    else:
+        False
 
 
 '''
@@ -614,3 +611,6 @@ END OF YAMNET IMPORTATION
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
+
+
+yamnet_classifier('C:/Users/Guillem/Desktop/Bot_Telegram/Prueba/AwACAgQAAxkBAAIFFF-j6-hcd2j7U6XT6SVmkFtWvdcxAAJbBwACwN0gUaBDaGr5tGF0HgQ.wav')
