@@ -8,10 +8,10 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
+from pyAudioAnalysis import audioTrainTest as aT
 import os
 import json
-#from scipy.io import wavfile
-import requests
+
 
 logging.basicConfig(level=logging.INFO)
 API_TOKEN = '1370389029:AAFIaYXbnHLCkNYIb5azZ2iOg5BWoRdOUC8'
@@ -341,17 +341,28 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
     await bot.send_message(message.chat.id,"Please, give me a second while I annalyze you cough...")
 
-    accepted = is_cough(message.voice.file_id)
+    file_id = message.voice.file_id
+    file = await bot.get_file(file_id)
+    file_path_URL = file.file_path
+    file_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Prueba/{}.oga'.format(file_id) #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
+    await bot.download_file(file_path_URL, file_path)
 
-    if accepted == False:
-        return await bot.send_message(message.chat.id,"Sorry, we didn't recognize this as cough. Please, cough again")
+    #accepted = is_cough(message.voice.file_id)
+    accepted = is_cough(file_path)
 
-    else:
+    if (accepted[0] == False and accepted[1]<=0.5):
+        return await bot.send_message(message.chat.id,"Sorry, we didn't recognize this as cough. Please, cough again (prob = {}%)".format(round(accepted[1], 2)))
+
+    elif (accepted[0] == True and accepted[1]>0.5):
         await bot.send_message(message.chat.id,"Thanks for your cough")
         await Form.next()
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add("yes", "no")
         return await message.reply("Do you have a dry cough?", reply_markup=markup)
+
+    else:
+        return await bot.send_message(message.chat.id,"Please cough again")
+
 
 
 """
@@ -533,8 +544,36 @@ async def process_others(message: types.Message, state: FSMContext):
 #    with open(filepath, 'w') as outfile:
 #        json.dump(data_object, outfile)
 #     data_object_json = json.dumps(data_object)
+'''
+def is_cough(file_id):
+    file = await bot.get_file(file_id)
+    file_path_URL = file.file_path
+    file_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Prueba/{}.oga'.format(file_id)
+    await bot.download_file(file_path_URL, file_path)
 
+    wav_file_path = convert_to_wav(file_path)
+    accepted = yamnet_classifier(wav_file_path)
 
+    return accepted
+'''
+
+'''
+def convert_to_wav(input_file):
+
+    from pydub import AudioSegment
+
+    file_dir, filename = os.path.split(os.path.abspath(input_file))
+    input_file_path = os.path.abspath(input_file)
+    basename = filename.split('.')[0]
+    output_file = os.path.join(file_dir, '{}.wav'.format(basename))
+
+    sound = AudioSegment.from_ogg(input_file)
+    sound.export(output_file, format="wav")
+
+    return output_file
+'''
+
+'''
 def is_cough(file_id):
     url = 'https://api.telegram.org/bot{}/getFile?file_id={}'.format(API_TOKEN, file_id)
     r = requests.get(url)
@@ -563,9 +602,30 @@ def convert_to_wav(input_file):
     ffmpeg_instruction = 'ffmpeg -y -i {} {}'.format(input_file_path,output_file)
     os.system(ffmpeg_instruction)
     return output_file
+'''
 
 
-def yamnet_classifier(wav_file_path):
+def is_cough(file_path):
+    wav_file_path = convert_to_wav(file_path)
+    yamnet_veredict = yamnet_classifier(wav_file_path)
+    svm_veredict = aT.file_classification(wav_file_path, "cough_classifier/svm_cough", "svm")
+    svm_predict = svm_veredict[1][0]
+
+    accepted = [yamnet_veredict, svm_predict]
+    return accepted
+
+def convert_to_wav(input_file):
+    file_dir, filename = os.path.split(os.path.abspath(input_file))
+    input_file_path = os.path.abspath(input_file)
+    basename = filename.split('.')[0]
+    output_file = os.path.join(file_dir, '{}.wav'.format(basename))
+
+    ffmpeg_instruction = 'ffmpeg -y -i {} {}'.format(input_file_path,output_file)
+    os.system(ffmpeg_instruction)
+    return output_file
+
+
+def yamnet_classifier(wav_file_path, visualization = False):
     sample_rate, wav_data = wavfile.read(wav_file_path)
     sample_rate, wav_data = ensure_sample_rate(sample_rate, wav_data)
 
@@ -578,6 +638,20 @@ def yamnet_classifier(wav_file_path):
     scores_np = scores.numpy()
     spectrogram_np = spectrogram.numpy()
     infered_class = class_names[scores_np.mean(axis=0).argmax()]
+
+    if (visualization):
+
+        plt.figure(figsize=(10, 6))
+
+        # Plot the waveform.
+        plt.subplot(2, 1, 1)
+        plt.plot(waveform)
+        plt.xlim([0, len(waveform)])
+
+        # Plot the log-mel spectrogram (returned by the model).
+        plt.subplot(2, 1, 2)
+        plt.imshow(spectrogram_np.T, aspect='auto', interpolation='nearest', origin='lower')
+
 
     if infered_class == 'Cough':
         return True
