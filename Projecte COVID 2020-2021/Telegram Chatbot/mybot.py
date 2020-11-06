@@ -8,11 +8,14 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
+<<<<<<< HEAD
 from pydub import AudioSegment
+=======
+from pyAudioAnalysis import audioTrainTest as aT
+>>>>>>> f100371b2e13c59e1fb6d1a6b87ac1836f395796
 import os
 import json
-#from scipy.io import wavfile
-import requests
+
 
 logging.basicConfig(level=logging.INFO)
 API_TOKEN = '1370389029:AAFIaYXbnHLCkNYIb5azZ2iOg5BWoRdOUC8'
@@ -196,7 +199,7 @@ async def process_username(message: types.Message, state: FSMContext):
         data['username'] = message.text
 
     await Form.next()
-    await message.reply("How old are you?")
+    await message.reply(questions[lang]["q7"])
 
 
 # Check age. Age has to be a digit
@@ -205,7 +208,7 @@ async def process_age_invalid(message: types.Message):
     """
     If age is invalid
     """
-    return await message.reply("Age has to be a number.\nHow old are you? (digits only)")
+    return await message.reply(questions[lang]["q8"])
 
 @dp.message_handler(lambda message: message.text.isdigit(), state=Form.age)
 async def process_age(message: types.Message, state: FSMContext):
@@ -215,17 +218,17 @@ async def process_age(message: types.Message, state: FSMContext):
 
     # Configure ReplyKeyboardMarkup
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("male", "female")
-    markup.add("other")
+    markup.add(questions[lang]["q9"], questions[lang]["q10"])
+    markup.add(questions[lang]["q11"])
 
     await message.reply("What is your gender?", reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text not in ["male", "female", "other"], state=Form.gender)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q9"], questions[lang]["q10"], questions[lang]["q11"]], state=Form.gender)
 async def process_gender_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
     """
-    return await message.reply("Bad gender name. Choose your gender from the keyboard.")
+    return await message.reply(questions[lang]["q12"])
 
 @dp.message_handler(state=Form.gender)
 async def process_gender(message: types.Message, state: FSMContext):
@@ -233,12 +236,12 @@ async def process_gender(message: types.Message, state: FSMContext):
         data['gender'] = message.text
         #markup = types.ReplyKeyboardRemove()
 
-        location_keyboard  = types.KeyboardButton(text="Send Current Location", request_location=True)
+        location_keyboard  = types.KeyboardButton(text=questions[lang]["q13"], request_location=True)
         reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
 
     await Form.next()
     #await message.reply("In which country are you right now?", reply_markup=markup)
-    return await message.reply("Would you mind to send us your current location?\n\nPlease activate location on your device.", reply_markup=reply_markup)
+    return await message.reply(questions[lang]["q14"], reply_markup=reply_markup)
 
 
 # Message handler if a non location message is received
@@ -248,10 +251,10 @@ async def process_location_invalid(message: types.Message):
     Filter.
     """
 
-    location_keyboard  = types.KeyboardButton(text="Send Current Location", request_location=True)
+    location_keyboard  = types.KeyboardButton(text=questions[lang]["q13"], request_location=True)
     reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
 
-    return await message.reply("Please activate location on your device and send it to us.", reply_markup=reply_markup)
+    return await message.reply(questions[lang]["q15"], reply_markup=reply_markup)
 
 
 @dp.message_handler(state=Form.location, content_types=['location'])
@@ -264,10 +267,10 @@ async def process_location(message, state: FSMContext):
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("positive")
-    markup.add("negative")
-    markup.add("unknown")
-    await message.reply("Do you have Covid-19?", reply_markup=markup)
+    markup.add(questions[lang]["q16"])
+    markup.add(questions[lang]["q17"])
+    markup.add(questions[lang]["q18"])
+    await message.reply(questions[lang]["q19"], reply_markup=markup)
 
 '''
 @dp.message_handler(lambda message: not message.text.isalpha(), state=Form.country)
@@ -307,12 +310,12 @@ async def process_postcode(message: types.Message, state: FSMContext):
     await message.reply("Do you have Covid-19?", reply_markup=markup)
 '''
 
-@dp.message_handler(lambda message: message.text not in ["positive", "negative", "unknown"], state=Form.has_corona)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q16"], questions[lang]["q17"], questions[lang]["q18"]], state=Form.has_corona)
 async def process_has_corona_invalid(message: types.Message):
     """
     Filter.
     """
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 @dp.message_handler(state=Form.has_corona)
 async def process_has_corona(message: types.Message, state: FSMContext):
@@ -326,7 +329,7 @@ async def process_has_corona(message: types.Message, state: FSMContext):
     #markup.add("yes", "no")
     #await message.reply("Thank you. Now let us ask you some questions about your symptoms."
                         #"Do you have a dry cough?", reply_markup=markup)
-    await message.reply("Could you send us a recording of your cough?", reply_markup=markup)
+    await message.reply(questions[lang]["q20"], reply_markup=markup)
 
 
 # Message handler if a non voice message is received
@@ -335,25 +338,36 @@ async def process_cough_invalid(message: types.Message):
     """
     Filter.
     """
-    return await message.reply("Please send us a recording of your cough.")
+    return await message.reply(questions[lang]["q21"])
 
 
 @dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
-    await bot.send_message(message.chat.id,"Please, give me a second while I annalyze you cough...")
+    await bot.send_message(message.chat.id,questions[lang]["q22"])
 
-    accepted = is_cough(message.voice.file_id)
+    file_id = message.voice.file_id
+    file = await bot.get_file(file_id)
+    file_path_URL = file.file_path
+    file_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Prueba/{}.oga'.format(file_id) #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
+    await bot.download_file(file_path_URL, file_path)
 
-    if accepted == False:
-        return await bot.send_message(message.chat.id,"Sorry, we didn't recognize this as cough. Please, cough again")
+    #accepted = is_cough(message.voice.file_id)
+    accepted = is_cough(file_path)
 
-    else:
+    if (accepted[0] == False and accepted[1]<=0.5):
+        return await bot.send_message(message.chat.id,"Sorry, we didn't recognize this as cough. Please, cough again (prob = {}%)".format(round(accepted[1], 2)))
+
+    elif (accepted[0] == True and accepted[1]>0.5):
         await bot.send_message(message.chat.id,"Thanks for your cough")
         await Form.next()
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add("yes", "no")
         return await message.reply("Do you have a dry cough?", reply_markup=markup)
+
+    else:
+        return await bot.send_message(message.chat.id,"Please cough again")
+
 
 
 """
@@ -535,8 +549,36 @@ async def process_others(message: types.Message, state: FSMContext):
 #    with open(filepath, 'w') as outfile:
 #        json.dump(data_object, outfile)
 #     data_object_json = json.dumps(data_object)
+'''
+def is_cough(file_id):
+    file = await bot.get_file(file_id)
+    file_path_URL = file.file_path
+    file_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Prueba/{}.oga'.format(file_id)
+    await bot.download_file(file_path_URL, file_path)
 
+    wav_file_path = convert_to_wav(file_path)
+    accepted = yamnet_classifier(wav_file_path)
 
+    return accepted
+'''
+
+'''
+def convert_to_wav(input_file):
+
+    from pydub import AudioSegment
+
+    file_dir, filename = os.path.split(os.path.abspath(input_file))
+    input_file_path = os.path.abspath(input_file)
+    basename = filename.split('.')[0]
+    output_file = os.path.join(file_dir, '{}.wav'.format(basename))
+
+    sound = AudioSegment.from_ogg(input_file)
+    sound.export(output_file, format="wav")
+
+    return output_file
+'''
+
+'''
 def is_cough(file_id):
     url = 'https://api.telegram.org/bot{}/getFile?file_id={}'.format(API_TOKEN, file_id)
     r = requests.get(url)
@@ -565,9 +607,30 @@ def convert_to_wav(input_file):
     ffmpeg_instruction = 'ffmpeg -y -i {} {}'.format(input_file_path,output_file)
     os.system(ffmpeg_instruction)
     return output_file
+'''
 
 
-def yamnet_classifier(wav_file_path):
+def is_cough(file_path):
+    wav_file_path = convert_to_wav(file_path)
+    yamnet_veredict = yamnet_classifier(wav_file_path)
+    svm_veredict = aT.file_classification(wav_file_path, "cough_classifier/svm_cough", "svm")
+    svm_predict = svm_veredict[1][0]
+
+    accepted = [yamnet_veredict, svm_predict]
+    return accepted
+
+def convert_to_wav(input_file):
+    file_dir, filename = os.path.split(os.path.abspath(input_file))
+    input_file_path = os.path.abspath(input_file)
+    basename = filename.split('.')[0]
+    output_file = os.path.join(file_dir, '{}.wav'.format(basename))
+
+    ffmpeg_instruction = 'ffmpeg -y -i {} {}'.format(input_file_path,output_file)
+    os.system(ffmpeg_instruction)
+    return output_file
+
+
+def yamnet_classifier(wav_file_path, visualization = False):
     sample_rate, wav_data = wavfile.read(wav_file_path)
     sample_rate, wav_data = ensure_sample_rate(sample_rate, wav_data)
 
@@ -580,6 +643,20 @@ def yamnet_classifier(wav_file_path):
     scores_np = scores.numpy()
     spectrogram_np = spectrogram.numpy()
     infered_class = class_names[scores_np.mean(axis=0).argmax()]
+
+    if (visualization):
+
+        plt.figure(figsize=(10, 6))
+
+        # Plot the waveform.
+        plt.subplot(2, 1, 1)
+        plt.plot(waveform)
+        plt.xlim([0, len(waveform)])
+
+        # Plot the log-mel spectrogram (returned by the model).
+        plt.subplot(2, 1, 2)
+        plt.imshow(spectrogram_np.T, aspect='auto', interpolation='nearest', origin='lower')
+
 
     if infered_class == 'Cough':
         return True
