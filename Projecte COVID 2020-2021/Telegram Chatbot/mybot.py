@@ -320,21 +320,19 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
          )
 
     else:
-         return await bot.send_message(
-             message.chat.id,
-             "Thanks for your cough"
-         )
+        #return await bot.send_message(message.chat.id,"Thanks for your cough")
+        await bot.send_message(message.chat.id,"Thanks for your cough")
+        await Form.next()
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add("yes", "no")
+        await message.reply("Do you have a dry cough?", reply_markup=markup)
 
-         await Form.next()
-         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-         markup.add("yes", "no")
-         await message.reply("Do you have a dry cough?", reply_markup=markup)
 
-'''
-#cough yet to be implemented
+"""
+cough yet to be implemented
 @dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
-    # Update state and data
+    Update state and data
     await bot.send_message(
         message.chat.id,
         "Please, give me a second while I annalyze you cough..."
@@ -358,7 +356,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add("yes", "no")
         await message.reply("Do you have a dry cough?", reply_markup=markup)
-'''
+"""
 
 @dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.dry_cough)
 async def process_dry_cough_invalid(message: types.Message):
@@ -611,6 +609,3 @@ END OF YAMNET IMPORTATION
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
-
-
-yamnet_classifier('C:/Users/Guillem/Desktop/Bot_Telegram/Prueba/AwACAgQAAxkBAAIFFF-j6-hcd2j7U6XT6SVmkFtWvdcxAAJbBwACwN0gUaBDaGr5tGF0HgQ.wav')
