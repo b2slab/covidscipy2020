@@ -8,11 +8,11 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
-<<<<<<< HEAD
+#<<<<<<< HEAD
 from pydub import AudioSegment
-=======
+#=======
 from pyAudioAnalysis import audioTrainTest as aT
->>>>>>> f100371b2e13c59e1fb6d1a6b87ac1836f395796
+#>>>>>>> f100371b2e13c59e1fb6d1a6b87ac1836f395796
 import os
 import json
 
@@ -24,6 +24,90 @@ save_path = '/home/dani/covidscipy2020/data/'
 # For example use simple MemoryStorage for Dispatcher.
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
+#language_text
+
+questions = {
+    "en":{
+        "q1":"Hi there! Please, enter your name.",
+        "q2":"Cancelled",
+        "q3":"Allright we'll stop here\n"
+            "Please, give me a second while I upload the data.",
+        "q4":"That's it!",
+        "q5":"Process stopped",
+        "q6":"Username is invalid. Please enter a correct username.",
+        "q7":"How old are you?",
+        "q8":"Age has to be a number.\nHow old are you? (digits only)",
+        "q9":"male",
+        "q10":"female",
+        "q11":"other",
+        "q12":"Inadequate answer. Please choose one of the provided options",
+        "q13":"Send Current Location",
+        "q14":"Would you mind to send us your current location?\n\nPlease activate location on your device.",
+        "q15":"Please activate location on your device and send it to us.",
+        "q16":"positive",
+        "q17":"negative",
+        "q18":"unknown",
+        "q19":"Do you have Covid-19?",
+        "q20":"Could you send us a recording of your cough?",
+        "q21":"Just use the audio message option from telegram and cough to the microphone.",
+        "q22":"Please, give me a second while I annalyze you cough...",
+        "q23":"Sorry, we didn't recognize this as cough. Please, cough again",
+        "q24":"Thanks for your cough",
+        "q25":"Do you have dry cough?",
+        "q26":"yes",
+        "q27":"no",
+        "q28":"Do you have fever?",
+        "q29":"Do you feel more tired than usual?",
+        "q30":"Do you feel that you have lost/diminished your sense of smell?",
+        "q31":"Do you have a headache?",
+        "q32":"Do you have chest pain or pressure?",
+        "q33":"Do you have difficulty breathing or shortness of breath?",
+        "q34":"Do you have any other information you would like to add?",
+        "q35":"Thank you very much for you collaboration!\n"
+            "Please, give me a second while I upload the data."
+
+    },
+    "es":{
+        "q1":"Hola!, Por favor, introduzca su usuario.",
+        "q2":"Cancelado",
+        "q3":"Esta bien, lo dejamos aquí.\n"
+            "Deme un segundo mientras subo los datos.",
+        "q4":"Ya esta!",
+        "q5":"Proceso detenido",
+        "q6":"Usuario invalido. Por favor introduzca un usuario correcto.",
+        "q7":"Cuantos años tiene?",
+        "q8":"Su edad debe ser un número.\nCuantos años tiene? (digitos)",
+        "q9":"hombre",
+        "q10":"mujer",
+        "q11":"otro",
+        "q12":"Respuesta inadecuada. Por favor elija entre las opciones del teclado",
+        "q13":"Envie su ubicación",
+        "q14":"Le importaria enviarnos su ubicación?\Por favor active la ubicación de su dispositivo",
+        "q15":"Por favor, active la ubicación en su dispositivo y envíenosla",
+        "q16":"positivo",
+        "q17":"negativo",
+        "q18":"desconocido",
+        "q19":"¿Tiene usted covid-19?",
+        "q20":"¿Podria enviarnos una grabación de audio de su tos?",
+        "q21":"Basta con enviar una nota de audio de su tos.",
+        "q22":"Analizando audio...",
+        "q23":"Lo sentimos, no hemos reconocido su audio como tos. ¿Podria volverlo a intentar?",
+        "q24":"Audio aceptado, gracias por su tos.",
+        "q25":"¿Padece usted tos seca?",
+        "q26":"sí",
+        "q27":"no",
+        "q28":"¿Padece usted fiebre?",
+        "q29":"¿Se siente más cansado de lo normal?",
+        "q30":"¿Siente un sentido del olfato reducido?",
+        "q31":"¿Padece dolor de cabeza?",
+        "q32":"¿Padece dolor o presión en el pecho?",
+        "q33":"¿Tiene dificultades para respirar?",
+        "q34":"¿Hay algo más que quiera añadir?",
+        "q35":"¡Muchas gracias por su colaboración!\n"
+            "Aguarde un segundo mientras se guardan los datos."
+
+    }
+}
 
 # States
 class Form(StatesGroup):
@@ -117,13 +201,14 @@ DATABASE CONNECTED
 '''
 START CHATBOT
 '''
-
+global lang
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
     """
     Conversation's entry point
     """
     # Set state and language
+    global lang
     locale = message.from_user.locale
     lang = locale.language
     await Form.username.set()
@@ -356,17 +441,17 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     accepted = is_cough(file_path)
 
     if (accepted[0] == False and accepted[1]<=0.5):
-        return await bot.send_message(message.chat.id,"Sorry, we didn't recognize this as cough. Please, cough again (prob = {}%)".format(round(accepted[1], 2)))
+        return await bot.send_message(message.chat.id,questions[lang]["q23"])
 
     elif (accepted[0] == True and accepted[1]>0.5):
-        await bot.send_message(message.chat.id,"Thanks for your cough")
+        await bot.send_message(message.chat.id,questions[lang]["q24"])
         await Form.next()
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add("yes", "no")
-        return await message.reply("Do you have a dry cough?", reply_markup=markup)
+        markup.add(questions[lang]["q26"], questions[lang]["q27"])
+        return await message.reply(questions[lang]["q25"], reply_markup=markup)
 
     else:
-        return await bot.send_message(message.chat.id,"Please cough again")
+        return await bot.send_message(message.chat.id,message.chat.id,questions[lang]["q23"])
 
 
 
@@ -400,111 +485,111 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         await message.reply("Do you have a dry cough?", reply_markup=markup)
 """
 
-@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.dry_cough)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.dry_cough)
 async def process_dry_cough_invalid(message: types.Message):
     """
     Text filter.
     """
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 
 @dp.message_handler(state=Form.dry_cough)
 async def process_dry_cough(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms'] = {}
-        data['symptoms']['dry cough'] = (message.text == "yes")
+        data['symptoms']['dry cough'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("yes", "no")
-    await message.reply("Do you have fever?", reply_markup=markup)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    await message.reply(questions[lang]["q28"], reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.fever)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.fever)
 async def process_fever_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
     """
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 
 @dp.message_handler(state=Form.fever)
 async def process_fever(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['fever'] = (message.text == "yes")
+        data['symptoms']['fever'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
-    await message.reply("Do you feel more tired than usual?")
+    await message.reply(questions[lang]["q29"])
 
 
-@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.tiredness)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.tiredness)
 async def process_tiredness_invalid(message: types.Message):
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 
 @dp.message_handler(state=Form.tiredness)
 async def process_tiredness(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['tiredness'] = (message.text == "yes")
+        data['symptoms']['tiredness'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
-    await message.reply("Do you feel that you have lost/diminished your sense of smell?")
+    await message.reply(questions[lang]["q30"])
 
 
-@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.smell_loss)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.smell_loss)
 async def process_loss_smell_invalid(message: types.Message):
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 
 @dp.message_handler(state=Form.smell_loss)
 async def process_loss_smell(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['loss of taste or smell'] = (message.text == "yes")
+        data['symptoms']['loss of taste or smell'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
-    await message.reply("Do you have a headache?")
+    await message.reply(questions[lang]["q31"])
 
 
-@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.head_ache)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.head_ache)
 async def process_headache_invalid(message: types.Message):
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 
 @dp.message_handler(state=Form.head_ache)
 async def process_headache(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['headache'] = (message.text == "yes")
+        data['symptoms']['headache'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
-    await message.reply("Do you have difficulty breathing or shortness of breath?")
+    await message.reply(questions[lang]["q33"])
 
 
-@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.shortness_breath)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.shortness_breath)
 async def process_shortness_breath_invalid(message: types.Message):
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 
 @dp.message_handler(state=Form.shortness_breath)
 async def process_shortness_breath(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['difficulty breathing or shortness of breath'] = (message.text == "yes")
+        data['symptoms']['difficulty breathing or shortness of breath'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
-    await message.reply("Do you have chest pain or pressure?")
+    await message.reply(questions[lang]["q32"])
 
 
-@dp.message_handler(lambda message: message.text not in ["yes", "no"], state=Form.chest_pain)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.chest_pain)
 async def process_chest_pain_invalid(message: types.Message):
-    return await message.reply("Bad answer. Please, choose between the keyboard options.")
+    return await message.reply(questions[lang]["q12"])
 
 
 @dp.message_handler(state=Form.chest_pain)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['symptoms']['chest pain or pressure'] = (message.text == "yes")
+        data['symptoms']['chest pain or pressure'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardRemove()
 
     await Form.next()
-    await message.reply("Do you have any other information you would like to add?", reply_markup=markup)
+    await message.reply(questions[lang]["q34"], reply_markup=markup)
 
 
 @dp.message_handler(state=Form.others)
@@ -514,8 +599,7 @@ async def process_others(message: types.Message, state: FSMContext):
 
         await bot.send_message(
             message.chat.id,
-            "Thank you very much for you collaboration!\n"
-            "Please, give me a second while I upload the data."
+            questions[lang]["q35"]
         )
         #save_features(data.as_dict())
 
@@ -533,7 +617,7 @@ async def process_others(message: types.Message, state: FSMContext):
 
         await bot.send_message(
             message.chat.id,
-            "That's it!"
+            questions[lang]["q4"]
         )
 
 
