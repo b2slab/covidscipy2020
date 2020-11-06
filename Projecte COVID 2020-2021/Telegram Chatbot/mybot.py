@@ -175,6 +175,16 @@ async def stop_handler(message: types.Message, state: FSMContext):
     await state.finish()
     await message.reply('Process stopped.', reply_markup=types.ReplyKeyboardRemove())
 
+
+# Check username.
+@dp.message_handler(lambda message: not message.text.isalpha(), state=Form.username)
+async def process_user_invalid(message: types.Message):
+    """
+    If user is invalid
+    """
+    return await message.reply("Username is invalid. Please enter a correct username.")
+
+
 @dp.message_handler(state=Form.username)
 async def process_username(message: types.Message, state: FSMContext):
     """
@@ -187,13 +197,13 @@ async def process_username(message: types.Message, state: FSMContext):
     await message.reply("How old are you?")
 
 
-# Check age. Age gotta be digit
+# Check age. Age has to be a digit
 @dp.message_handler(lambda message: not message.text.isdigit(), state=Form.age)
 async def process_age_invalid(message: types.Message):
     """
     If age is invalid
     """
-    return await message.reply("Age gotta be a number.\nHow old are you? (digits only)")
+    return await message.reply("Age has to be a number.\nHow old are you? (digits only)")
 
 @dp.message_handler(lambda message: message.text.isdigit(), state=Form.age)
 async def process_age(message: types.Message, state: FSMContext):
@@ -226,7 +236,21 @@ async def process_gender(message: types.Message, state: FSMContext):
 
     await Form.next()
     #await message.reply("In which country are you right now?", reply_markup=markup)
-    await message.reply("Would you mind to send us your current location?", reply_markup=reply_markup)
+    return await message.reply("Would you mind to send us your current location?\n\nPlease activate location on your device.", reply_markup=reply_markup)
+
+
+# Message handler if a non location message is received
+@dp.message_handler(lambda message: types.message.ContentType not in ['location'], state=Form.location)
+async def process_location_invalid(message: types.Message):
+    """
+    Filter.
+    """
+
+    location_keyboard  = types.KeyboardButton(text="Send Current Location", request_location=True)
+    reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
+
+    return await message.reply("Please activate location on your device and send it to us.", reply_markup=reply_markup)
+
 
 @dp.message_handler(state=Form.location, content_types=['location'])
 async def process_location(message, state: FSMContext):
@@ -302,30 +326,32 @@ async def process_has_corona(message: types.Message, state: FSMContext):
                         #"Do you have a dry cough?", reply_markup=markup)
     await message.reply("Could you send us a recording of your cough?", reply_markup=markup)
 
-#cough yet to be implemented
+
+# Message handler if a non voice message is received
+@dp.message_handler(lambda message: types.message.ContentType not in ['voice'], state=Form.cough)
+async def process_cough_invalid(message: types.Message):
+    """
+    Filter.
+    """
+    return await message.reply("Please send us a recording of your cough.")
+
+
 @dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
-    await bot.send_message(
-        message.chat.id,
-        "Please, give me a second while I annalyze you cough..."
-    )
+    await bot.send_message(message.chat.id,"Please, give me a second while I annalyze you cough...")
 
     accepted = is_cough(message.voice.file_id)
 
     if accepted == False:
-        return await bot.send_message(
-            message.chat.id,
-            "Sorry, we didn't recognize this as cough. Please, cough again"
-         )
+        return await bot.send_message(message.chat.id,"Sorry, we didn't recognize this as cough. Please, cough again")
 
     else:
-        #return await bot.send_message(message.chat.id,"Thanks for your cough")
         await bot.send_message(message.chat.id,"Thanks for your cough")
         await Form.next()
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add("yes", "no")
-        await message.reply("Do you have a dry cough?", reply_markup=markup)
+        return await message.reply("Do you have a dry cough?", reply_markup=markup)
 
 
 """
@@ -525,7 +551,7 @@ def is_cough(file_id):
     wav_file_path = convert_to_wav(filename)
     accepted = yamnet_classifier(wav_file_path)
 
-    return print(accepted)
+    return accepted
 
 
 def convert_to_wav(input_file):
@@ -556,7 +582,8 @@ def yamnet_classifier(wav_file_path):
     if infered_class == 'Cough':
         return True
     else:
-        False
+        return False
+
 
 
 '''
