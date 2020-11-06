@@ -8,6 +8,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
+from pydub import AudioSegment
 import os
 import json
 #from scipy.io import wavfile
@@ -119,9 +120,11 @@ async def cmd_start(message: types.Message):
     """
     Conversation's entry point
     """
-    # Set state
+    # Set state and language
+    locale = message.from_user.locale
+    lang = locale.language
     await Form.username.set()
-    await message.reply("Hi there! Please, enter your username.")
+    await message.reply(questions[lang]["q1"])
 
 
 # You can use state '*' if you need to handle all states
@@ -137,7 +140,7 @@ async def cancel_handler(message: types.Message, state: FSMContext):
 
     await state.finish()
     # And remove keyboard (just in case)
-    await message.reply('Cancelled.', reply_markup=types.ReplyKeyboardRemove())
+    await message.reply(questions[lang]["q2"], reply_markup=types.ReplyKeyboardRemove())
 
 @dp.message_handler(state='*', commands='stop')
 @dp.message_handler(Text(equals='stop', ignore_case=True), state='*')
@@ -153,8 +156,7 @@ async def stop_handler(message: types.Message, state: FSMContext):
 
         await bot.send_message(
             message.chat.id,
-            "Allright we'll stop here\n"
-            "Please, give me a second while I upload the data."
+            questions[lang]["q3"]
         )
         #save_features(data.as_dict())
 
@@ -170,10 +172,10 @@ async def stop_handler(message: types.Message, state: FSMContext):
 
         await bot.send_message(
             message.chat.id,
-            "That's it!"
+            questions[lang]["q4"]
         )
     await state.finish()
-    await message.reply('Process stopped.', reply_markup=types.ReplyKeyboardRemove())
+    await message.reply(questions[lang]["q5"], reply_markup=types.ReplyKeyboardRemove())
 
 
 # Check username.
@@ -182,7 +184,7 @@ async def process_user_invalid(message: types.Message):
     """
     If user is invalid
     """
-    return await message.reply("Username is invalid. Please enter a correct username.")
+    return await message.reply(questions[lang]["q6"])
 
 
 @dp.message_handler(state=Form.username)
