@@ -250,7 +250,7 @@ async def cmd_start(message: types.Message):
     # Si no reconoce idioma, por defecto activa el español
     if lang not in ["en","es","ca"]:
         lang = "es"
-    
+
     await Form.username.set()
     await message.reply(questions[lang]["q1"])
 
@@ -804,8 +804,12 @@ from IPython.display import Audio
 from scipy.io import wavfile
 from scipy import signal
 
+
 # Load the model.
-model = hub.load('https://tfhub.dev/google/yamnet/1')
+# model = hub.load('https://tfhub.dev/google/yamnet/1')
+
+model = tf.saved_model.load('C:/Users/Guillem/Desktop/Bot_Telegram/yamnet')
+#model = tf.keras.models.load_model("/Bot_Telegram/yamnet/")
 
 def class_names_from_csv(class_map_csv_text):
   """Returns list of class names corresponding to score vector."""
