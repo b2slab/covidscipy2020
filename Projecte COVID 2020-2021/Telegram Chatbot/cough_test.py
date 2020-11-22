@@ -7,7 +7,6 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
-from pyAudioAnalysis import audioTrainTest as aT
 from aiogram.utils import executor
 from pyAudioAnalysis import audioTrainTest as aT
 from os import path
