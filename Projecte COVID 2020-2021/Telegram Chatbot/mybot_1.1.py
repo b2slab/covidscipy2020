@@ -519,9 +519,9 @@ async def process_others(message: types.Message, state: FSMContext):
         a cada Documento (a cada paciente). Este ID es del tipo Object_id el
         cual también almacena el momento en el que el usuario se ha registrado.
         '''
-        database.collection.insert_one(data.as_dict())
+        #database.collection.insert_one(data.as_dict())
         #this should be the used method:
-        #requests.post('https://localhost:5001/users', data=data)
+        requests.get('http://0.0.0.0:5001/users', json = data)
 
 
         await bot.send_message(
