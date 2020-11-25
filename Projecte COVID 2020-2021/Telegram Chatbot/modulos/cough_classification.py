@@ -9,6 +9,11 @@ from scipy.io import wavfile
 from scipy import signal
 import os
 import json
+import pandas as pd
+import joblib
+
+# Import the stacking classifier of Yamnet and SVM
+stacking_classifier = joblib.load("C:/Users/Guillem/Desktop/Bot_Telegram/modulos/stacking_classifier.pkl")
 
 def is_cough(file_path):
     wav_file_path = convert_to_wav(file_path)
@@ -16,8 +21,17 @@ def is_cough(file_path):
     svm_veredict = aT.file_classification(wav_file_path, "cough_classifier/svm_cough", "svm")
     svm_predict = svm_veredict[1][0]
 
-    accepted = [yamnet_veredict, svm_predict]
-    return accepted
+    #accepted = [yamnet_veredict, svm_predict]
+    #return accepted
+
+    X_new = pd.DataFrame({'Yamnet':[yamnet_veredict], 'SVM': [svm_predict]})
+    stacking_prediction = stacking_classifier.predict_proba(X_new)[:,1]
+    optimal_threshold = 0.628
+
+    if (stacking_prediction >= optimal_threshold):
+        return True
+    else:
+        return False
 
 def convert_to_wav(input_file):
     file_dir, filename = os.path.split(os.path.abspath(input_file))
@@ -35,7 +49,13 @@ def yamnet_classifier(wav_file_path, visualization = False):
     sample_rate, wav_data = ensure_sample_rate(sample_rate, wav_data)
 
     waveform = wav_data / tf.int16.max
-    #waveform2 = np.mean(waveform, axis = 1)   # If the audio is stereo and not mono
+    waveform = tf.cast(waveform, tf.float32)
+
+    try:
+        if (np.shape(waveform)[1] == 2):
+            waveform = np.mean(waveform, axis = 1)   # If the audio is stereo and not mono
+    except Exception:
+        pass
 
     # Run the model, check the output.
     scores, embeddings, spectrogram = model(waveform)
@@ -59,6 +79,8 @@ def yamnet_classifier(wav_file_path, visualization = False):
 
 
     if infered_class == 'Cough':
-        return True
+        # return True
+        return 1
     else:
-        return False
+        # return False
+        return 0
