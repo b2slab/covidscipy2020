@@ -274,10 +274,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     #accepted = is_cough(message.voice.file_id)
     accepted = is_cough(file_path)
 
-    if (accepted[0] == False and accepted[1]<=0.5):
-        return await bot.send_message(message.chat.id,questions[lang]["q23"])
-
-    elif (accepted[0] == True and accepted[1]>0.5):
+    if (accepted == True):
         await bot.send_message(message.chat.id,questions[lang]["q24"])
         await Form.next()
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -286,6 +283,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
 
     else:
         return await bot.send_message(message.chat.id,questions[lang]["q23"])
+
 
 @dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.dry_cough)
 async def process_dry_cough_invalid(message: types.Message):
@@ -438,7 +436,8 @@ async def process_others(message: types.Message, state: FSMContext):
         a cada Documento (a cada paciente). Este ID es del tipo Object_id el
         cual también almacena el momento en el que el usuario se ha registrado.
         '''
-        database.collection.insert_one(data.as_dict())
+        #database.collection.insert_one(data.as_dict())
+        requests.get('http://0.0.0.0:5001/users', json = data)
 
 
         await bot.send_message(
