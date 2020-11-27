@@ -26,7 +26,7 @@ def is_cough(file_path):
 
     X_new = pd.DataFrame({'Yamnet':[yamnet_veredict], 'SVM': [svm_predict]})
     stacking_prediction = stacking_classifier.predict_proba(X_new)[:,1]
-    optimal_threshold = 0.628
+    optimal_threshold = 0.4264
 
     if (stacking_prediction >= optimal_threshold):
         return True
