@@ -19,6 +19,7 @@ from modulos.database_connection import *    # Importamos clase para instanciar 
 from modulos.yamnet_importation import *
 from modulos.cough_classification import *
 from modulos.languages_chatbot import *
+from modulos.wav_to_binary import *
 
 import os
 import json
@@ -268,7 +269,9 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
     file_path_URL = file.file_path
-    file_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Cough_recordings/{}.oga'.format(file_id) #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
+    global file_path
+    file_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Cough_recordings/{}.oga'.format(file_id)
+    #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
     await bot.download_file(file_path_URL, file_path)
 
     #accepted = is_cough(message.voice.file_id)
@@ -436,10 +439,13 @@ async def process_others(message: types.Message, state: FSMContext):
         a cada Documento (a cada paciente). Este ID es del tipo Object_id el
         cual también almacena el momento en el que el usuario se ha registrado.
         '''
+        database.collection.insert_one(data.as_dict())
+        #requests.get('http://0.0.0.0:5001/users', json = data)
 
-        requests.post('http://0.0.0.0:5001/users', json=data)
-        #database.collection.insert_one(data.as_dict())
-
+        # Store wav as binary in collection
+        store_blob_mongodb(file_path)
+        # Delete audios from local
+        delete_audios(file_path)
 
 
         await bot.send_message(
