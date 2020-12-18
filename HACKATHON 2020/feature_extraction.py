@@ -36,9 +36,9 @@ df = pd.DataFrame(features, columns = mid_feature_names)
 df['Label'] = pd.Series(labels)
 df['Filenames'] = pd.Series(filenames)
 
-df.to_csv('C:/Users/Guillem/Desktop/HACKATHON 2020/Unlabeled audio/TRAIN/features_extracted.csv', index=False, header=True)
+df.to_excel('C:/Users/Guillem/Desktop/HACKATHON 2020/Unlabeled audio/TRAIN/features_extracted.xlsx', index=False, header=True)
 
-df = pd.read_csv('C:/Users/Guillem/Desktop/HACKATHON 2020/Unlabeled audio/TRAIN/features_extracted.csv')
+df = pd.read_excel('C:/Users/Guillem/Desktop/HACKATHON 2020/Unlabeled audio/TRAIN/features_extracted.xlsx')
 print(df)
 
 df['Label'].groupby(df['Label']).count()

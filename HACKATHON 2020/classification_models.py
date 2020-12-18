@@ -7,7 +7,7 @@ from sklearn import decomposition
 from sklearn.model_selection import train_test_split
 import os
 
-df = pd.read_csv('C:/Users/Guillem/Desktop/HACKATHON 2020/Unlabeled audio/TRAIN/features_extracted.csv')
+df = pd.read_excel('C:/Users/Guillem/Desktop/HACKATHON 2020/Unlabeled audio/TRAIN/features_extracted.xlsx')
 mid_feature_names = df.columns.values[0:-2]
 data = df.to_numpy()
 features = data[:, 0:-2]
