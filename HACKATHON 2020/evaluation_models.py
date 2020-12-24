@@ -11,55 +11,36 @@ import pandas as pd
 import numpy as np
 import os
 
-wav_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Cough Audios/'
+basepath = 'C:/Users/Guillem/Desktop/HACKATHON 2020/Unlabeled audio/TEST/'
+cough_path = os.path.join(basepath, 'Cough/')
+nocough_path = os.path.join(basepath, 'No_Cough/')
 
-prediction_yamnet_indian_cough = []
-prediction_svm_indian_cough = []
-for i in np.arange(1,260):
-    '''
-    En total, tenemos 344 toses Indias. Pero para equilibrar el modelo, usaremos 259
-    '''
-    wav_file = os.path.join(wav_path, 'Indian_Cough/All_coughs/indian_cough ({}).wav'.format(i))
-    prediction_yamnet = yamnet_classifier(wav_file)
-    prediction_svm = aT.file_classification(wav_file, "cough_classifier/svm_cough", "svm")[1][0]
-    prediction_yamnet_indian_cough.append(prediction_yamnet)
-    prediction_svm_indian_cough.append(prediction_svm)
+pred_cough_yamnet = []
+pred_cough_svm = []
 
-prediction_yamnet_cough = []
-prediction_svm_cough = []
-for i in np.arange(1,171):
+for i in os.listdir(cough_path):
 
-    wav_file = os.path.join(wav_path, 'Cough/cough ({}).wav'.format(i))
-    prediction_yamnet = yamnet_classifier(wav_file)
-    prediction_svm = aT.file_classification(wav_file, "cough_classifier/svm_cough", "svm")[1][0]
-    prediction_yamnet_cough.append(prediction_yamnet)
-    prediction_svm_cough.append(prediction_svm)
+    wav_path = os.path.join(cough_path, i)
+    prediction_yamnet = yamnet_classifier(wav_path)
+    prediction_svm = aT.file_classification(wav_path, "cough_classifier/svm_cough", "svm")[1][0]
+    pred_cough_yamnet.append(prediction_yamnet)
+    pred_cough_svm.append(prediction_svm)
 
-prediction_yamnet_nocough = []
-prediction_svm_nocough = []
-for j in np.arange(1,174):
+pred_nocough_yamnet = []
+pred_nocough_svm = []
 
-    wav_file = os.path.join(wav_path, 'No_Cough/No_Cough ({}).wav'.format(j))
-    prediction_yamnet = yamnet_classifier(wav_file)
-    prediction_svm = aT.file_classification(wav_file, "cough_classifier/svm_cough", "svm")[1][0]
-    prediction_yamnet_nocough.append(prediction_yamnet)
-    prediction_svm_nocough.append(prediction_svm)
+for i in os.listdir(nocough_path):
 
-prediction_yamnet_nocough2 = []
-prediction_svm_nocough2 = []
-for j in np.arange(1,258):
-
-    print(j)
-    wav_file = os.path.join(wav_path, 'No_Cough2/No_cough ({}).wav'.format(j))
-    prediction_yamnet = yamnet_classifier(wav_file)
-    prediction_svm = aT.file_classification(wav_file, "cough_classifier/svm_cough", "svm")[1][0]
-    prediction_yamnet_nocough2.append(prediction_yamnet)
-    prediction_svm_nocough2.append(prediction_svm)
+    wav_path = os.path.join(nocough_path, i)
+    prediction_yamnet = yamnet_classifier(wav_path)
+    prediction_svm = aT.file_classification(wav_path, "cough_classifier/svm_cough", "svm")[1][0]
+    pred_nocough_yamnet.append(prediction_yamnet)
+    pred_nocough_svm.append(prediction_svm)
 
 
-y_true = np.append(np.repeat(True,259+170),np.repeat(False, 173+257))
-y_pred_yamnet = prediction_yamnet_indian_cough + prediction_yamnet_cough + prediction_yamnet_nocough + prediction_yamnet_nocough2
-y_pred_svm = prediction_svm_indian_cough + prediction_svm_cough + prediction_svm_nocough + prediction_svm_nocough2
+y_true = np.append(np.repeat(1,len(os.listdir(cough_path))),np.repeat(0, len(os.listdir(nocough_path))))
+y_pred_yamnet = pred_cough_yamnet + pred_nocough_yamnet
+y_pred_svm = pred_cough_svm + pred_nocough_svm
 
 len(y_true)
 len(y_pred_yamnet)
@@ -177,16 +158,6 @@ y_real, y_predicted_combined = Confusion_Matrix(y, y_pred_combined, pred_prob=Tr
 
 X_new = pd.DataFrame({'Yamnet':[0], 'SVM': [0.95]})
 clf.predict_proba(X_new)[:,1]
-
-
-# We verify that the optimal threshold outputs the best metrics
-
-prueba = pd.Series(y_pred_combined)
-prueba.loc[prueba >= 0.628] = 1
-prueba.loc[prueba < 0.628] = 0
-prueba = prueba.astype(int)
-Confusion_Matrix(y, prueba)
-
 
 # Import Joblib Module from Scikit Learn
 

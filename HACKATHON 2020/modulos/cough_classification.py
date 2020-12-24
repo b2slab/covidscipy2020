@@ -13,7 +13,7 @@ import pandas as pd
 import joblib
 
 # Import the stacking classifier of Yamnet and SVM
-stacking_classifier = joblib.load("modulos/stacking_classifier.pkl")
+stacking_classifier = joblib.load("C:/Users/Guillem/Desktop/Bot_Telegram/modulos/stacking_classifier.pkl")
 
 def is_cough(file_path):
     wav_file_path = convert_to_wav(file_path)
