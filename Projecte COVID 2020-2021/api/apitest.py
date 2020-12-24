@@ -47,7 +47,7 @@ class DataBase:
         return output
 
     def get_user_by_id(self,id):
-        documents = self.collection.find({"_id": ObjectId(id)})
+        documents = self.collection.find({"id": int(id)})
         output = [{item: data[item] for item in data} for data in documents]
         return output
 
@@ -57,11 +57,16 @@ class DataBase:
               'Document_ID': str(response.inserted_id)}
         return output
 
+    def delete_entry(self, id, username):
+        filt = {"$and":[{ "id": int(id) }, { "username": username}]}
+        response = self.collection.delete_one(filt)
+        output = {'Status': 'Successfully deleted' if response.deleted_count > 0 else "Document not found."}
+        return output
 
-class location(object):
-    def __init__(self, latitude, longitude, *args, **kwargs):
-        self.latitude = latitude
-        self.longitude = longitude
+#class location(object):
+ #   def __init__(self, latitude, longitude, *args, **kwargs):
+   #     self.latitude = latitude
+    #    self.longitude = longitude
 
 class symptoms(object):
     def __init__(self, cough, dry_cough, fever, tiredness, smell_loss, head_ache, shortness_breath,
@@ -78,11 +83,11 @@ class symptoms(object):
 
 
 class Patient(object):
-    def __init__(self, username, age, gender, location, diagnosis, symptoms, *args, **kwargs):
+    def __init__(self, username, age, gender,  diagnosis, symptoms, *args, **kwargs):
         self.username = username
         self.age = age
         self.gender = gender
-        self.location = location
+        #self.location = location
         self.diagnosis = diagnosis
         self.symptoms = symptoms
 
@@ -98,6 +103,7 @@ def base():
 @app.route('/users', methods=['GET'])
 def get_users():
     response = DataBase().get_all_users()
+    print (json_util.dumps(response))
     return Response(response=json_util.dumps(response),
                     status=200,
                     mimetype='application/json')
@@ -105,7 +111,7 @@ def get_users():
 @app.route('/users/<id>', methods=['GET'])
 def get_user_by_id(id):
     data = DataBase().get_user_by_id(id)
-    pattern = re.compile("^[A-Za-z0-9]{24}$")
+    pattern = re.compile("^[0-9]{10}$")
     if not pattern.match(id):
         return Response(response = 'huh?', status=400)
     else:
@@ -121,7 +127,7 @@ def get_user_by_id(id):
 def add_user():
     data = request.json
     print(data)
-### studentJson = '{"rollNumber": 1, "name": "Emma", "age":"18"}'
+
     try:
         Patient(**data)
 
@@ -136,6 +142,26 @@ def add_user():
     return Response(response=json.dumps(response),
                     status=200,
                     mimetype='application/json')
+"""
+@app.route('/users', methods=['PUT'])
+def update_user():
+    data = request.json
+    print(data)
+    response = DataBase().update(data)
+    return Response(response=json.dumps(response),
+                    status=200,
+                    mimetype='application/json')
+"""
+@app.route('/users/<id>/<username>', methods=['DELETE'])
+def delete_user(id, username):
+    response = DataBase().delete_entry(id, username)
+    print(response)
+    if response["Status"] == "Document not found.":
+        return Response(response = 'You have no entry with that username', status=404)
+    else:
+        return Response(response=json.dumps(response),
+                        status=200,
+                        mimetype='application/json')
 
 if __name__ == '__main__':
     database = DataBase()
