@@ -6,8 +6,9 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import ParseMode
+from aiogram.types import base, fields
 from aiogram.utils import executor
+
 #<<<<<<< HEAD
 from pydub import AudioSegment
 #=======
@@ -39,6 +40,10 @@ questions = import_languages() # Importamos preguntas en tres idiomas
 
 # States
 class Form(StatesGroup):
+
+    start = State()
+    menu = State()
+    delete = State()
     username = State()
     age = State()
     gender = State()
@@ -62,25 +67,69 @@ class Form(StatesGroup):
 START CHATBOT
 '''
 global lang
-@dp.message_handler(commands='start')
+@dp.message_handler(state = None)
+@dp.message_handler(state = Form.start)
+@dp.message_handler(state='*', commands='cancel')
+@dp.message_handler(lambda message: message.text == "No", state=Form.menu)
+@dp.message_handler(lambda message: message.text == "CANCEL", state=Form.delete)
 async def cmd_start(message: types.Message):
     """
     Conversation's entry point
     """
     # Set state and language
-    global lang
+    global lang, id, name
     locale = message.from_user.locale
     lang = locale.language
+    id = message.from_user.id
+    name = message.from_user.first_name
 
     # Si no reconoce idioma, por defecto activa el español
     if lang not in ["en","es","ca"]:
         lang = "es"
+    await Form.menu.set()
 
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("Add data", "Delete data")
+    markup.add("About", "Exit")
+
+    await message.reply("Welcome to covid scipy %s. Select one of the following" %name, reply_markup=markup)
+
+
+@dp.message_handler(lambda message: message.text == "Add data", state=Form.menu)
+async def add_my_data(message: types.Message):
     await Form.username.set()
-    await message.reply(questions[lang]["q1"])
+    return await message.reply("Okay. You may now add data and symptoms of your own, or from someone else you are responsible for."
+                               "We will begin your first name, just to identify you in case you add data from your relatives."
+                               "What is your name? (Use the command /cancel at any time to go back to the menu. No entry will be uploaded)", reply_markup=types.ReplyKeyboardRemove())
 
 
+
+@dp.message_handler(lambda message: message.text in ["Delete data","Yes"], state=Form.menu)
+async def delete_data(message: types.Message):
+    await Form.delete.set()
+    response = requests.get('http://0.0.0.0:5001/users/%s'%id)
+    data_delete = json.loads(response.content)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+
+    for i in data_delete:
+        markup.add(i["username"])
+    markup.add("CANCEL")
+    return await message.reply("These are the entries you have uploaded. Which one do you want to delete?", reply_markup=markup)
+
+@dp.message_handler(lambda message: message.text not in ["CANCEL"], state=Form.delete)
+async def deleting_data(message: types.Message):
+    await Form.menu.set()
+    response = requests.delete('http://0.0.0.0:5001/users/%s/%s'%(id, message.text))
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add("Yes", "No")
+    return await message.reply("%s. Do you want to delete more entries?" % json.loads(response.content)['Status'], reply_markup=markup)
+
+@dp.message_handler(lambda message: "Exit", state=Form.menu)
+async def exit(message: types.Message):
+    await Form.start.set()
+    return await message.reply("Bye!", reply_markup=types.ReplyKeyboardRemove())
 # You can use state '*' if you need to handle all states
+
 @dp.message_handler(state='*', commands='cancel')
 @dp.message_handler(Text(equals='cancel', ignore_case=True), state='*')
 async def cancel_handler(message: types.Message, state: FSMContext):
@@ -91,7 +140,7 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     if current_state is None:
         return
 
-    await state.finish()
+    await Form.start.set()
     # And remove keyboard (just in case)
     await message.reply(questions[lang]["q2"], reply_markup=types.ReplyKeyboardRemove())
 
@@ -146,6 +195,7 @@ async def process_username(message: types.Message, state: FSMContext):
     Process user name
     """
     async with state.proxy() as data:
+        data['id'] = id
         data['username'] = message.text
 
     await Form.next()
@@ -196,12 +246,14 @@ async def process_gender(message: types.Message, state: FSMContext):
 
         location_keyboard  = types.KeyboardButton(text=questions[lang]["q13"], request_location=True)
         reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
+        reply_markup.add('Skip')
+
 
     await Form.next()
     #await message.reply("In which country are you right now?", reply_markup=markup)
     return await message.reply(questions[lang]["q14"], reply_markup=reply_markup)
 
-
+'''
 # Message handler if a non location message is received
 @dp.message_handler(lambda message: types.message.ContentType not in ['location'], state=Form.location)
 async def process_location_invalid(message: types.Message):
@@ -213,7 +265,7 @@ async def process_location_invalid(message: types.Message):
     reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
 
     return await message.reply(questions[lang]["q15"], reply_markup=reply_markup)
-
+'''
 
 @dp.message_handler(state=Form.location, content_types=['location'])
 async def process_location(message, state: FSMContext):
@@ -222,6 +274,16 @@ async def process_location(message, state: FSMContext):
         data['location']['latitude'] = message.location.latitude
         data['location']['longitude'] = message.location.longitude
         #print("{0}, {1}".format(message.location.latitude, message.location.longitude))
+
+    await Form.next()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q16"])
+    markup.add(questions[lang]["q17"])
+    markup.add(questions[lang]["q18"])
+    await message.reply(questions[lang]["q19"], reply_markup=markup)
+
+@dp.message_handler(lambda message: "Skip", state=Form.location)
+async def process_location(message, state: FSMContext):
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -268,7 +330,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
     file_path_URL = file.file_path
-    file_path = 'C:/Users/Guillem/Desktop/Bot_Telegram/Cough_recordings/{}.oga'.format(file_id) #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
+    file_path = '/home/dani/covidscipy2020/covidscipy2020/cough_sets/{}.oga'.format(file_id) #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
     await bot.download_file(file_path_URL, file_path)
 
     #accepted = is_cough(message.voice.file_id)
@@ -437,15 +499,17 @@ async def process_others(message: types.Message, state: FSMContext):
         cual también almacena el momento en el que el usuario se ha registrado.
         '''
 
-        requests.post('http://0.0.0.0:5001/users', json=data)
+        requests.post('http://0.0.0.0:5001/users', json=data.as_dict())
         #database.collection.insert_one(data.as_dict())
 
 
 
-        await bot.send_message(
-            message.chat.id,
-            questions[lang]["q4"]
-        )
+    await bot.send_message(
+        message.chat.id,
+        questions[lang]["q4"]
+    )
+    await Form.start.set()
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
