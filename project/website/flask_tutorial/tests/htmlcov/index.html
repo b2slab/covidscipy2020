@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">48%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+<div id="index">
+    <table class="index">
+        <thead>
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>36088</td>
+                <td>18698</td>
+                <td>113</td>
+                <td class="right" data-ratio="17390 36088">48%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_flaskr___init___py.html">/Users/MagaliMorin/project/flask-tutorial/flaskr/__init__.py</a></td>
+                <td>22</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="22 22">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_flaskr_auth_py.html">/Users/MagaliMorin/project/flask-tutorial/flaskr/auth.py</a></td>
+                <td>54</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="54 54">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_flaskr_blog_py.html">/Users/MagaliMorin/project/flask-tutorial/flaskr/blog.py</a></td>
+                <td>54</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="54 54">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_flaskr_db_py.html">/Users/MagaliMorin/project/flask-tutorial/flaskr/db.py</a></td>
+                <td>24</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="24 24">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="conftest_py.html">conftest.py</a></td>
+                <td>29</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="29 29">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_auth_py.html">test_auth.py</a></td>
+                <td>28</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="28 28">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_blog_py.html">test_blog.py</a></td>
+                <td>56</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="56 56">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_db_py.html">test_db.py</a></td>
+                <td>19</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="19 19">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="test_factory_py.html">test_factory.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/__init__.py</a></td>
+                <td>5</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 5">60%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest__argcomplete_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/_argcomplete.py</a></td>
+                <td>37</td>
+                <td>23</td>
+                <td>0</td>
+                <td class="right" data-ratio="14 37">38%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest__code___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/_code/__init__.py</a></td>
+                <td>9</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 9">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest__code_code_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/_code/code.py</a></td>
+                <td>655</td>
+                <td>428</td>
+                <td>0</td>
+                <td class="right" data-ratio="227 655">35%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest__code_source_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/_code/source.py</a></td>
+                <td>244</td>
+                <td>180</td>
+                <td>0</td>
+                <td class="right" data-ratio="64 244">26%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest__io___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/_io/__init__.py</a></td>
+                <td>23</td>
+                <td>17</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 23">26%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest__io_saferepr_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/_io/saferepr.py</a></td>
+                <td>63</td>
+                <td>48</td>
+                <td>0</td>
+                <td class="right" data-ratio="15 63">24%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest__version_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/_version.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_assertion___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/assertion/__init__.py</a></td>
+                <td>79</td>
+                <td>25</td>
+                <td>0</td>
+                <td class="right" data-ratio="54 79">68%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_assertion_rewrite_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/assertion/rewrite.py</a></td>
+                <td>595</td>
+                <td>419</td>
+                <td>0</td>
+                <td class="right" data-ratio="176 595">30%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_assertion_truncate_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/assertion/truncate.py</a></td>
+                <td>49</td>
+                <td>40</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 49">18%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_assertion_util_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/assertion/util.py</a></td>
+                <td>284</td>
+                <td>245</td>
+                <td>0</td>
+                <td class="right" data-ratio="39 284">14%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_cacheprovider_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/cacheprovider.py</a></td>
+                <td>278</td>
+                <td>144</td>
+                <td>0</td>
+                <td class="right" data-ratio="134 278">48%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_capture_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/capture.py</a></td>
+                <td>484</td>
+                <td>171</td>
+                <td>0</td>
+                <td class="right" data-ratio="313 484">65%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/compat.py</a></td>
+                <td>180</td>
+                <td>51</td>
+                <td>2</td>
+                <td class="right" data-ratio="129 180">72%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_config___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/config/__init__.py</a></td>
+                <td>654</td>
+                <td>235</td>
+                <td>0</td>
+                <td class="right" data-ratio="419 654">64%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_config_argparsing_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/config/argparsing.py</a></td>
+                <td>244</td>
+                <td>76</td>
+                <td>31</td>
+                <td class="right" data-ratio="168 244">69%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_config_exceptions_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/config/exceptions.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_config_findpaths_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/config/findpaths.py</a></td>
+                <td>110</td>
+                <td>60</td>
+                <td>0</td>
+                <td class="right" data-ratio="50 110">45%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_debugging_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/debugging.py</a></td>
+                <td>194</td>
+                <td>150</td>
+                <td>0</td>
+                <td class="right" data-ratio="44 194">23%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_deprecated_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/deprecated.py</a></td>
+                <td>11</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="11 11">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_doctest_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/doctest.py</a></td>
+                <td>332</td>
+                <td>239</td>
+                <td>0</td>
+                <td class="right" data-ratio="93 332">28%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_faulthandler_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/faulthandler.py</a></td>
+                <td>53</td>
+                <td>15</td>
+                <td>0</td>
+                <td class="right" data-ratio="38 53">72%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_fixtures_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/fixtures.py</a></td>
+                <td>775</td>
+                <td>225</td>
+                <td>0</td>
+                <td class="right" data-ratio="550 775">71%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_freeze_support_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/freeze_support.py</a></td>
+                <td>17</td>
+                <td>15</td>
+                <td>0</td>
+                <td class="right" data-ratio="2 17">12%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_helpconfig_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/helpconfig.py</a></td>
+                <td>120</td>
+                <td>86</td>
+                <td>0</td>
+                <td class="right" data-ratio="34 120">28%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_hookspec_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/hookspec.py</a></td>
+                <td>62</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="61 62">98%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_junitxml_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/junitxml.py</a></td>
+                <td>350</td>
+                <td>255</td>
+                <td>0</td>
+                <td class="right" data-ratio="95 350">27%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_logging_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/logging.py</a></td>
+                <td>359</td>
+                <td>143</td>
+                <td>0</td>
+                <td class="right" data-ratio="216 359">60%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_main_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/main.py</a></td>
+                <td>397</td>
+                <td>149</td>
+                <td>0</td>
+                <td class="right" data-ratio="248 397">62%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_mark___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/mark/__init__.py</a></td>
+                <td>84</td>
+                <td>39</td>
+                <td>0</td>
+                <td class="right" data-ratio="45 84">54%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_mark_evaluate_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/mark/evaluate.py</a></td>
+                <td>96</td>
+                <td>60</td>
+                <td>0</td>
+                <td class="right" data-ratio="36 96">38%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_mark_legacy_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/mark/legacy.py</a></td>
+                <td>55</td>
+                <td>37</td>
+                <td>0</td>
+                <td class="right" data-ratio="18 55">33%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_mark_structures_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/mark/structures.py</a></td>
+                <td>173</td>
+                <td>40</td>
+                <td>0</td>
+                <td class="right" data-ratio="133 173">77%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_monkeypatch_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/monkeypatch.py</a></td>
+                <td>148</td>
+                <td>74</td>
+                <td>0</td>
+                <td class="right" data-ratio="74 148">50%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_nodes_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/nodes.py</a></td>
+                <td>296</td>
+                <td>102</td>
+                <td>0</td>
+                <td class="right" data-ratio="194 296">66%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_nose_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/nose.py</a></td>
+                <td>20</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="18 20">90%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_outcomes_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/outcomes.py</a></td>
+                <td>88</td>
+                <td>44</td>
+                <td>0</td>
+                <td class="right" data-ratio="44 88">50%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_pastebin_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/pastebin.py</a></td>
+                <td>64</td>
+                <td>47</td>
+                <td>0</td>
+                <td class="right" data-ratio="17 64">27%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_pathlib_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/pathlib.py</a></td>
+                <td>203</td>
+                <td>145</td>
+                <td>0</td>
+                <td class="right" data-ratio="58 203">29%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_python_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/python.py</a></td>
+                <td>776</td>
+                <td>356</td>
+                <td>0</td>
+                <td class="right" data-ratio="420 776">54%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_python_api_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/python_api.py</a></td>
+                <td>231</td>
+                <td>133</td>
+                <td>2</td>
+                <td class="right" data-ratio="98 231">42%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_recwarn_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/recwarn.py</a></td>
+                <td>114</td>
+                <td>77</td>
+                <td>0</td>
+                <td class="right" data-ratio="37 114">32%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_reports_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/reports.py</a></td>
+                <td>244</td>
+                <td>149</td>
+                <td>0</td>
+                <td class="right" data-ratio="95 244">39%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_resultlog_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/resultlog.py</a></td>
+                <td>68</td>
+                <td>48</td>
+                <td>0</td>
+                <td class="right" data-ratio="20 68">29%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_runner_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/runner.py</a></td>
+                <td>269</td>
+                <td>85</td>
+                <td>0</td>
+                <td class="right" data-ratio="184 269">68%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_setuponly_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/setuponly.py</a></td>
+                <td>42</td>
+                <td>27</td>
+                <td>0</td>
+                <td class="right" data-ratio="15 42">36%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_setupplan_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/setupplan.py</a></td>
+                <td>13</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 13">62%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_skipping_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/skipping.py</a></td>
+                <td>101</td>
+                <td>52</td>
+                <td>0</td>
+                <td class="right" data-ratio="49 101">49%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_stepwise_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/stepwise.py</a></td>
+                <td>58</td>
+                <td>31</td>
+                <td>0</td>
+                <td class="right" data-ratio="27 58">47%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_store_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/store.py</a></td>
+                <td>34</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="29 34">85%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_terminal_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/terminal.py</a></td>
+                <td>804</td>
+                <td>373</td>
+                <td>0</td>
+                <td class="right" data-ratio="431 804">54%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_tmpdir_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/tmpdir.py</a></td>
+                <td>87</td>
+                <td>43</td>
+                <td>0</td>
+                <td class="right" data-ratio="44 87">51%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_unittest_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/unittest.py</a></td>
+                <td>200</td>
+                <td>148</td>
+                <td>0</td>
+                <td class="right" data-ratio="52 200">26%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_warning_types_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/warning_types.py</a></td>
+                <td>36</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="34 36">94%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages__pytest_warnings_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/_pytest/warnings.py</a></td>
+                <td>77</td>
+                <td>32</td>
+                <td>0</td>
+                <td class="right" data-ratio="45 77">58%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/__init__.py</a></td>
+                <td>22</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="22 22">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/_compat.py</a></td>
+                <td>82</td>
+                <td>36</td>
+                <td>11</td>
+                <td class="right" data-ratio="46 82">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr__config_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/_config.py</a></td>
+                <td>9</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="5 9">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr__funcs_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/_funcs.py</a></td>
+                <td>79</td>
+                <td>55</td>
+                <td>0</td>
+                <td class="right" data-ratio="24 79">30%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr__make_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/_make.py</a></td>
+                <td>694</td>
+                <td>237</td>
+                <td>0</td>
+                <td class="right" data-ratio="457 694">66%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr__version_info_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/_version_info.py</a></td>
+                <td>36</td>
+                <td>10</td>
+                <td>0</td>
+                <td class="right" data-ratio="26 36">72%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr_converters_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/converters.py</a></td>
+                <td>27</td>
+                <td>19</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 27">30%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr_exceptions_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/exceptions.py</a></td>
+                <td>16</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="12 16">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr_filters_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/filters.py</a></td>
+                <td>15</td>
+                <td>9</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 15">40%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_attr_validators_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/attr/validators.py</a></td>
+                <td>116</td>
+                <td>54</td>
+                <td>0</td>
+                <td class="right" data-ratio="62 116">53%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/__init__.py</a></td>
+                <td>69</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="69 69">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/_compat.py</a></td>
+                <td>449</td>
+                <td>328</td>
+                <td>0</td>
+                <td class="right" data-ratio="121 449">27%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click__unicodefun_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/_unicodefun.py</a></td>
+                <td>69</td>
+                <td>53</td>
+                <td>0</td>
+                <td class="right" data-ratio="16 69">23%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_core_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/core.py</a></td>
+                <td>912</td>
+                <td>406</td>
+                <td>0</td>
+                <td class="right" data-ratio="506 912">55%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_decorators_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/decorators.py</a></td>
+                <td>150</td>
+                <td>86</td>
+                <td>0</td>
+                <td class="right" data-ratio="64 150">43%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_exceptions_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/exceptions.py</a></td>
+                <td>127</td>
+                <td>88</td>
+                <td>0</td>
+                <td class="right" data-ratio="39 127">31%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_formatting_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/formatting.py</a></td>
+                <td>137</td>
+                <td>115</td>
+                <td>0</td>
+                <td class="right" data-ratio="22 137">16%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_globals_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/globals.py</a></td>
+                <td>18</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="14 18">78%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_parser_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/parser.py</a></td>
+                <td>239</td>
+                <td>139</td>
+                <td>0</td>
+                <td class="right" data-ratio="100 239">42%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_termui_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/termui.py</a></td>
+                <td>211</td>
+                <td>168</td>
+                <td>0</td>
+                <td class="right" data-ratio="43 211">20%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_testing_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/testing.py</a></td>
+                <td>213</td>
+                <td>85</td>
+                <td>0</td>
+                <td class="right" data-ratio="128 213">60%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_types_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/types.py</a></td>
+                <td>327</td>
+                <td>191</td>
+                <td>0</td>
+                <td class="right" data-ratio="136 327">42%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_click_utils_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/click/utils.py</a></td>
+                <td>196</td>
+                <td>124</td>
+                <td>0</td>
+                <td class="right" data-ratio="72 196">37%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/__init__.py</a></td>
+                <td>46</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="46 46">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/_compat.py</a></td>
+                <td>81</td>
+                <td>47</td>
+                <td>0</td>
+                <td class="right" data-ratio="34 81">42%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_app_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/app.py</a></td>
+                <td>635</td>
+                <td>231</td>
+                <td>0</td>
+                <td class="right" data-ratio="404 635">64%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_blueprints_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/blueprints.py</a></td>
+                <td>179</td>
+                <td>73</td>
+                <td>0</td>
+                <td class="right" data-ratio="106 179">59%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_cli_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/cli.py</a></td>
+                <td>427</td>
+                <td>300</td>
+                <td>0</td>
+                <td class="right" data-ratio="127 427">30%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_config_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/config.py</a></td>
+                <td>91</td>
+                <td>42</td>
+                <td>0</td>
+                <td class="right" data-ratio="49 91">54%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_ctx_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/ctx.py</a></td>
+                <td>159</td>
+                <td>41</td>
+                <td>0</td>
+                <td class="right" data-ratio="118 159">74%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_globals_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/globals.py</a></td>
+                <td>27</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="26 27">96%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_helpers_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/helpers.py</a></td>
+                <td>375</td>
+                <td>214</td>
+                <td>0</td>
+                <td class="right" data-ratio="161 375">43%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_json___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/json/__init__.py</a></td>
+                <td>130</td>
+                <td>77</td>
+                <td>0</td>
+                <td class="right" data-ratio="53 130">41%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_json_tag_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/json/tag.py</a></td>
+                <td>129</td>
+                <td>23</td>
+                <td>0</td>
+                <td class="right" data-ratio="106 129">82%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_logging_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/logging.py</a></td>
+                <td>35</td>
+                <td>22</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 35">37%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_sessions_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/sessions.py</a></td>
+                <td>127</td>
+                <td>24</td>
+                <td>0</td>
+                <td class="right" data-ratio="103 127">81%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_signals_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/signals.py</a></td>
+                <td>32</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="30 32">94%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_templating_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/templating.py</a></td>
+                <td>86</td>
+                <td>36</td>
+                <td>0</td>
+                <td class="right" data-ratio="50 86">58%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_testing_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/testing.py</a></td>
+                <td>99</td>
+                <td>33</td>
+                <td>0</td>
+                <td class="right" data-ratio="66 99">67%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_flask_wrappers_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/flask/wrappers.py</a></td>
+                <td>39</td>
+                <td>9</td>
+                <td>0</td>
+                <td class="right" data-ratio="30 39">77%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_importlib_metadata___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/importlib_metadata/__init__.py</a></td>
+                <td>220</td>
+                <td>73</td>
+                <td>2</td>
+                <td class="right" data-ratio="147 220">67%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_importlib_metadata__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/importlib_metadata/_compat.py</a></td>
+                <td>29</td>
+                <td>2</td>
+                <td>47</td>
+                <td class="right" data-ratio="27 29">93%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/__init__.py</a></td>
+                <td>21</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="21 21">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/_compat.py</a></td>
+                <td>22</td>
+                <td>11</td>
+                <td>0</td>
+                <td class="right" data-ratio="11 22">50%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous__json_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/_json.py</a></td>
+                <td>11</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="7 11">64%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous_encoding_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/encoding.py</a></td>
+                <td>27</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="25 27">93%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous_exc_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/exc.py</a></td>
+                <td>31</td>
+                <td>15</td>
+                <td>0</td>
+                <td class="right" data-ratio="16 31">52%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous_jws_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/jws.py</a></td>
+                <td>120</td>
+                <td>83</td>
+                <td>0</td>
+                <td class="right" data-ratio="37 120">31%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous_serializer_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/serializer.py</a></td>
+                <td>90</td>
+                <td>33</td>
+                <td>0</td>
+                <td class="right" data-ratio="57 90">63%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous_signer_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/signer.py</a></td>
+                <td>85</td>
+                <td>21</td>
+                <td>0</td>
+                <td class="right" data-ratio="64 85">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous_timed_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/timed.py</a></td>
+                <td>79</td>
+                <td>26</td>
+                <td>0</td>
+                <td class="right" data-ratio="53 79">67%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_itsdangerous_url_safe_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/itsdangerous/url_safe.py</a></td>
+                <td>37</td>
+                <td>11</td>
+                <td>0</td>
+                <td class="right" data-ratio="26 37">70%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/__init__.py</a></td>
+                <td>38</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="38 38">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/_compat.py</a></td>
+                <td>90</td>
+                <td>52</td>
+                <td>0</td>
+                <td class="right" data-ratio="38 90">42%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2__identifier_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/_identifier.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_bccache_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/bccache.py</a></td>
+                <td>154</td>
+                <td>110</td>
+                <td>0</td>
+                <td class="right" data-ratio="44 154">29%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_compiler_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/compiler.py</a></td>
+                <td>1150</td>
+                <td>614</td>
+                <td>0</td>
+                <td class="right" data-ratio="536 1150">47%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_defaults_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/defaults.py</a></td>
+                <td>21</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="21 21">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_environment_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/environment.py</a></td>
+                <td>541</td>
+                <td>282</td>
+                <td>0</td>
+                <td class="right" data-ratio="259 541">48%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_exceptions_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/exceptions.py</a></td>
+                <td>83</td>
+                <td>58</td>
+                <td>0</td>
+                <td class="right" data-ratio="25 83">30%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_ext_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/ext.py</a></td>
+                <td>335</td>
+                <td>246</td>
+                <td>0</td>
+                <td class="right" data-ratio="89 335">27%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_filters_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/filters.py</a></td>
+                <td>417</td>
+                <td>313</td>
+                <td>0</td>
+                <td class="right" data-ratio="104 417">25%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_idtracking_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/idtracking.py</a></td>
+                <td>204</td>
+                <td>82</td>
+                <td>0</td>
+                <td class="right" data-ratio="122 204">60%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_lexer_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/lexer.py</a></td>
+                <td>356</td>
+                <td>72</td>
+                <td>0</td>
+                <td class="right" data-ratio="284 356">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_loaders_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/loaders.py</a></td>
+                <td>228</td>
+                <td>140</td>
+                <td>0</td>
+                <td class="right" data-ratio="88 228">39%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_nodes_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/nodes.py</a></td>
+                <td>458</td>
+                <td>160</td>
+                <td>0</td>
+                <td class="right" data-ratio="298 458">65%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_optimizer_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/optimizer.py</a></td>
+                <td>17</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="15 17">88%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_parser_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/parser.py</a></td>
+                <td>648</td>
+                <td>325</td>
+                <td>0</td>
+                <td class="right" data-ratio="323 648">50%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_runtime_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/runtime.py</a></td>
+                <td>435</td>
+                <td>245</td>
+                <td>0</td>
+                <td class="right" data-ratio="190 435">44%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_tests_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/tests.py</a></td>
+                <td>64</td>
+                <td>30</td>
+                <td>0</td>
+                <td class="right" data-ratio="34 64">53%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_utils_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/utils.py</a></td>
+                <td>317</td>
+                <td>189</td>
+                <td>0</td>
+                <td class="right" data-ratio="128 317">40%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_jinja2_visitor_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/jinja2/visitor.py</a></td>
+                <td>40</td>
+                <td>8</td>
+                <td>0</td>
+                <td class="right" data-ratio="32 40">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_markupsafe___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/markupsafe/__init__.py</a></td>
+                <td>164</td>
+                <td>92</td>
+                <td>0</td>
+                <td class="right" data-ratio="72 164">44%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_markupsafe__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/markupsafe/_compat.py</a></td>
+                <td>18</td>
+                <td>8</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 18">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_more_itertools___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/more_itertools/__init__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_more_itertools_more_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/more_itertools/more.py</a></td>
+                <td>903</td>
+                <td>763</td>
+                <td>0</td>
+                <td class="right" data-ratio="140 903">16%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_more_itertools_recipes_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/more_itertools/recipes.py</a></td>
+                <td>131</td>
+                <td>98</td>
+                <td>0</td>
+                <td class="right" data-ratio="33 131">25%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_packaging___about___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/packaging/__about__.py</a></td>
+                <td>10</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 10">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_packaging___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/packaging/__init__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_packaging__structures_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/packaging/_structures.py</a></td>
+                <td>41</td>
+                <td>18</td>
+                <td>0</td>
+                <td class="right" data-ratio="23 41">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_packaging__typing_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/packaging/_typing.py</a></td>
+                <td>4</td>
+                <td>1</td>
+                <td>4</td>
+                <td class="right" data-ratio="3 4">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_packaging_version_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/packaging/version.py</a></td>
+                <td>189</td>
+                <td>126</td>
+                <td>10</td>
+                <td class="right" data-ratio="63 189">33%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pluggy___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pluggy/__init__.py</a></td>
+                <td>8</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 8">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pluggy__tracing_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pluggy/_tracing.py</a></td>
+                <td>41</td>
+                <td>17</td>
+                <td>0</td>
+                <td class="right" data-ratio="24 41">59%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pluggy__version_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pluggy/_version.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pluggy_callers_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pluggy/callers.py</a></td>
+                <td>122</td>
+                <td>66</td>
+                <td>0</td>
+                <td class="right" data-ratio="56 122">46%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pluggy_hooks_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pluggy/hooks.py</a></td>
+                <td>175</td>
+                <td>40</td>
+                <td>0</td>
+                <td class="right" data-ratio="135 175">77%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pluggy_manager_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pluggy/manager.py</a></td>
+                <td>195</td>
+                <td>84</td>
+                <td>0</td>
+                <td class="right" data-ratio="111 195">57%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/__init__.py</a></td>
+                <td>14</td>
+                <td>6</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 14">57%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__builtin_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_builtin.py</a></td>
+                <td>112</td>
+                <td>78</td>
+                <td>0</td>
+                <td class="right" data-ratio="34 112">30%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__code___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_code/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__code_code_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_code/code.py</a></td>
+                <td>524</td>
+                <td>408</td>
+                <td>0</td>
+                <td class="right" data-ratio="116 524">22%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__error_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_error.py</a></td>
+                <td>52</td>
+                <td>35</td>
+                <td>0</td>
+                <td class="right" data-ratio="17 52">33%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__io___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_io/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__io_terminalwriter_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_io/terminalwriter.py</a></td>
+                <td>266</td>
+                <td>157</td>
+                <td>0</td>
+                <td class="right" data-ratio="109 266">41%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__path___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_path/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__path_common_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_path/common.py</a></td>
+                <td>278</td>
+                <td>121</td>
+                <td>0</td>
+                <td class="right" data-ratio="157 278">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__path_local_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_path/local.py</a></td>
+                <td>690</td>
+                <td>473</td>
+                <td>0</td>
+                <td class="right" data-ratio="217 690">31%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__vendored_packages___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_vendored_packages/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__vendored_packages_apipkg_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_vendored_packages/apipkg.py</a></td>
+                <td>148</td>
+                <td>55</td>
+                <td>0</td>
+                <td class="right" data-ratio="93 148">63%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__version_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_version.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_py__xmlgen_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/py/_xmlgen.py</a></td>
+                <td>170</td>
+                <td>117</td>
+                <td>0</td>
+                <td class="right" data-ratio="53 170">31%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pytest___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pytest/__init__.py</a></td>
+                <td>48</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="48 48">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_pytest___main___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/pytest/__main__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/__init__.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug__compat_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/_compat.py</a></td>
+                <td>153</td>
+                <td>83</td>
+                <td>0</td>
+                <td class="right" data-ratio="70 153">46%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug__internal_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/_internal.py</a></td>
+                <td>250</td>
+                <td>150</td>
+                <td>0</td>
+                <td class="right" data-ratio="100 250">40%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_datastructures_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/datastructures.py</a></td>
+                <td>1479</td>
+                <td>884</td>
+                <td>0</td>
+                <td class="right" data-ratio="595 1479">40%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_exceptions_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/exceptions.py</a></td>
+                <td>235</td>
+                <td>47</td>
+                <td>0</td>
+                <td class="right" data-ratio="188 235">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_filesystem_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/filesystem.py</a></td>
+                <td>22</td>
+                <td>13</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 22">41%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_formparser_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/formparser.py</a></td>
+                <td>256</td>
+                <td>175</td>
+                <td>4</td>
+                <td class="right" data-ratio="81 256">32%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_http_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/http.py</a></td>
+                <td>488</td>
+                <td>332</td>
+                <td>0</td>
+                <td class="right" data-ratio="156 488">32%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_local_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/local.py</a></td>
+                <td>214</td>
+                <td>66</td>
+                <td>0</td>
+                <td class="right" data-ratio="148 214">69%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_routing_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/routing.py</a></td>
+                <td>804</td>
+                <td>291</td>
+                <td>0</td>
+                <td class="right" data-ratio="513 804">64%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_security_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/security.py</a></td>
+                <td>104</td>
+                <td>39</td>
+                <td>0</td>
+                <td class="right" data-ratio="65 104">62%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_serving_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/serving.py</a></td>
+                <td>505</td>
+                <td>415</td>
+                <td>0</td>
+                <td class="right" data-ratio="90 505">18%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_test_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/test.py</a></td>
+                <td>521</td>
+                <td>223</td>
+                <td>0</td>
+                <td class="right" data-ratio="298 521">57%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_urls_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/urls.py</a></td>
+                <td>455</td>
+                <td>165</td>
+                <td>0</td>
+                <td class="right" data-ratio="290 455">64%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_useragents_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/useragents.py</a></td>
+                <td>43</td>
+                <td>24</td>
+                <td>0</td>
+                <td class="right" data-ratio="19 43">44%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_utils_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/utils.py</a></td>
+                <td>269</td>
+                <td>176</td>
+                <td>0</td>
+                <td class="right" data-ratio="93 269">35%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers___init___py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/__init__.py</a></td>
+                <td>16</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="16 16">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_accept_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/accept.py</a></td>
+                <td>14</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 14">71%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_auth_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/auth.py</a></td>
+                <td>16</td>
+                <td>9</td>
+                <td>0</td>
+                <td class="right" data-ratio="7 16">44%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_base_request_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/base_request.py</a></td>
+                <td>176</td>
+                <td>71</td>
+                <td>0</td>
+                <td class="right" data-ratio="105 176">60%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_base_response_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/base_response.py</a></td>
+                <td>227</td>
+                <td>60</td>
+                <td>0</td>
+                <td class="right" data-ratio="167 227">74%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_common_descriptors_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/common_descriptors.py</a></td>
+                <td>98</td>
+                <td>36</td>
+                <td>0</td>
+                <td class="right" data-ratio="62 98">63%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_cors_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/cors.py</a></td>
+                <td>20</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="16 20">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_etag_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/etag.py</a></td>
+                <td>110</td>
+                <td>69</td>
+                <td>0</td>
+                <td class="right" data-ratio="41 110">37%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_json_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/json.py</a></td>
+                <td>65</td>
+                <td>43</td>
+                <td>0</td>
+                <td class="right" data-ratio="22 65">34%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_request_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/request.py</a></td>
+                <td>12</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="12 12">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_response_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/response.py</a></td>
+                <td>39</td>
+                <td>20</td>
+                <td>0</td>
+                <td class="right" data-ratio="19 39">49%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wrappers_user_agent_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wrappers/user_agent.py</a></td>
+                <td>5</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 5">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_werkzeug_wsgi_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/werkzeug/wsgi.py</a></td>
+                <td>439</td>
+                <td>271</td>
+                <td>0</td>
+                <td class="right" data-ratio="168 439">38%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="_Users_MagaliMorin_project_flask-tutorial_venv_lib_python3_7_site-packages_zipp_py.html">/Users/MagaliMorin/project/flask-tutorial/venv/lib/python3.7/site-packages/zipp.py</a></td>
+                <td>113</td>
+                <td>65</td>
+                <td>0</td>
+                <td class="right" data-ratio="48 113">42%</td>
+            </tr>
+        </tbody>
+    </table>
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.1</a>,
+            created at 2020-05-28 16:35
+        </p>
+    </div>
+</div>
+</body>
+</html>
