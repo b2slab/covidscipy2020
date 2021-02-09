@@ -69,21 +69,30 @@ class DataBase:
     #    self.longitude = longitude
 
 class symptoms(object):
-    def __init__(self, cough, dry_cough, fever, tiredness, smell_loss, head_ache, shortness_breath,
-                 chest_pain, others, *args, **kwargs):
-        self.cough = cough
+    def __init__(self, dry_cough, smoker, cold, res_difficult, sore_throat, fever,fatigue, muscular_pain, smell_loss,
+                 pneumonia, diarrhea, hypertension, asthma, diabetes, CLD, IHD, others, *args, **kwargs):
+        #self.cough = cough
         self.dry_cough = dry_cough
+        self.smoker = smoker
+        self.cold = cold
+        self.res_difficult = res_difficult
+        self.sore_throat = sore_throat
         self.fever = fever
-        self.tiredness = tiredness
+        self.fatigue = fatigue
+        self.muscular_pain = muscular_pain
         self.smell_loss = smell_loss
-        self.head_ache = head_ache
-        self.shortness_breath = shortness_breath
-        self.chest_pain = chest_pain
+        self.pneumonnia = pneumonia
+        self.diarrhea = diarrhea
+        self.hypertension = hypertension
+        self.asthma = asthma
+        self.diabtes = diabetes
+        self.CLD = CLD
+        self.IHD = IHD
         self.others = others
 
 
 class Patient(object):
-    def __init__(self, id, age, gender,  diagnosis, symptoms, *args, **kwargs):
+    def __init__(self, id, age, gender,  diagnosis, vaccine, symptoms, *args, **kwargs):
         self.id = id
         self.age = age
         self.gender = gender
