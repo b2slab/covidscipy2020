@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/project/Telegram Chatbot" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/project/Telegram_Chatbot" vcs="Git" />
   </component>
 </project>
