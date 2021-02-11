@@ -1,1 +1,2 @@
-web: python3 project/api/api.py
+web: gunicorn project.api.main:app
+bot: ado start
