@@ -15,6 +15,17 @@ from aiogram.utils import executor
 #=======
 #from pyAudioAnalysis import audioTrainTest as aT
 
+'''
+Añadido para que funcione en LOCAL
+'''
+
+import nest_asyncio
+nest_asyncio.apply()
+#__import__('IPython').embed()
+from project.Telegram_Chatbot.modulos.analyze_cough import *
+
+
+
 
 
 from project.Telegram_Chatbot.modulos.database_connection import *    # Importamos clase para instanciar base de datos
@@ -57,7 +68,7 @@ class Form(StatesGroup):
 
     has_corona = State()
     vaccine = State()
-    cough = State()
+    #cough = State()
     dry_cough = State()
     smoker = State()
     cold = State()
@@ -75,6 +86,9 @@ class Form(StatesGroup):
     diabetes = State()
     CLD = State()
     IHD = State()
+
+    cough = State()
+
     others = State()
     upload_Data = State()
 
@@ -108,52 +122,51 @@ async def cmd_start(message: types.Message):
     await Form.menu.set()
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Add data", "Delete data")
-    markup.add("About", "Exit")
+    markup.add(questions[lang]["q37"], questions[lang]["q38"])
+    markup.add(questions[lang]["q39"], questions[lang]["q40"])
 
-    await message.reply("Welcome to covid scipy %s. Select one of the following" %name, reply_markup=markup)
+    await message.reply("Welcome to covid scipy %s. Select one of the following" % name, reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text == "About", state=Form.menu)
+
+@dp.message_handler(lambda message: message.text == questions[lang]["q39"], state=Form.menu)
 async def about(message: types.Message):
-    return await message.reply("Hello, you are chatting with CovidScipy2020's bot. This bot is designed to gather data about"
-                               " people who may, or may not have Sars-covid-2019, in order to better understand the disease"
-                               " and potentially help you to know if you  may be susceptible to have the virus, just by providing"
-                               " us with your symptoms. Right now it is only in a data-gathering state, so you would help us"
-                               " a lot by just adding your information (or someone else's if you have their permission."
-                               " You can access and delete your data at anyime.")
-@dp.message_handler(lambda message: message.text == "Add data", state=Form.menu)
+    return await message.reply(questions[lang]["q41"])
+
+
+@dp.message_handler(lambda message: message.text == questions[lang]["q37"], state=Form.menu)
 async def add_my_data(message: types.Message):
     await Form.username.set()
-    return await message.reply("Okay. You may now add data and symptoms of your own, or from someone else you are responsible for."
-                               "We will begin your first name, just to identify you in case you add data from your relatives."
-                               "What is your name? (Use the command /cancel at any time to go back to the menu. No entry will be uploaded)", reply_markup=types.ReplyKeyboardRemove())
+    return await message.reply(questions[lang]["q42"], reply_markup=types.ReplyKeyboardRemove())
 
 
-
-@dp.message_handler(lambda message: message.text in ["Delete data","Yes"], state=Form.menu)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q38"], questions[lang]["q26"]], state=Form.menu)
 async def delete_data(message: types.Message):
     await Form.delete.set()
-    response = requests.get('http://0.0.0.0:5001/users/%s'%id)
+    response = requests.get(API_HOST + 'users/%s' % id)
     data_delete = json.loads(response.content)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
 
     for i in data_delete:
         markup.add(i["username"])
-    markup.add("CANCEL")
-    return await message.reply("These are the entries you have uploaded. Which one do you want to delete?", reply_markup=markup)
+    markup.add(questions[lang]["q44"])
+    return await message.reply(questions[lang]["q43"], reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text not in ["CANCEL"], state=Form.delete)
+
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q44"]], state=Form.delete)
 async def deleting_data(message: types.Message):
     await Form.menu.set()
-    response = requests.delete('http://0.0.0.0:5001/users/%s/%s'%(id, message.text))
+    response = requests.delete(API_HOST + 'users/%s/%s' % (id, message.text))
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Yes", "No")
-    return await message.reply("%s. Do you want to delete more entries?" % json.loads(response.content)['Status'], reply_markup=markup)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    return await message.reply(json.loads(response.content)['Status'] + questions[lang]["q45"], reply_markup=markup)
 
-@dp.message_handler(lambda message: "Exit", state=Form.menu)
+
+@dp.message_handler(lambda message: questions[lang]["q40"], state=Form.menu)
 async def exit(message: types.Message):
     await Form.start.set()
-    return await message.reply("Bye!", reply_markup=types.ReplyKeyboardRemove())
+    return await message.reply(questions[lang]["q40"], reply_markup=types.ReplyKeyboardRemove())
+
+
 # You can use state '*' if you need to handle all states
 
 @dp.message_handler(state='*', commands='cancel')
@@ -170,6 +183,7 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     # And remove keyboard (just in case)
     await message.reply(questions[lang]["q2"], reply_markup=types.ReplyKeyboardRemove())
 
+
 @dp.message_handler(state='*', commands='stop')
 @dp.message_handler(Text(equals='stop', ignore_case=True), state='*')
 async def stop_handler(message: types.Message, state: FSMContext):
@@ -181,12 +195,11 @@ async def stop_handler(message: types.Message, state: FSMContext):
         return
 
     async with state.proxy() as data:
-
         await bot.send_message(
             message.chat.id,
             questions[lang]["q3"]
         )
-        #save_features(data.as_dict())
+        # save_features(data.as_dict())
 
         '''
         Insertamos los datos con formato diccionario. No hace falta
@@ -236,6 +249,7 @@ async def process_age_invalid(message: types.Message):
     """
     return await message.reply(questions[lang]["q8"])
 
+
 @dp.message_handler(lambda message: message.text.isdigit(), state=Form.age)
 async def process_age(message: types.Message, state: FSMContext):
     # Update state and data
@@ -243,7 +257,7 @@ async def process_age(message: types.Message, state: FSMContext):
         data['age'] = int(message.text)
 
     await Form.next()
-    #await state.update_data(age=int(message.text))
+    # await state.update_data(age=int(message.text))
 
     # Configure ReplyKeyboardMarkup
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -252,7 +266,10 @@ async def process_age(message: types.Message, state: FSMContext):
 
     await message.reply(questions[lang]["q36"], reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q9"], questions[lang]["q10"], questions[lang]["q11"]], state=Form.gender)
+
+@dp.message_handler(
+    lambda message: message.text not in [questions[lang]["q9"], questions[lang]["q10"], questions[lang]["q11"]],
+    state=Form.gender)
 async def process_gender_invalid(message: types.Message):
     """
     In this example gender has to be one of: Male, Female, Other.
@@ -264,20 +281,21 @@ async def process_gender_invalid(message: types.Message):
 
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
+
 @dp.message_handler(state=Form.gender)
 async def process_gender(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['gender'] = message.text
-        #markup = types.ReplyKeyboardRemove()
+        # markup = types.ReplyKeyboardRemove()
 
-        location_keyboard  = types.KeyboardButton(text=questions[lang]["q13"], request_location=True)
+        location_keyboard = types.KeyboardButton(text=questions[lang]["q13"], request_location=True)
         reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
-        reply_markup.add('Skip')
-
+        reply_markup.add(questions[lang]["q60"])
 
     await Form.next()
-    #await message.reply("In which country are you right now?", reply_markup=markup)
+    # await message.reply("In which country are you right now?", reply_markup=markup)
     return await message.reply(questions[lang]["q14"], reply_markup=reply_markup)
+
 
 '''
 # Message handler if a non location message is received
@@ -293,13 +311,14 @@ async def process_location_invalid(message: types.Message):
     return await message.reply(questions[lang]["q15"], reply_markup=reply_markup)
 '''
 
+
 @dp.message_handler(state=Form.location, content_types=['location'])
 async def process_location(message, state: FSMContext):
     async with state.proxy() as data:
         data['location'] = {}
         data['location']['latitude'] = message.location.latitude
         data['location']['longitude'] = message.location.longitude
-        #print("{0}, {1}".format(message.location.latitude, message.location.longitude))
+        # print("{0}, {1}".format(message.location.latitude, message.location.longitude))
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -308,9 +327,9 @@ async def process_location(message, state: FSMContext):
     markup.add(questions[lang]["q18"])
     await message.reply(questions[lang]["q19"], reply_markup=markup)
 
-@dp.message_handler(lambda message: "Skip", state=Form.location)
+
+@dp.message_handler(lambda message: questions[lang]["q60"], state=Form.location)
 async def process_location(message, state: FSMContext):
-
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q16"])
@@ -318,7 +337,10 @@ async def process_location(message, state: FSMContext):
     markup.add(questions[lang]["q18"])
     await message.reply(questions[lang]["q19"], reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q16"], questions[lang]["q17"], questions[lang]["q18"]], state=Form.has_corona)
+
+@dp.message_handler(
+    lambda message: message.text not in [questions[lang]["q16"], questions[lang]["q17"], questions[lang]["q18"]],
+    state=Form.has_corona)
 async def process_has_corona_invalid(message: types.Message):
     """
     Filter.
@@ -329,23 +351,31 @@ async def process_has_corona_invalid(message: types.Message):
     markup.add(questions[lang]["q18"])
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
+
 @dp.message_handler(state=Form.has_corona)
 async def process_has_corona(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['diagnosis'] = message.text
-        markup =types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
     await Form.next()
-    await message.reply("Have you been (fully) vaccinated?", reply_markup=markup)
+    await message.reply(questions[lang]["q47"], reply_markup=markup)
+
 
 @dp.message_handler(state=Form.vaccine)
 async def process_tiredness(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['vaccine'] = (message.text == questions[lang]["q26"])
-    markup = types.ReplyKeyboardRemove()
-    await Form.next()
-    await message.reply(questions[lang]["q20"], reply_markup=markup)
 
+    #markup = types.ReplyKeyboardRemove()
+    #await Form.next()
+    # await message.reply(questions[lang]["q20"], reply_markup=markup)
+    await Form.next()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    await message.reply(questions[lang]["q25"], reply_markup=markup)
+
+'''
 # Message handler if a non voice message is received
 @dp.message_handler(lambda message: types.message.ContentType not in ['voice'], state=Form.cough)
 async def process_cough_invalid(message: types.Message):
@@ -353,12 +383,12 @@ async def process_cough_invalid(message: types.Message):
     Filter.
     """
     return await message.reply(questions[lang]["q21"])
-
-
+'''
+'''
 @dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
-    await bot.send_message(message.chat.id,questions[lang]["q22"])
+    await bot.send_message(message.chat.id, questions[lang]["q22"])
 
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
@@ -366,7 +396,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
 
     global file_path
     file_path = '/tmp/{}.oga'.format(file_id)
-    #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
+    # Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
 
     await bot.download_file(file_path_URL, file_path)
     ###test area
@@ -386,7 +416,10 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
     return await message.reply(questions[lang]["q25"], reply_markup=markup)
-    #end test area
+    # end test area
+
+
+'''
 '''
     #accepted = is_cough(message.voice.file_id)
     accepted = is_cough(file_path)
@@ -402,6 +435,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         return await bot.send_message(message.chat.id,questions[lang]["q23"])
 '''
 
+
 @dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.dry_cough)
 async def process_binary_invalid(message: types.Message):
     """
@@ -413,7 +447,8 @@ async def process_binary_invalid(message: types.Message):
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.dry_cough)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.dry_cough)
 async def process_dry_cough(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms'] = {}
@@ -424,16 +459,17 @@ async def process_dry_cough(message: types.Message, state: FSMContext):
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
     await message.reply(questions[lang]["q28"], reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.smoker)
-async def process_smoker_invalid(message: types.Message):
 
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.smoker)
+async def process_smoker_invalid(message: types.Message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.smoker)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.smoker)
 async def process_smoker(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['smoker'] = (message.text == questions[lang]["q26"])
@@ -442,16 +478,16 @@ async def process_smoker(message: types.Message, state: FSMContext):
     await message.reply(questions[lang]["q29"])
 
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.cold)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.cold)
 async def process_tiredness_invalid(message: types.Message):
-
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.cold)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.cold)
 async def process_tiredness(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['cold'] = (message.text == questions[lang]["q26"])
@@ -460,16 +496,17 @@ async def process_tiredness(message: types.Message, state: FSMContext):
     await message.reply(questions[lang]["q30"])
 
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.res_difficult)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.res_difficult)
 async def process_res_difficult_invalid(message: types.Message):
-
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.res_difficult)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.res_difficult)
 async def process_loss_smell(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['res_difficult'] = (message.text == questions[lang]["q26"])
@@ -478,16 +515,17 @@ async def process_loss_smell(message: types.Message, state: FSMContext):
     await message.reply(questions[lang]["q31"])
 
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.sore_throat)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.sore_throat)
 async def process_headache_invalid(message: types.Message):
-
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.sore_throat)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.sore_throat)
 async def process_headache(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['sore_throat'] = (message.text == questions[lang]["q26"])
@@ -496,34 +534,35 @@ async def process_headache(message: types.Message, state: FSMContext):
     await message.reply("Do you have fever?")
 
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.fever)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.fever)
 async def process_fever_invalid(message: types.Message):
-
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.fever)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.fever)
 async def process_shortness_breath(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['fever'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
-    await message.reply("Do you feel more tired than usual?")
+    await message.reply(questions[lang]["q48"])
 
 
-@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.fatigue)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.fatigue)
 async def process_chest_pain_invalid(message: types.Message):
-
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     return await message.reply(questions[lang]["q12"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.fatigue)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.fatigue)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['fatigue'] = (message.text == questions[lang]["q26"])
@@ -531,10 +570,11 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you feel muscular pain?", reply_markup=markup)
+    await message.reply(questions[lang]["q49"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.muscular)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.muscular)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['muscular_pain'] = (message.text == questions[lang]["q26"])
@@ -542,10 +582,10 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you have a diminished sense of smell/taste?", reply_markup=markup)
+    await message.reply(questions[lang]["q50"], reply_markup=markup)
 
 
-@dp.message_handler(state=Form.smell)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.smell)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['smell_loss'] = (message.text == questions[lang]["q26"])
@@ -553,9 +593,11 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you suffer pneumonia?", reply_markup=markup)
+    await message.reply(questions[lang]["q51"], reply_markup=markup)
 
-@dp.message_handler(state=Form.pneumonia)
+
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.pneumonia)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['pneumonia'] = (message.text == questions[lang]["q26"])
@@ -563,9 +605,11 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you have diarrhea?", reply_markup=markup)
+    await message.reply(questions[lang]["q52"], reply_markup=markup)
 
-@dp.message_handler(state=Form.diarrhea)
+
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.diarrhea)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['diarrhea'] = (message.text == questions[lang]["q26"])
@@ -573,9 +617,11 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you have hypertension?", reply_markup=markup)
+    await message.reply(questions[lang]["q53"], reply_markup=markup)
 
-@dp.message_handler(state=Form.hypertension)
+
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.hypertension)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['hypertension'] = (message.text == questions[lang]["q26"])
@@ -583,9 +629,10 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you have asthma?", reply_markup=markup)
+    await message.reply(questions[lang]["q54"], reply_markup=markup)
 
-@dp.message_handler(state=Form.asma)
+
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.asma)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['asthma'] = (message.text == questions[lang]["q26"])
@@ -593,9 +640,11 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you have diabetes?", reply_markup=markup)
+    await message.reply(questions[lang]["q55"], reply_markup=markup)
 
-@dp.message_handler(state=Form.diabetes)
+
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.diabetes)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['diabetes'] = (message.text == questions[lang]["q26"])
@@ -603,9 +652,10 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you have a Chronic Lung Disease?", reply_markup=markup)
+    await message.reply(questions[lang]["q56"], reply_markup=markup)
 
-@dp.message_handler(state=Form.CLD)
+
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.CLD)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['CLD'] = (message.text == questions[lang]["q26"])
@@ -613,20 +663,129 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("Do you have Ischemic Heart Disease?", reply_markup=markup)
+    await message.reply(questions[lang]["q57"], reply_markup=markup)
 
-@dp.message_handler(state=Form.IHD)
+
+@dp.message_handler(lambda message: message.text in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.IHD)
 async def process_chest_pain(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['IHD'] = (message.text == questions[lang]["q26"])
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add(questions[lang]["q26"], questions[lang]["q27"])
+        #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        #markup.add(questions[lang]["q26"], questions[lang]["q27"])
+
+    #await Form.next()
+    #await message.reply("This is the end of the form. Do you want to add any extra information?"), reply_markup=markup)
+    markup = types.ReplyKeyboardRemove()
+    await Form.next()
+    await message.reply(questions[lang]["q20"], reply_markup=markup)
+
+
+
+
+# Message handler if a non voice message is received
+@dp.message_handler(lambda message: types.message.ContentType not in ['voice'], state=Form.cough)
+async def process_cough_invalid(message: types.Message):
+    """
+    Filter.
+    """
+    return await message.reply(questions[lang]["q21"])
+
+
+@dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
+async def process_cough(message: types.voice.Voice, state: FSMContext):
+    # Update state and data
+
+
+
+    await bot.send_message(message.chat.id,questions[lang]["q22"])
+
+
+    file_id = message.voice.file_id
+    file = await bot.get_file(file_id)
+    file_path_URL = file.file_path
+
+    global file_path
+    # file_path = '/tmp/{}.oga'.format(file_id)
+    file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
+    #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
+
+    await bot.download_file(file_path_URL, file_path)
+
+    ###test area
+    #await bot.send_message(message.chat.id, questions[lang]["q24"])
+    #await Form.next()
+
+    async with state.proxy() as data:
+        veredict = analyze_cough(file_path, data)
+
+    if veredict == True:
+        await bot.send_message(message.chat.id, 'Diagnose: POSITIVE in COVID-19')
+    elif veredict == False:
+        await bot.send_message(message.chat.id, 'Diagnose: NEGATIVE in COVID-19')
+    else:
+        # The audio is not recognised as COUGH
+        await bot.send_message(message.chat.id, questions[lang]["q23"])
+
+
+    '''
+
+    try:
+        f = open(file_path)
+        print("File accessible")
+
+    except IOError:
+        print("File not accessible")
+
+    finally:
+        f.close()
+        os.remove(file_path)
+
+    '''
+
+    #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    #markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    #return await message.reply(questions[lang]["q25"], reply_markup=markup)
+    #end test area
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
-    await message.reply("This is the end of the form. Do you want to add any extra information?", reply_markup=markup)
+    await message.reply(questions[lang]["q58"], reply_markup=markup)
+
+'''
+    #accepted = is_cough(message.voice.file_id)
+    accepted = is_cough(file_path)
+
+    if (accepted == True):
+        await bot.send_message(message.chat.id,questions[lang]["q24"])
+        await Form.next()
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add(questions[lang]["q26"], questions[lang]["q27"])
+        return await message.reply(questions[lang]["q25"], reply_markup=markup)
+
+    else:
+        return await bot.send_message(message.chat.id,questions[lang]["q23"])
+'''
 
 
-@dp.message_handler(lambda message: message.text == "No",state=Form.others)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@dp.message_handler(lambda message: message.text == questions[lang]["q27"], state=Form.others)
 async def process_others(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['others'] = message.text
@@ -636,7 +795,7 @@ async def process_others(message: types.Message, state: FSMContext):
             questions[lang]["q35"]
         )
 
-        requests.post('https://covidscipytest.herokuapp.com/users', json=data.as_dict())
+        requests.post(API_HOST + '/users', json=data.as_dict())
 
     await bot.send_message(
         message.chat.id,
@@ -644,12 +803,14 @@ async def process_others(message: types.Message, state: FSMContext):
     )
     await Form.start.set()
 
-@dp.message_handler(lambda message: message.text == "Yes", state=Form.others)
+
+@dp.message_handler(lambda message: message.text == questions[lang]["q26"], state=Form.others)
 async def process_others_write(message: types.Message, state: FSMContext):
-    await message.reply("Please write it here:")
+    await message.reply(questions[lang]["q59"])
 
 
-@dp.message_handler(lambda message: message.text not in ['Yes', 'No'], state=Form.others)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]],
+                    state=Form.others)
 async def process_others(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['others'] = message.text
@@ -658,9 +819,6 @@ async def process_others(message: types.Message, state: FSMContext):
             message.chat.id,
             questions[lang]["q35"]
         )
-
-        #save_features(data.as_dict())
-
         '''
         Insertamos los datos con formato diccionario. No hace falta
         convertirlos a JSON ya que la propia BBDD de MongoDB los convierte
