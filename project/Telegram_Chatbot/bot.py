@@ -9,6 +9,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import base, fields
 from aiogram.utils import executor
+from bson.binary import Binary
 
 #<<<<<<< HEAD
 #from pydub import AudioSegment
@@ -39,7 +40,6 @@ import os
 import json
 
 database = DataBase()   # Conexión a base de datos
-
 
 logging.basicConfig(level=logging.INFO)
 
@@ -129,18 +129,24 @@ async def cmd_start(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == "About", state=Form.menu)
 async def about(message: types.Message):
-    return await message.reply("Hello, you are chatting with CovidScipy2020's bot. This bot is designed to gather data about"
-                               " people who may, or may not have Sars-covid-2019, in order to better understand the disease"
-                               " and potentially help you to know if you  may be susceptible to have the virus, just by providing"
-                               " us with your symptoms. Right now it is only in a data-gathering state, so you would help us"
-                               " a lot by just adding your information (or someone else's if you have their permission."
-                               " You can access and delete your data at anyime.")
+    return await message.reply("\
+    Hello, you are chatting with CovidScipy2020's bot.\
+    \n\nThis bot is designed to gather data about people who may,\
+     or may not have Sars-covid-2019, in order to better understand the disease\
+      and potentially help you to know if you  may be susceptible to have the virus,\
+       just by providing us with your symptoms.\
+       \n\nRight now it is only in a data-gathering state, so you would help us a lot\
+        by just adding your information (or someone else's if you have their permission.\
+        \n\nYou can access and delete your data at anyime.")
+
 @dp.message_handler(lambda message: message.text == "Add data", state=Form.menu)
 async def add_my_data(message: types.Message):
     await Form.username.set()
-    return await message.reply("Okay. You may now add data and symptoms of your own, or from someone else you are responsible for."
-                               "We will begin your first name, just to identify you in case you add data from your relatives."
-                               "What is your name? (Use the command /cancel at any time to go back to the menu. No entry will be uploaded)", reply_markup=types.ReplyKeyboardRemove())
+    return await message.reply("\
+    Okay. You may now add data and symptoms of your own, or from someone else you are responsible for.\
+    \n\nWe will begin your first name, just to identify you in case you add data from your relatives.\
+    \n\nWhat is your name?\
+    \n\n(Use the command /cancel at any time to go back to the menu. No entry will be uploaded)", reply_markup=types.ReplyKeyboardRemove())
 
 
 
@@ -293,19 +299,6 @@ async def process_gender(message: types.Message, state: FSMContext):
     #await message.reply("In which country are you right now?", reply_markup=markup)
     return await message.reply(questions[lang]["q14"], reply_markup=reply_markup)
 
-'''
-# Message handler if a non location message is received
-@dp.message_handler(lambda message: types.message.ContentType not in ['location'], state=Form.location)
-async def process_location_invalid(message: types.Message):
-    """
-    Filter.
-    """
-
-    location_keyboard  = types.KeyboardButton(text=questions[lang]["q13"], request_location=True)
-    reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
-
-    return await message.reply(questions[lang]["q15"], reply_markup=reply_markup)
-'''
 
 @dp.message_handler(state=Form.location, content_types=['location'])
 async def process_location(message, state: FSMContext):
@@ -364,64 +357,6 @@ async def process_tiredness(message: types.Message, state: FSMContext):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
     await message.reply(questions[lang]["q25"], reply_markup=markup)
-
-'''
-# Message handler if a non voice message is received
-@dp.message_handler(lambda message: types.message.ContentType not in ['voice'], state=Form.cough)
-async def process_cough_invalid(message: types.Message):
-    """
-    Filter.
-    """
-    return await message.reply(questions[lang]["q21"])
-'''
-'''
-@dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
-async def process_cough(message: types.voice.Voice, state: FSMContext):
-    # Update state and data
-    await bot.send_message(message.chat.id,questions[lang]["q22"])
-
-    file_id = message.voice.file_id
-    file = await bot.get_file(file_id)
-    file_path_URL = file.file_path
-
-    global file_path
-    file_path = '/tmp/{}.oga'.format(file_id)
-    #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
-
-    await bot.download_file(file_path_URL, file_path)
-    ###test area
-    await bot.send_message(message.chat.id, questions[lang]["q24"])
-    await Form.next()
-
-    try:
-        f = open(file_path)
-        print("File accessible")
-
-    except IOError:
-        print("File not accessible")
-    finally:
-        f.close()
-        os.remove(file_path)
-
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add(questions[lang]["q26"], questions[lang]["q27"])
-    return await message.reply(questions[lang]["q25"], reply_markup=markup)
-    #end test area
-'''
-'''
-    #accepted = is_cough(message.voice.file_id)
-    accepted = is_cough(file_path)
-
-    if (accepted == True):
-        await bot.send_message(message.chat.id,questions[lang]["q24"])
-        await Form.next()
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add(questions[lang]["q26"], questions[lang]["q27"])
-        return await message.reply(questions[lang]["q25"], reply_markup=markup)
-
-    else:
-        return await bot.send_message(message.chat.id,questions[lang]["q23"])
-'''
 
 
 @dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.dry_cough)
@@ -665,11 +600,7 @@ async def process_cough_invalid(message: types.Message):
 @dp.message_handler(state=Form.cough, content_types=types.message.ContentType.VOICE)
 async def process_cough(message: types.voice.Voice, state: FSMContext):
     # Update state and data
-
-
-
     await bot.send_message(message.chat.id,questions[lang]["q22"])
-
 
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
@@ -686,73 +617,76 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     #await bot.send_message(message.chat.id, questions[lang]["q24"])
     #await Form.next()
 
-    async with state.proxy() as data:
-        veredict = analyze_cough(file_path, data)
+    duration = check_audio_duration(file_path)
+    if duration < 1.0:
+        try:
+            f = open(file_path)
 
-    if veredict == True:
-        await bot.send_message(message.chat.id, 'Diagnose: POSITIVE in COVID-19')
-    elif veredict == False:
-        await bot.send_message(message.chat.id, 'Diagnose: NEGATIVE in COVID-19')
+        except IOError:
+            print("File not accessible")
+
+        finally:
+            f.close()
+            os.remove(file_path)
+        return await bot.send_message(message.chat.id, 'The audio recording is too short.\nPlease repeat the recording.')
+    elif duration >= 5.0:
+        try:
+            f = open(file_path)
+
+        except IOError:
+            print("File not accessible")
+
+        finally:
+            f.close()
+            os.remove(file_path)
+        return await bot.send_message(message.chat.id, 'The audio recording is too long.\nPlease repeat the recording.')
+
     else:
+        async with state.proxy() as data:
+            veredict = analyze_cough(file_path, data)
+
+    if veredict == None:
         # The audio is not recognised as COUGH
-        await bot.send_message(message.chat.id, questions[lang]["q23"])
+        return await bot.send_message(message.chat.id, questions[lang]["q23"])
 
+    else:
+        if veredict == True:
+            await bot.send_message(message.chat.id, 'Diagnose: POSITIVE in COVID-19')
+        elif veredict == False:
+            await bot.send_message(message.chat.id, 'Diagnose: NEGATIVE in COVID-19')
 
-    '''
+        async with state.proxy() as data:
+            objectID = database.store_oga_GridFS(file_path)
+            data['audio_file'] = {}
+            data['audio_file']['filename'] = file_id
+            data['audio_file']['ObjectID'] = objectID
+            data['audio_file']['covid_positive'] = veredict
 
-    try:
-        f = open(file_path)
-        print("File accessible")
+        try:
+            f = open(file_path)
 
-    except IOError:
-        print("File not accessible")
+        except IOError:
+            print("File not accessible")
 
-    finally:
-        f.close()
-        os.remove(file_path)
+        finally:
+            f.close()
+            os.remove(file_path)
 
-    '''
+        try:
+            wav_path = file_path.strip('.oga') + '.wav'
+            w = open(wav_path)
 
-    #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    #markup.add(questions[lang]["q26"], questions[lang]["q27"])
-    #return await message.reply(questions[lang]["q25"], reply_markup=markup)
-    #end test area
+        except IOError:
+            print("File not accessible")
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add(questions[lang]["q26"], questions[lang]["q27"])
+        finally:
+            w.close()
+            os.remove(wav_path)
 
-    await Form.next()
-    await message.reply("This is the end of the form. Do you want to add any extra information?", reply_markup=markup)
-
-'''
-    #accepted = is_cough(message.voice.file_id)
-    accepted = is_cough(file_path)
-
-    if (accepted == True):
-        await bot.send_message(message.chat.id,questions[lang]["q24"])
-        await Form.next()
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
-        return await message.reply(questions[lang]["q25"], reply_markup=markup)
-
-    else:
-        return await bot.send_message(message.chat.id,questions[lang]["q23"])
-'''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        await Form.next()
+        return await message.reply("This is the end of the form. Do you want to add any extra information?", reply_markup=markup)
 
 
 
@@ -761,10 +695,15 @@ async def process_others(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['others'] = message.text
 
+        markup = types.ReplyKeyboardRemove()
+        await message.reply(questions[lang]["q35"], reply_markup=markup)
+
+        '''
         await bot.send_message(
             message.chat.id,
             questions[lang]["q35"]
         )
+        '''
 
         requests.post('https://covidscipytest.herokuapp.com/users', json=data.as_dict())
 
@@ -784,10 +723,15 @@ async def process_others(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['others'] = message.text
 
+        markup = types.ReplyKeyboardRemove()
+        await message.reply(questions[lang]["q35"], reply_markup=markup)
+
+        '''
         await bot.send_message(
             message.chat.id,
             questions[lang]["q35"]
         )
+        '''
 
         #save_features(data.as_dict())
 

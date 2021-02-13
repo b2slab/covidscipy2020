@@ -3,6 +3,8 @@ DATABASE CONNECTION
 '''
 
 import pymongo
+import gridfs
+import os
 from sshtunnel import SSHTunnelForwarder
 
 class DataBase:
@@ -46,17 +48,17 @@ class DataBase:
         self.collection = self.db['Patients']
         print('Colecciones de la BBDD: ', self.db.list_collection_names())
         print('Conexión establecida correctamente')
-    def close(self):
 
+    def close(self):
         '''
         Cerramos connexión con el servidor
         '''
-
         self.server.stop()
         print("Hemos realizado correctamente la desconexión de la BBDD")
 
-# database = DataBase()
-
-'''
-DATABASE CONNECTED
-'''
+    def store_oga_GridFS(self, file_path):
+        filename_oga = file_path.strip('.oga').split('/')[-1]
+        db = self.db
+        audioDB = gridfs.GridFS(db)
+        fileID = audioDB.put(open(file_path, 'rb'), filename=filename_oga)
+        return str(fileID)

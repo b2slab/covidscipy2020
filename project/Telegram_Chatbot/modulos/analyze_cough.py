@@ -3,6 +3,7 @@ from pyAudioAnalysis import audioBasicIO
 from pyAudioAnalysis import MidTermFeatures
 import numpy as np
 import pandas as pd
+# import pickle
 import opensmile
 import warnings
 import joblib
@@ -14,16 +15,15 @@ def analyze_cough(ogg_path, data):
     X_new = mid_term_feat_extraction(wav_path)
 
     cough = cough_prediction(X_new)
-    if cough == False:
-        return None
-
-    else:
+    if cough == True:
         metadata = convert_metadata(data)
         covid = covid_prediction(X_new, metadata)
         if covid == True:
             return True
         else:
             return False
+    else:
+        return None
 
 # Convertion from .ogg to .wav
 def convert_ogg_to_wav(original_path):
@@ -76,15 +76,15 @@ def mid_term_feat_extraction(wav_file_path):
 
 
 # Load the cough recognition model and predict whether the audio is cough
-def cough_prediction(X_new):
+def cough_prediction(X_new, opt_thresh = 0.999999999):
     # Load the cough recognition model
-    joblib_file = "gradient_boosting_classifier.pkl"
+    joblib_file = "C:/Users/Guillem/github/covidscipy2020/project/Telegram_Chatbot/modulos/gradient_boosting_classifier.pkl"
     cough_classifier = joblib.load(joblib_file)
 
     # Predict if audio is cough
     y_pred = cough_classifier.predict_proba(X_new)[:,1]
 
-    if y_pred > 0.5:
+    if y_pred >= opt_thresh:
         #print('The audio has been recognised as COUGH')
         return True
     else:
@@ -131,15 +131,16 @@ def convert_metadata(data):
 
 
 # Predict if cough audio is POSTIVE in COVID-19
-def covid_prediction(X_new, metadata, optimal_threshold = 0.2397):
+def covid_prediction(X_new, metadata, optimal_threshold = 0.8):
 
+    # optimal_threshold = 0.2397
     X = pd.concat([X_new, metadata], axis = 1)
 
     # Load the model
     warnings.filterwarnings("ignore")
 
     # Load the model
-    joblib_file = "extratree_classifier.pkl"
+    joblib_file = "C:/Users/Guillem/github/covidscipy2020/project/Telegram_Chatbot/modulos/extratree_classifier.pkl"
     extratree_classifier = joblib.load(joblib_file)
 
     # Predictions
@@ -150,3 +151,17 @@ def covid_prediction(X_new, metadata, optimal_threshold = 0.2397):
     else:
         #print('Cough NEGATIVE in COVID-19')
         return False
+
+'''
+def wav_to_binary(oga_path):
+    wav_path = os.path.splitext(oga_path)[0] + '.wav'
+    sampling_rate, signal = audioBasicIO.read_audio_file(wav_path)
+    # dumped = pickle.dumps(signal, protocol=2)
+    dumped = signal.tobytes()
+    return dumped, sampling_rate
+'''
+
+def check_audio_duration(filepath):
+    audio = AudioSegment.from_ogg(filepath)
+    duration = audio.duration_seconds
+    return duration
