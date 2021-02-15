@@ -87,6 +87,30 @@ def import_languages():
 
             "q55":"This is the end of the form. Do you want to add any extra information?",
 
+            "q56":"Add data",
+
+            "q57":"Delete data",
+
+            "q58":"About",
+
+            "q59":"Exit",
+
+            "q60":"Welcome to covid scipy %s. Select one of the following",
+
+            "q61":"CANCEL",
+
+            "q62":"These are the entries you have uploaded. Which one do you want to delete?",
+
+            "q63":"%s. Do you want to delete more entries?",
+
+            "q64":"Bye!",
+
+            "q65":"Please write it here:",
+
+            "q66":"Skip",
+
+
+
         },
         "es":{
             "q1":"¡Hola!\n\nPor favor, introduzca su nombre.",
@@ -129,15 +153,12 @@ def import_languages():
 
             "q37":"Hola, usted está hablando con el bot llamado CovidScipy2020.\
             \n\nÉste bot está diseñado para recopilar datos sobre personas y su estado de salud respecto al SARS-COVID-19.\
-            El objetivo del proyecto es comprender mejor la enfermedad y ayudar a los usuarios a saber si son susceptibles de tener el virus.\
-            Para hacerlo, le pediremos si nos puede facilitar sus síntomas y una muestra de su tos.\
-            \n\nActualmente, el proyecto aún está en una fase preliminar de almacenamiento de datos.\
-            Por lo tanto, si nos pudiera facilitar sus datos nos sería de una tremenda utilidad (o los de otra persona a su cargo y con su consentimiento).\
+            El objetivo del proyecto es comprender mejor la enfermedad y ayudar a los usuarios a saber si son susceptibles de tener el virus. Para hacerlo, le pediremos si nos puede facilitar sus síntomas y una muestra de su tos.\
+            \n\nActualmente, el proyecto aún está en una fase preliminar de almacenamiento de datos. Por lo tanto, si nos pudiera facilitar sus datos nos sería de una tremenda utilidad (o los de otra persona a su cargo y con su consentimiento).\
             \n\nPor supuesto, usted puede acceder o eliminar la información proporcionada en cualquier momento.",
 
             "q38":"A continuación puede agregar datos y síntomas propios. También puede optar por facilitarnos los datos de una persona a su cargo.\
-            \n\nComenzaremos por su nombre. El nombre que nos proporcione servirá como identificador en el caso de que\
-            quiera agregar los datos de sus familiares.\
+            \n\nComenzaremos por su nombre. El nombre que nos proporcione servirá como identificador en el caso de que quiera agregar los datos de sus familiares.\
             \n\n\n¿Cómo se llama usted?\
             \n\n\n(Escriba el comando /cancel en cualquier momento para volver al menú. Ningún dato será almacenado en tal caso.)",
 
@@ -174,6 +195,28 @@ def import_languages():
             "q54":'Según nuestros modelos, usted es NEGATIVO en COVID-19.',
 
             "q55":"Este es el final del formulario. ¿Desea agregar más información?",
+
+            "q56":"Añadir datos",
+
+            "q57":"Eliminar datos",
+
+            "q58":"Acerca de",
+
+            "q59":"Salir",
+
+            "q60":"Bienvenido/a al covid scipy %s. Seleccione una de las opciones siguientes:",
+
+            "q61":"CANCELAR",
+
+            "q62":"Estos son los registros que ha creado. ¿Cuál de ellos desea eliminar?",
+
+            "q63":"%s. ¿Desea eliminar más registros?",
+
+            "q64":"¡Hasta luego! ¡Gracias!",
+
+            "q65":"Por favor, escríbalo aquí:",
+
+            "q66":"Omitir",
 
         },
         "ca":{
@@ -217,15 +260,12 @@ def import_languages():
 
             "q37":"Hola, vostè està parlant amb el bot anomenat CovidScipy2020.\
             \n\nAquest bot està dissenyat per recopilar dades sobre persones i el seu estat de salut respecte a la SARS-COVID-19.\
-            L'objectiu del projecte és comprendre millor la malaltia i ajudar els usuaris a saber si són susceptibles de tenir el virus.\
-            Per fer-ho, li demanarem si ens pot facilitar els seus símptomes i una mostra d'àudio del seu estossec.\
-            \n\nActualment, el projecte encara es troba en una fase preliminar d'emmagatzematge de dades.\
-            Per tant, si ens pogués facilitar les seves dades ens seria de molta utilitat (o les d'una altra persona al seu càrrec i amb el seu consentiment). \
+            L'objectiu del projecte és comprendre millor la malaltia i ajudar els usuaris a saber si són susceptibles de tenir el virus. Per fer-ho, li demanarem si ens pot facilitar els seus símptomes i una mostra d'àudio del seu estossec.\
+            \n\nActualment, el projecte encara es troba en una fase preliminar d'emmagatzematge de dades. Per tant, si ens pogués facilitar les seves dades ens seria de molta utilitat (o les d'una altra persona al seu càrrec i amb el seu consentiment). \
             \n\nPer descomptat, vostè pot accedir o eliminar la informació proporcionada en qualsevol moment.",
 
             "q38":"A continuació pot afegir les dades i els símptomes propis. També pot optar per facilitar-nos les dades d'una persona al seu càrrec.\
-            \n\nComençarem pel seu nom. El nom que ens proporcioni servirà com a identificador en el cas que\
-            vulgui afegir les dades dels seus familiars.\
+            \n\nComençarem pel seu nom. El nom que ens proporcioni servirà com a identificador en el cas que vulgui afegir les dades dels seus familiars.\
             \n\n\nCom es diu vostè?\
             \n\n\n (Escrigui la comanda /cancel en qualsevol moment per a tornar al menú inicial. Cap dada serà emmagatzemat si ho fa)",
 
@@ -261,7 +301,29 @@ def import_languages():
 
             "q54":"Segons els nostres models, vostè és NEGATIU a COVID-19.",
 
-            "q55":"Aquest és el final del formulari. Voleu afegir més informació?"
+            "q55":"Aquest és el final del formulari. Voleu afegir més informació?",
+
+            "q56":"Afegir dades",
+
+            "q57":"Eliminar dades",
+
+            "q58":"Sobre nosaltres",
+
+            "q59":"Sortir",
+
+            "q60":"Benvingut/da al covid scipy %s. Seleccioni una de les opcions següents:",
+
+            "q61":"CANCEL·LAR",
+
+            "q62":"Aquests són els registres que ha creat. Quin d'ells desitja eliminar?",
+
+            "q63":"%s. Vol eliminar més registres?",
+
+            "q64":"¡Fins després! ¡Gràcies!",
+
+            "q65":"Si us plau, escrigui-ho aquí:",
+
+            "q66":"Ometre",
 
         }
     }
