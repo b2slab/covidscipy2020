@@ -7,21 +7,15 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import base, fields
 from aiogram.utils import executor
-from bson.binary import Binary
 
-#<<<<<<< HEAD
-#from pydub import AudioSegment
-#=======
-#from pyAudioAnalysis import audioTrainTest as aT
 
 '''
 Añadido para que funcione en LOCAL
 '''
 
-import nest_asyncio
-nest_asyncio.apply()
+#import nest_asyncio
+#nest_asyncio.apply()
 #__import__('IPython').embed()
 from project.Telegram_Chatbot.modulos.analyze_cough import *
 
@@ -32,10 +26,10 @@ from project.Telegram_Chatbot.modulos.analyze_cough import *
 from project.Telegram_Chatbot.modulos.database_connection import *    # Importamos clase para instanciar base de datos
 
 from project.Telegram_Chatbot.modulos.languages_chatbot import *
-#from modulos.wav_to_binary import
+
 from project.Telegram_Chatbot.settings import (BOT_TOKEN, HEROKU_APP_NAME,
                           WEBHOOK_URL, WEBHOOK_PATH,
-                          WEBAPP_HOST)#, WEBAPP_PORT)
+                          WEBAPP_HOST, API_HOST)#, WEBAPP_PORT)
 import os
 import json
 
@@ -141,7 +135,7 @@ async def add_my_data(message: types.Message):
 @dp.message_handler(lambda message: message.text in ["Delete data","Yes"], state=Form.menu)
 async def delete_data(message: types.Message):
     await Form.delete.set()
-    response = requests.get('http://0.0.0.0:5001/users/%s'%id)
+    response = requests.get(API_HOST+'users/%s'%id)
     data_delete = json.loads(response.content)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
 
@@ -153,7 +147,7 @@ async def delete_data(message: types.Message):
 @dp.message_handler(lambda message: message.text not in ["CANCEL"], state=Form.delete)
 async def deleting_data(message: types.Message):
     await Form.menu.set()
-    response = requests.delete('http://0.0.0.0:5001/users/%s/%s'%(id, message.text))
+    response = requests.delete(API_HOST+'users/%s/%s'%(id, message.text))
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add("Yes", "No")
     return await message.reply("%s. Do you want to delete more entries?" % json.loads(response.content)['Status'], reply_markup=markup)
@@ -596,7 +590,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
 
     global file_path
     # file_path = '/tmp/{}.oga'.format(file_id)
-    file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
+    file_path = '/tmp/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
 
     await bot.download_file(file_path_URL, file_path)
@@ -693,7 +687,7 @@ async def process_others(message: types.Message, state: FSMContext):
         )
         '''
 
-        requests.post('https://covidscipytest.herokuapp.com/users', json=data.as_dict())
+        requests.post(API_HOST+'users', json=data.as_dict())
 
     await bot.send_message(
         message.chat.id,
@@ -737,7 +731,7 @@ async def process_others(message: types.Message, state: FSMContext):
 
 
         #requests.post('http://0.0.0.0:5001/users', json=data.as_dict())
-        requests.post('https://covidscipytest.herokuapp.com/users', json=data.as_dict())
+        requests.post(API_HOST+'users', json=data.as_dict())
         #database.collection.insert_one(data.as_dict())
 
 
