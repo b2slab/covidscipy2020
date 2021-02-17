@@ -3,6 +3,8 @@ import re
 from sshtunnel import SSHTunnelForwarder
 from flask import Flask, request, json, Response
 from bson import json_util
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
@@ -100,7 +102,10 @@ class Patient(object):
         self.diagnosis = diagnosis
         self.symptoms = symptoms
 
-
+limiter = Limiter(
+    app,
+    key_func=get_remote_address
+)
 
 @app.route('/')
 def base():
@@ -133,6 +138,7 @@ def get_user_by_id(id):
         return response
 
 @app.route('/users', methods=['POST'])
+@limiter.limit("1 per 10 second")
 def add_user():
     data = request.json
     print(data)
@@ -174,6 +180,7 @@ def delete_user(id, username):
 
 if __name__ == '__main__':
     database = DataBase()
-    app.run()
-    #app.run(debug=True, port=5001, host='0.0.0.0')
+    #app.run()
+
+    app.run(debug=True, port=5001, host='0.0.0.0')
     #app.run(debug=True, port=2244, host='covidbot.upc.edu')
