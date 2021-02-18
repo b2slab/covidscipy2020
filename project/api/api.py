@@ -180,7 +180,7 @@ def delete_user(id, username):
 
 if __name__ == '__main__':
     database = DataBase()
-    #app.run()
+    app.run()
 
-    app.run(debug=True, port=5001, host='0.0.0.0')
+    #app.run(debug=True, port=5001, host='0.0.0.0')
     #app.run(debug=True, port=2244, host='covidbot.upc.edu')
