@@ -22,6 +22,7 @@ eyed3==0.9.6
 ffmpeg
 filetype==1.0.7
 Flask==1.1.2
+Flask-Limiter
 flatbuffers==1.12
 gast==0.3.3
 google-auth==1.24.0
