@@ -96,8 +96,8 @@ global lang
 @dp.message_handler(state = None)
 @dp.message_handler(state = Form.start)
 @dp.message_handler(state='*', commands='cancel')
-@dp.message_handler(lambda message: message.text == "No", state=Form.menu)
-@dp.message_handler(lambda message: message.text == "CANCEL", state=Form.delete)
+@dp.message_handler(lambda message: message.text == questions[lang]["q27"], state=Form.menu)
+@dp.message_handler(lambda message: message.text == questions[lang]["q61"], state=Form.delete)
 async def cmd_start(message: types.Message):
     """
     Conversation's entry point
@@ -116,23 +116,27 @@ async def cmd_start(message: types.Message):
     await Form.menu.set()
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Add data", "Delete data")
-    markup.add("About", "Exit")
+    markup.add(questions[lang]["q56"], questions[lang]["q57"])
+    markup.add(questions[lang]["q58"], questions[lang]["q59"])
 
+<<<<<<< HEAD
     await message.reply("Welcome to covid scipy %s. Your id is %s Select one of the following" %(name, id), reply_markup=markup)
+=======
+    await message.reply(questions[lang]["q60"] %name, reply_markup=markup)
+>>>>>>> 0ce640dce394d086d5ecb811301a96ad10d3db1c
 
-@dp.message_handler(lambda message: message.text == "About", state=Form.menu)
+@dp.message_handler(lambda message: message.text == questions[lang]["q58"], state=Form.menu)
 async def about(message: types.Message):
     return await message.reply(questions[lang]["q37"])
 
-@dp.message_handler(lambda message: message.text == "Add data", state=Form.menu)
+@dp.message_handler(lambda message: message.text == questions[lang]["q56"], state=Form.menu)
 async def add_my_data(message: types.Message):
     await Form.username.set()
     return await message.reply(questions[lang]["q38"], reply_markup=types.ReplyKeyboardRemove())
 
 
 
-@dp.message_handler(lambda message: message.text in ["Delete data","Yes"], state=Form.menu)
+@dp.message_handler(lambda message: message.text in [questions[lang]["q57"],questions[lang]["q26"]], state=Form.menu)
 async def delete_data(message: types.Message):
     await Form.delete.set()
     response = requests.get(API_HOST+'users/%s'%id)
@@ -141,21 +145,21 @@ async def delete_data(message: types.Message):
 
     for i in data_delete:
         markup.add(i["username"])
-    markup.add("CANCEL")
-    return await message.reply("These are the entries you have uploaded. Which one do you want to delete?", reply_markup=markup)
+    markup.add(questions[lang]["q61"])
+    return await message.reply(questions[lang]["q62"], reply_markup=markup)
 
-@dp.message_handler(lambda message: message.text not in ["CANCEL"], state=Form.delete)
+@dp.message_handler(lambda message: message.text not in questions[lang]["q61"], state=Form.delete)
 async def deleting_data(message: types.Message):
     await Form.menu.set()
     response = requests.delete(API_HOST+'users/%s/%s'%(id, message.text))
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Yes", "No")
-    return await message.reply("%s. Do you want to delete more entries?" % json.loads(response.content)['Status'], reply_markup=markup)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    return await message.reply(questions[lang]["q63"] % json.loads(response.content)['Status'], reply_markup=markup)
 
-@dp.message_handler(lambda message: "Exit", state=Form.menu)
+@dp.message_handler(lambda message: questions[lang]["q59"], state=Form.menu)
 async def exit(message: types.Message):
     await Form.start.set()
-    return await message.reply("Bye!", reply_markup=types.ReplyKeyboardRemove())
+    return await message.reply(questions[lang]["q64"], reply_markup=types.ReplyKeyboardRemove())
 # You can use state '*' if you need to handle all states
 
 @dp.message_handler(state='*', commands='cancel')
@@ -274,7 +278,7 @@ async def process_gender(message: types.Message, state: FSMContext):
 
         location_keyboard  = types.KeyboardButton(text=questions[lang]["q13"], request_location=True)
         reply_markup = types.ReplyKeyboardMarkup([[location_keyboard]], resize_keyboard=True)
-        reply_markup.add('Skip')
+        reply_markup.add(questions[lang]["q66"])
 
 
     await Form.next()
@@ -589,8 +593,8 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file_path_URL = file.file_path
 
     global file_path
-    # file_path = '/tmp/{}.oga'.format(file_id)
     file_path = '/tmp/{}.oga'.format(file_id)
+    # file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
 
     await bot.download_file(file_path_URL, file_path)
@@ -611,7 +615,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
             f.close()
             os.remove(file_path)
         return await bot.send_message(message.chat.id, questions[lang]["q51"])
-    elif duration >= 5.0:
+    elif duration >= 7.0:
         try:
             f = open(file_path)
 
@@ -638,7 +642,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
             await bot.send_message(message.chat.id, questions[lang]["q54"])
 
         async with state.proxy() as data:
-            objectID = database.store_oga_GridFS(file_path)
+            objectID = database.store_oga_GridFS(file_path, data['diagnosis'], veredict)
             data['audio_file'] = {}
             data['audio_file']['filename'] = file_id
             data['audio_file']['ObjectID'] = objectID
@@ -695,12 +699,12 @@ async def process_others(message: types.Message, state: FSMContext):
     )
     await Form.start.set()
 
-@dp.message_handler(lambda message: message.text == "Yes", state=Form.others)
+@dp.message_handler(lambda message: message.text == questions[lang]["q26"], state=Form.others)
 async def process_others_write(message: types.Message, state: FSMContext):
-    await message.reply("Please write it here:")
+    await message.reply(questions[lang]["q65"])
 
 
-@dp.message_handler(lambda message: message.text not in ['Yes', 'No'], state=Form.others)
+@dp.message_handler(lambda message: message.text not in [questions[lang]["q26"], questions[lang]["q27"]], state=Form.others)
 async def process_others(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['symptoms']['others'] = message.text
