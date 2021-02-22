@@ -119,7 +119,7 @@ async def cmd_start(message: types.Message):
     markup.add("Add data", "Delete data")
     markup.add("About", "Exit")
 
-    await message.reply("Welcome to covid scipy %s. Select one of the following" %name, reply_markup=markup)
+    await message.reply("Welcome to covid scipy %s. Your id is %s Select one of the following" %(name, id), reply_markup=markup)
 
 @dp.message_handler(lambda message: message.text == "About", state=Form.menu)
 async def about(message: types.Message):

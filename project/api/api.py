@@ -5,6 +5,7 @@ from flask import Flask, request, json, Response
 from bson import json_util
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+import gridfs
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
@@ -61,6 +62,10 @@ class DataBase:
 
     def delete_entry(self, id, username):
         filt = {"$and":[{ "id": int(id) }, { "username": username}]}
+        documents = self.collection.find(filt)
+        audio_id = [{item: data[item] for item in data} for data in documents]
+        #audioDB = gridfs.GridFS(self.db)
+        #audioDB.delete(audio_id)
         response = self.collection.delete_one(filt)
         output = {'Status': 'Successfully deleted' if response.deleted_count > 0 else "Document not found."}
         return output
@@ -125,17 +130,14 @@ def get_users():
 @app.route('/users/<id>', methods=['GET'])
 def get_user_by_id(id):
     data = DataBase().get_user_by_id(id)
-    pattern = re.compile("^[0-9]{10}$")
-    if not pattern.match(id):
-        return Response(response = 'huh?', status=400)
+
+    if data == []:
+        response = Response(status=404)
     else:
-        if data == []:
-            response = Response(status=404)
-        else:
-            response = Response(response=json_util.dumps(data),
+        response = Response(response=json_util.dumps(data),
                      status=200,
                          mimetype='application/json')
-        return response
+    return response
 
 @app.route('/users', methods=['POST'])
 @limiter.limit("1 per 10 second")
