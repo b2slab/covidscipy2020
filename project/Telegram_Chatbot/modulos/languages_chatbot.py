@@ -95,7 +95,7 @@ def import_languages():
 
             "q59":"Exit",
 
-            "q60":"Welcome to covid scipy %s. Select one of the following",
+            "q60":"Welcome to covid scipy %s. Your id is %s. Select one of the following",
 
             "q61":"CANCEL",
 
@@ -204,7 +204,7 @@ def import_languages():
 
             "q59":"Salir",
 
-            "q60":"Bienvenido/a al covid scipy %s. Seleccione una de las opciones siguientes:",
+            "q60":"Bienvenido/a al covid scipy %s. Su id es %s. Seleccione una de las opciones siguientes:",
 
             "q61":"CANCELAR",
 
@@ -311,7 +311,7 @@ def import_languages():
 
             "q59":"Sortir",
 
-            "q60":"Benvingut/da al covid scipy %s. Seleccioni una de les opcions següents:",
+            "q60":"Benvingut/da al covid scipy %s. La seva id és %s. Seleccioni una de les opcions següents:",
 
             "q61":"CANCEL·LAR",
 

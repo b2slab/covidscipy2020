@@ -118,12 +118,8 @@ async def cmd_start(message: types.Message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q56"], questions[lang]["q57"])
     markup.add(questions[lang]["q58"], questions[lang]["q59"])
+    await message.reply(questions[lang]["q60"] %(name, id), reply_markup=markup)
 
-<<<<<<< HEAD
-    await message.reply("Welcome to covid scipy %s. Your id is %s Select one of the following" %(name, id), reply_markup=markup)
-=======
-    await message.reply(questions[lang]["q60"] %name, reply_markup=markup)
->>>>>>> 0ce640dce394d086d5ecb811301a96ad10d3db1c
 
 @dp.message_handler(lambda message: message.text == questions[lang]["q58"], state=Form.menu)
 async def about(message: types.Message):
