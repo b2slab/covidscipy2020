@@ -103,7 +103,7 @@ async def cmd_start(message: types.Message):
     Conversation's entry point
     """
     # Set state and language
-    #global lang, id, name
+    global lang
     lang = message.from_user.locale.language
     id = message.from_user.id
     name = message.from_user.first_name
@@ -134,6 +134,7 @@ async def add_my_data(message: types.Message):
 @dp.message_handler(lambda message: message.text in [questions[lang]["q57"],questions[lang]["q26"]], state=Form.menu)
 async def delete_data(message: types.Message):
     await Form.delete.set()
+    id = message.from_user.id
     response = requests.get(API_HOST+'users/%s'%id)
     data_delete = json.loads(response.content)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -146,6 +147,7 @@ async def delete_data(message: types.Message):
 @dp.message_handler(lambda message: message.text not in questions[lang]["q61"], state=Form.delete)
 async def deleting_data(message: types.Message):
     await Form.menu.set()
+    id = message.from_user.id
     response = requests.delete(API_HOST+'users/%s/%s'%(id, message.text))
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
