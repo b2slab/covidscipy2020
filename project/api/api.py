@@ -77,7 +77,7 @@ class DataBase:
 
 class symptoms(object):
     def __init__(self, dry_cough, smoker, cold, res_difficult, sore_throat, fever,fatigue, muscular_pain, smell_loss,
-                 pneumonia, diarrhea, hypertension, asthma, diabetes, CLD, IHD, others, *args, **kwargs):
+                 pneumonia, diarrhea, hypertension, asthma, diabetes, CLD, IHD, *args, **kwargs):
         #self.cough = cough
         self.dry_cough = dry_cough
         self.smoker = smoker
@@ -95,7 +95,7 @@ class symptoms(object):
         self.diabtes = diabetes
         self.CLD = CLD
         self.IHD = IHD
-        self.others = others
+        #self.others = others
 
 
 class Patient(object):
@@ -105,6 +105,7 @@ class Patient(object):
         self.gender = gender
         #self.location = location
         self.diagnosis = diagnosis
+        self.vaccine = vaccine
         self.symptoms = symptoms
 
 limiter = Limiter(
