@@ -62,8 +62,8 @@ class DataBase:
 
     def delete_entry(self, id, username):
         filt = {"$and":[{ "id": int(id) }, { "username": username}]}
-        documents = self.collection.find(filt)
-        audio_id = [{item: data[item] for item in data} for data in documents]
+        #documents = self.collection.find(filt)
+        #audio_id = [{item: data[item] for item in data} for data in documents]
         #audioDB = gridfs.GridFS(self.db)
         #audioDB.delete(audio_id)
         response = self.collection.delete_one(filt)

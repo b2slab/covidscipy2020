@@ -7,7 +7,7 @@ if not BOT_TOKEN:
     print('You have forgot to set BOT_TOKEN')
     quit()
 
-HEROKU_APP_NAME = os.getenv('covidscipytest')
+HEROKU_APP_NAME = os.getenv('covidscipy2020')
 
 
 # webhook settings
@@ -19,4 +19,4 @@ WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
 WEBAPP_HOST = '0.0.0.0'
 #WEBAPP_PORT = int(os.getenv('PORT'))
 
-API_HOST = 'https://covidscipytest.herokuapp.com/'
+API_HOST = 'https://covidscipy2020.herokuapp.com/'
