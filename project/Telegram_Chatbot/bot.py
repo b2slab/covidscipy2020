@@ -103,9 +103,8 @@ async def cmd_start(message: types.Message):
     Conversation's entry point
     """
     # Set state and language
-    global lang, id, name
-    locale = message.from_user.locale
-    lang = locale.language
+    #global lang, id, name
+    lang = message.from_user.locale.language
     id = message.from_user.id
     name = message.from_user.first_name
 
@@ -219,9 +218,7 @@ async def process_user_invalid(message: types.Message):
 
 @dp.message_handler(state=Form.username)
 async def process_username(message: types.Message, state: FSMContext):
-    """
-    Process user name
-    """
+    id = message.from_user.id
     async with state.proxy() as data:
         data['id'] = id
         data['username'] = message.text
