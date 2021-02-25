@@ -92,7 +92,7 @@ START CHATBOT
 '''
 #global lang
 
-
+lang = 'es'
 @dp.message_handler(state = None)
 @dp.message_handler(state = Form.start)
 @dp.message_handler(state='*', commands='cancel')
@@ -103,10 +103,10 @@ async def cmd_start(message: types.Message):
     Conversation's entry point
     """
     # Set state and language
-    lang = message.from_user.locale.language
+    #lang = message.from_user.locale.language
     id = message.from_user.id
     name = message.from_user.first_name
-
+    lang='es'
     # Si no reconoce idioma, por defecto activa el español
     #if lang not in ["en","es","ca"]:
      #   lang = "es"
@@ -117,9 +117,7 @@ async def cmd_start(message: types.Message):
     markup.add(questions[lang]["q56"], questions[lang]["q57"])
     markup.add(questions[lang]["q58"], questions[lang]["q59"])
     await message.reply(questions[lang]["q60"] %(name, id), reply_markup=markup)
-    return lang
 
-lang = cmd_start()
 
 @dp.message_handler(lambda message: message.text == questions[lang]["q58"], state=Form.menu)
 async def about(message: types.Message):
