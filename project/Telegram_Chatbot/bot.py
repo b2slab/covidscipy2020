@@ -90,7 +90,7 @@ class Form(StatesGroup):
 '''
 START CHATBOT
 '''
-global lang
+#global lang
 
 
 @dp.message_handler(state = None)
@@ -103,14 +103,14 @@ async def cmd_start(message: types.Message):
     Conversation's entry point
     """
     # Set state and language
-    global lang
-    lang = message.from_user.locale.language
+    cmd_start.lang = message.from_user.locale.language
     id = message.from_user.id
     name = message.from_user.first_name
 
     # Si no reconoce idioma, por defecto activa el español
-    if lang not in ["en","es","ca"]:
-        lang = "es"
+    if cmd_start.lang not in ["en","es","ca"]:
+        cmd_start.lang = "es"
+    lang = cmd_start.lang
     #await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=False)
     await Form.menu.set()
 
@@ -119,7 +119,7 @@ async def cmd_start(message: types.Message):
     markup.add(questions[lang]["q58"], questions[lang]["q59"])
     await message.reply(questions[lang]["q60"] %(name, id), reply_markup=markup)
 
-
+lang=cmd_start.lang
 @dp.message_handler(lambda message: message.text == questions[lang]["q58"], state=Form.menu)
 async def about(message: types.Message):
     return await message.reply(questions[lang]["q37"])
