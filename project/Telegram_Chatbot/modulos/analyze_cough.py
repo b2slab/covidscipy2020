@@ -75,7 +75,7 @@ def mid_term_feat_extraction(wav_file_path):
 
 
 # Load the cough recognition model and predict whether the audio is cough
-def cough_prediction(X_new, opt_thresh = 0.6953):
+def cough_prediction(X_new, opt_thresh = 0.80):
     # Load the cough recognition model
     joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
     #joblib_file = "C:/Users/Guillem/Desktop/Bot_Telegram/classification_covid/predict_cough_covid/cough_nocough/gradient_boosting_classifier.pkl"
