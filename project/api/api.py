@@ -54,6 +54,13 @@ class DataBase:
         output = [{item: data[item] for item in data} for data in documents]
         return output
 
+    def get_user_by_id_and_name(self,id,username):
+        filt = {"$and": [{"id": int(id)}, {"username": username}]}
+        documents = self.collection.find(filt)
+        output = [{item: data[item] for item in data} for data in documents]
+        print(output[0]['audio_file']['ObjectID'])
+        return output
+
     def write_user(self, data):
         response = self.collection.insert_one(data)
         output = {'Status': 'Successfully Inserted',
@@ -62,10 +69,10 @@ class DataBase:
 
     def delete_entry(self, id, username):
         filt = {"$and":[{ "id": int(id) }, { "username": username}]}
-        #documents = self.collection.find(filt)
-        #audio_id = [{item: data[item] for item in data} for data in documents]
-        #audioDB = gridfs.GridFS(self.db)
-        #audioDB.delete(audio_id)
+        documents = self.collection.find(filt)
+        audio_id = [{item: data[item] for item in data} for data in documents][0]['audio_file']['ObjectID']
+        audioDB = gridfs.GridFS(self.db)
+        audioDB.delete(audio_id)
         response = self.collection.delete_one(filt)
         output = {'Status': 'Successfully deleted' if response.deleted_count > 0 else "Document not found."}
         return output
@@ -140,6 +147,18 @@ def get_user_by_id(id):
                          mimetype='application/json')
     return response
 
+@app.route('/users/<id>/<username>', methods=['GET'])
+def get_user_by_id_and_username(id,username):
+    data = DataBase().get_user_by_id_and_name(id,username)
+
+    if data == []:
+        response = Response(status=404)
+    else:
+        response = Response(response=json_util.dumps(data),
+                     status=200,
+                         mimetype='application/json')
+    return response
+
 @app.route('/users', methods=['POST'])
 @limiter.limit("1 per 10 second")
 def add_user():
@@ -183,7 +202,7 @@ def delete_user(id, username):
 
 if __name__ == '__main__':
     database = DataBase()
-    app.run()
+    #app.run()
 
-    #app.run(debug=True, port=5001, host='0.0.0.0')
+    app.run(debug=True, port=5001, host='0.0.0.0')
     #app.run(debug=True, port=2244, host='covidbot.upc.edu')
