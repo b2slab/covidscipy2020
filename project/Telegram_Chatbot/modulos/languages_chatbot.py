@@ -134,7 +134,7 @@ def import_languages():
             "q19":"¿Tiene usted COVID-19?",
             "q20":"¿Podría enviarnos una grabación de audio de su tos?",
             "q21":"Por favor, envíenos una nota de voz de su tos.",
-            "q22":"Analizando su audio...",
+            "q22":"Analizando su audio... (si tarda máed s 15 segundos en respondeer, vuelva a enviarlo por favor)",
             "q23":"Lo sentimos, no hemos reconocido su audio como tos.\n\n¿Podría volver a intentarlo?",
             "q24":"Su audio ha sido aceptado. Muchas gracias por su tos.",
             "q25":"¿Padece usted tos seca?",
