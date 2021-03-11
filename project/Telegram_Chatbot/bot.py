@@ -230,7 +230,7 @@ async def process_username(message: types.Message, state: FSMContext):
 
 
 # Check age. Age has to be a digit
-@dp.message_handler(lambda message: (not message.text.isdigit()) or (message.text not in np.arange(0,121)), state=Form.age)
+@dp.message_handler(lambda message: (not message.text.isdigit()) or (int(message.text) not in np.arange(0,121)), state=Form.age)
 async def process_age_invalid(message: types.Message):
     """
     If age is invalid
