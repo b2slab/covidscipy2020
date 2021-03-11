@@ -587,7 +587,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file = await bot.get_file(file_id)
     file_path_URL = file.file_path
 
-    global file_path
+    # global file_path
     file_path = '/tmp/{}.oga'.format(file_id)
     # file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
