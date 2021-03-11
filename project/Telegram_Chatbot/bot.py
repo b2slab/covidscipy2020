@@ -18,6 +18,7 @@ Añadido para que funcione en LOCAL
 #nest_asyncio.apply()
 #__import__('IPython').embed()
 from project.Telegram_Chatbot.modulos.analyze_cough import *
+import numpy as np
 
 
 
@@ -229,7 +230,7 @@ async def process_username(message: types.Message, state: FSMContext):
 
 
 # Check age. Age has to be a digit
-@dp.message_handler(lambda message: not message.text.isdigit(), state=Form.age)
+@dp.message_handler(lambda message: (not message.text.isdigit()) or (message.text not in np.arange(0,121)), state=Form.age)
 async def process_age_invalid(message: types.Message):
     """
     If age is invalid
