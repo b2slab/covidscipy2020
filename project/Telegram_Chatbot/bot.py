@@ -18,6 +18,14 @@ Añadido para que funcione en LOCAL
 #nest_asyncio.apply()
 #__import__('IPython').embed()
 from project.Telegram_Chatbot.modulos.analyze_cough import *
+
+import numpy as np
+
+
+
+
+
+
 from project.Telegram_Chatbot.modulos.database_connection import *    # Importamos clase para instanciar base de datos
 from project.Telegram_Chatbot.modulos.languages_chatbot import *
 from project.Telegram_Chatbot.settings import (BOT_TOKEN, HEROKU_APP_NAME,
@@ -233,7 +241,7 @@ async def process_username(message: types.Message, state: FSMContext):
 
 
 # Check age. Age has to be a digit
-@dp.message_handler(lambda message: not message.text.isdigit(), state=Form.age)
+@dp.message_handler(lambda message: (not message.text.isdigit()) or (int(message.text) not in np.arange(0,121)), state=Form.age)
 async def process_age_invalid(message: types.Message):
     lang = message.from_user.locale.language
     """
@@ -625,8 +633,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
     file_path_URL = file.file_path
-
-    #global file_path
+    # global file_path
     file_path = '/tmp/{}.oga'.format(file_id)
     # file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
@@ -650,7 +657,8 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
         finally:
             f.close()
             os.remove(file_path)
-        return await bot.send_message(message.chat.id, questions[lang]["q51"])
+        await bot.send_message(message.chat.id, questions[lang]["q51"])
+
     elif duration >= 7.0:
         try:
             f = open(file_path)
