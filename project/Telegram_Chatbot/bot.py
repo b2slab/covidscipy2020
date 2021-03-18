@@ -89,7 +89,7 @@ class Form(StatesGroup):
 '''
 START CHATBOT
 '''
-#global lang
+
 
 #lang = 'es'
 @dp.message_handler(state = None)
