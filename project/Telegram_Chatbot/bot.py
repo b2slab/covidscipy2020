@@ -97,6 +97,10 @@ START CHATBOT
 @dp.message_handler(state='*', commands='cancel')
 @dp.message_handler(lambda message: message.text == 'No', state=Form.menu)
 @dp.message_handler(lambda message: message.text in ['CANCEL', 'CANCELAR'], state=Form.delete)
+@dp.message_handler(lambda message: message.text not in ["About", "Acerca de", "Sobre nosaltres",
+                                                         "Delete data", "Eliminar datos", "Eliminar dades",
+                                                         "Add data", "Añadir datos", "Afegir dades",
+                                                         "Exit", "Salir", "Sortir"], state=Form.menu)
 async def cmd_start(message: types.Message):
     """
     Conversation's entry point
@@ -123,7 +127,7 @@ async def about(message: types.Message):
     lang = message.from_user.locale.language
     return await message.reply(questions[lang]["q37"])
 
-@dp.message_handler(lambda message: message.text in ["Delete data", "Eliminar datos", "Eliminar dades"], state=Form.menu)
+@dp.message_handler(lambda message: message.text in ["Add data", "Añadir datos", "Afegir dades"], state=Form.menu)
 async def add_my_data(message: types.Message):
     await Form.username.set()
     lang = message.from_user.locale.language
