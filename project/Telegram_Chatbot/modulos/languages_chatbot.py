@@ -109,6 +109,8 @@ def import_languages():
 
             "q66":"Skip",
 
+            "q67": "No entries found"
+
 
 
         },
@@ -218,6 +220,8 @@ def import_languages():
 
             "q66":"Omitir",
 
+            "q67":"No se han econtrado entradas"
+
         },
         "ca":{
             "q1":"Hola!\n\nSi us plau, introdueixi su nombre.",
@@ -313,7 +317,7 @@ def import_languages():
 
             "q60":"Benvingut/da al covid scipy %s. La seva id és %s. Seleccioni una de les opcions següents:",
 
-            "q61":"CANCEL·LAR",
+            "q61":"CANCELAR",
 
             "q62":"Aquests són els registres que ha creat. Quin d'ells desitja eliminar?",
 
@@ -324,6 +328,8 @@ def import_languages():
             "q65":"Si us plau, escrigui-ho aquí:",
 
             "q66":"Ometre",
+
+            "q67": "No s'han trobat entrades"
 
         }
     }

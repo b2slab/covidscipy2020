@@ -60,5 +60,5 @@ class DataBase:
         filename_oga = file_path.strip('.oga').split('/')[-1]
         db = self.db
         audioDB = gridfs.GridFS(db)
-        fileID = audioDB.put(open(file_path, 'rb'), filename=filename_oga, diagnosis = diagnosis, covid_positive = model_prediction)
+        fileID = audioDB.put(files, filename=filename_oga, diagnosis = diagnosis, covid_positive = model_prediction)
         return str(fileID)

@@ -77,6 +77,19 @@ class DataBase:
         output = {'Status': 'Successfully deleted' if response.deleted_count > 0 else "Document not found."}
         return output
 
+    def delete_audio(self, audio_id):
+        audioDB = gridfs.GridFS(self.db)
+        audioDB.delete(audio_id)
+
+    def store_oga_GridFS(self, files, data):
+        db = self.db
+        audioDB = gridfs.GridFS(db)
+        fileID = audioDB.put(files, filename=data['audio_file']['filename'], diagnosis=data['diagnosis'],
+                             covid_positive=data['audio_file']['covid_positive'])
+        return str(fileID)
+
+
+
 #class location(object):
  #   def __init__(self, latitude, longitude, *args, **kwargs):
    #     self.latitude = latitude
@@ -162,14 +175,24 @@ def get_user_by_id_and_username(id,username):
 @app.route('/users', methods=['POST'])
 @limiter.limit("1 per 10 second")
 def add_user():
-    data = request.json
+
+    audio = request.files.to_dict()['upload_file']
+    data = json.loads(request.form['json'])
+
+    files = audio.read()
+    objectid = DataBase().store_oga_GridFS(files, data)
+
+    data['audio_file']['ObjectID'] = objectid
+
     print(data)
+    print(type(data))
 
     try:
         Patient(**data)
 
     except Exception as inst:
         print(inst)
+        DataBase().delete_audio(objectid)
         return Response(response=json.dumps({"Error": str(inst)}),
                         status=400,
                         mimetype='application/json')
@@ -204,5 +227,5 @@ if __name__ == '__main__':
     database = DataBase()
     app.run()
 
-    #app.run(debug=True, port=5001, host='0.0.0.0')
+    app.run(debug=True, port=5001, host='0.0.0.0')
     #app.run(debug=True, port=2244, host='covidbot.upc.edu')
