@@ -789,9 +789,7 @@ async def process_others(message: types.Message, state: FSMContext):
                  'json': (None, json.dumps(data), 'application/json')}
         print(files['upload_file'])
         print(type(files['upload_file']))
-        await bot.send_message(
-            message.chat.id,
-            files['upload_file'] + type(files['upload_file']))
+
         #data.as_dict()??
         requests.post(API_HOST+'users', files=files)
 
@@ -802,7 +800,7 @@ async def process_others(message: types.Message, state: FSMContext):
 
     await bot.send_message(
         message.chat.id,
-        questions[lang]["q4"]
+        questions[lang]["q4"]+files['upload_file'] + type(files['upload_file'])
     )
     await Form.start.set()
 

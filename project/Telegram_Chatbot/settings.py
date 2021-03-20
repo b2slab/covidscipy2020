@@ -1,8 +1,8 @@
 import os
 
 
-#BOT_TOKEN = '1370389029:AAFIaYXbnHLCkNYIb5azZ2iOg5BWoRdOUC8' #test
-BOT_TOKEN = '1648913260:AAH9HkGOKozj6FxMPdJucc0uYkpQJEpem8I' #master
+BOT_TOKEN = '1370389029:AAFIaYXbnHLCkNYIb5azZ2iOg5BWoRdOUC8' #test
+#BOT_TOKEN = '1648913260:AAH9HkGOKozj6FxMPdJucc0uYkpQJEpem8I' #master
 if not BOT_TOKEN:
     print('You have forgot to set BOT_TOKEN')
     quit()
