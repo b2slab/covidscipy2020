@@ -14,8 +14,8 @@ from aiogram.utils import executor
 Añadido para que funcione en LOCAL
 '''
 
-import nest_asyncio
-nest_asyncio.apply()
+#import nest_asyncio
+#nest_asyncio.apply()
 #__import__('IPython').embed()
 from project.Telegram_Chatbot.modulos.analyze_cough import *
 
