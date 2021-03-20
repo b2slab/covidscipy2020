@@ -14,8 +14,8 @@ from aiogram.utils import executor
 Añadido para que funcione en LOCAL
 '''
 
-#import nest_asyncio
-#nest_asyncio.apply()
+import nest_asyncio
+nest_asyncio.apply()
 #__import__('IPython').embed()
 from project.Telegram_Chatbot.modulos.analyze_cough import *
 
@@ -637,8 +637,9 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file_id = message.voice.file_id
     file = await bot.get_file(file_id)
     file_path_URL = file.file_path
-    # global file_path
+
     file_path = '/tmp/{}.oga'.format(file_id)
+    #file_path = '/home/dani/covidscipy2020/test.oga'.format(file_id)
     # file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
     async with state.proxy() as data:
@@ -782,9 +783,12 @@ async def process_others(message: types.Message, state: FSMContext):
         cual también almacena el momento en el que el usuario se ha registrado.
         '''
         file_path = data['file_path']
+        print(str(file_path))
         del data['file_path']
         files = {'upload_file': open(file_path, 'rb'),
                  'json': (None, json.dumps(data), 'application/json')}
+        print(files['upload_file'])
+        print(type(files['upload_file']))
         #data.as_dict()??
         requests.post(API_HOST+'users', files=files)
 
@@ -810,3 +814,5 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
+
+main()
