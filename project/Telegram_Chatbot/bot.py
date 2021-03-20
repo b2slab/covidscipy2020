@@ -259,7 +259,6 @@ async def process_age(message: types.Message, state: FSMContext):
     # Update state and data
     async with state.proxy() as data:
         data['age'] = int(message.text)
-
     await Form.next()
     #await state.update_data(age=int(message.text))
 
@@ -638,8 +637,8 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file = await bot.get_file(file_id)
     file_path_URL = file.file_path
 
-    file_path = '/tmp/{}.oga'.format(file_id)
-    #file_path = '/home/dani/covidscipy2020/test.oga'.format(file_id)
+    #file_path = '/tmp/{}.oga'.format(file_id)
+    file_path = '/home/dani/covidscipy2020/{}.oga'.format(file_id)
     # file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
     async with state.proxy() as data:
@@ -697,26 +696,8 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
             #data['audio_file']['ObjectID'] = objectID
             data['audio_file']['covid_positive'] = veredict
 
-        try:
-            f = open(file_path)
 
-        except IOError:
-            print("File not accessible")
 
-        finally:
-            f.close()
-            os.remove(file_path)
-
-        try:
-            wav_path = file_path.strip('.oga') + '.wav'
-            w = open(wav_path)
-
-        except IOError:
-            print("File not accessible")
-
-        finally:
-            w.close()
-            os.remove(wav_path)
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -790,6 +771,7 @@ async def process_others(message: types.Message, state: FSMContext):
         print(files['upload_file'])
         print(type(files['upload_file']))
 
+        os.remove(file_path)
         #data.as_dict()??
         requests.post(API_HOST+'users', files=files)
 
@@ -808,6 +790,7 @@ async def process_others(message: types.Message, state: FSMContext):
 def main():
     executor.start_polling(dp, skip_updates=True)
     logging.basicConfig(level=logging.INFO)
+
     start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
@@ -815,5 +798,4 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
-
 main()
