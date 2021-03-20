@@ -1,7 +1,8 @@
 import requests
 import json
 from flask import jsonify
-url='http://127.0.0.1:5000/users'
+#url='http://127.0.0.1:5000/users'
+url ='https://covidscipy2020.herokuapp.com/users'
 
 #headers = {'Authorization': 'my-api-key'}
 image_metadata = {
@@ -36,9 +37,9 @@ image_metadata = {
 		"covid_positive": "False"
 	}
 }
-del image_metadata["username"]
+
 print(image_metadata)
-'''
+
 data = json.dumps(image_metadata)
 print(data)
 print(type(image_metadata))
@@ -48,4 +49,3 @@ files = {'upload_file': open('/home/dani/covidscipy2020/test.oga','rb'),
          'json': (None, json.dumps(image_metadata), 'application/json')}
 #files = {'file': ('test.oga', open('/home/dani/covidscipy2020/test.oga', 'rb'), 'audio/oga', {'Expires': '0'})}
 r = requests.post(url, files=files)
-'''
