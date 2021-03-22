@@ -45,7 +45,8 @@ print(data)
 print(type(image_metadata))
 
 #data = {'name': 'test.oga', 'data': json.dumps(image_metadata)}
-files = {'upload_file': open('/home/dani/covidscipy2020/test.oga','rb'),
+files = {'upload_file': open('/home/dani/covidscipy2020/AwACAgQAAxkBAAIS0WBWZuf_3naQ-Jr7VbizaqmDGv9JAAIQCQACoYSwUquh9mgwQEDlHgQ.oga','rb'),
          'json': (None, json.dumps(image_metadata), 'application/json')}
 #files = {'file': ('test.oga', open('/home/dani/covidscipy2020/test.oga', 'rb'), 'audio/oga', {'Expires': '0'})}
 r = requests.post(url, files=files)
+print(r.status)

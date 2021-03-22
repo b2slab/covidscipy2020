@@ -20,3 +20,4 @@ WEBAPP_HOST = '0.0.0.0'
 #WEBAPP_PORT = int(os.getenv('PORT'))
 
 API_HOST = 'https://covidscipy2020.herokuapp.com/'
+#API_HOST ='http://127.0.0.1:5000/'

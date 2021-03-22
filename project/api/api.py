@@ -177,7 +177,7 @@ def get_user_by_id_and_username(id,username):
 def add_user():
 
     audio = request.files.to_dict()['upload_file']
-    data = json.loads(request.form['json'])
+    data = json.loads(request.form.get('json', None))
 
     files = audio.read()
     objectid = DataBase().store_oga_GridFS(files, data)
