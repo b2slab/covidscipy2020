@@ -153,7 +153,7 @@ def import_languages():
 
             "q36":"¿Cuál es su género?",
 
-            "q37":"Hola, usted está hablando con el bot llamado CovidScipy2020.\
+            "q37":"Hola, está usted hablando con el bot llamado CovidScipy2020.\
             \n\nÉste bot está diseñado para recopilar datos sobre personas y su estado de salud respecto al SARS-COVID-19.\
             El objetivo del proyecto es comprender mejor la enfermedad y ayudar a los usuarios a saber si son susceptibles de tener el virus. Para hacerlo, le pediremos si nos puede facilitar sus síntomas y una muestra de su tos.\
             \n\nActualmente, el proyecto aún está en una fase preliminar de almacenamiento de datos. Por lo tanto, si nos pudiera facilitar sus datos nos sería de una tremenda utilidad (o los de otra persona a su cargo y con su consentimiento).\

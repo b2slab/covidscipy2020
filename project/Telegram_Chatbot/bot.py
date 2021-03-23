@@ -53,6 +53,7 @@ class Form(StatesGroup):
     start = State()
     menu = State()
     delete = State()
+    deleting = State()
     username = State()
     age = State()
     gender = State()
@@ -96,7 +97,7 @@ START CHATBOT
 @dp.message_handler(state = None)
 @dp.message_handler(state = Form.start)
 @dp.message_handler(state='*', commands='cancel')
-@dp.message_handler(lambda message: message.text == 'No', state=Form.menu)
+@dp.message_handler(lambda message: message.text == 'No', state=Form.deleting)
 @dp.message_handler(lambda message: message.text in ['CANCEL', 'CANCELAR'], state=Form.delete)
 @dp.message_handler(lambda message: message.text not in ["About", "Acerca de", "Sobre nosaltres",
                                                          "Delete data", "Eliminar datos", "Eliminar dades",
@@ -135,7 +136,7 @@ async def add_my_data(message: types.Message):
     return await message.reply(questions[lang]["q38"], reply_markup=types.ReplyKeyboardRemove())
 
 
-
+@dp.message_handler(lambda message: message.text in ['Sí', 'Yes'], state=Form.deleting)
 @dp.message_handler(lambda message: message.text in ["No", "Delete data", "Eliminar datos", "Eliminar dades"], state=Form.menu)
 async def delete_data(message: types.Message):
     await Form.delete.set()
@@ -156,8 +157,8 @@ async def delete_data(message: types.Message):
 
 @dp.message_handler(lambda message: message.text not in ['CANCEL', 'CANCELAR'], state=Form.delete)
 async def deleting_data(message: types.Message):
-    await Form.menu.set()
     lang = message.from_user.locale.language
+    await Form.deleting.set()
     id = message.from_user.id
     response = requests.delete(API_HOST+'users/%s/%s'%(id, message.text))
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
