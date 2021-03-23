@@ -1,5 +1,6 @@
 import logging
 import requests
+import sys
 from aiogram.utils.executor import start_webhook
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram import Bot, Dispatcher, types
