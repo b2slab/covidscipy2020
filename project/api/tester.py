@@ -1,11 +1,13 @@
 import requests
 import json
+
+import sys
 from flask import jsonify
 #url='http://127.0.0.1:5000/users'
 url ='https://covidscipy2020.herokuapp.com/users'
 
 #headers = {'Authorization': 'my-api-key'}
-image_metadata = {
+dct = {
 	"id": 1000000001,
 	"username": "Daniel",
 	"age": 25,
@@ -13,7 +15,7 @@ image_metadata = {
 	"diagnosis": "Never been diagnosed",
 	"vaccine": "False",
 	"symptoms": {
-		"dry cough": "False",
+		"dry cough": False,
 		"smoker": "False",
 		"cold": "False",
 		"res_difficult": "False",
@@ -37,7 +39,23 @@ image_metadata = {
 		"covid_positive": "False"
 	}
 }
+def convert(obj):
+    if isinstance(obj, bool):
+        return str(obj).lower()
+    if isinstance(obj, (list, tuple)):
+        return [convert(item) for item in obj]
+    if isinstance(obj, dict):
+        return {convert(key):convert(value) for key, value in obj.items()}
+    return obj
 
+dct = {
+  "is_open": True
+}
+print (json.dumps(dct))
+print (json.dumps(convert(dct)))
+
+
+'''
 print(image_metadata)
 
 data = json.dumps(image_metadata)
@@ -50,3 +68,4 @@ files = {'upload_file': open('/home/dani/covidscipy2020/AwACAgQAAxkBAAIS0WBWZuf_
 #files = {'file': ('test.oga', open('/home/dani/covidscipy2020/test.oga', 'rb'), 'audio/oga', {'Expires': '0'})}
 r = requests.post(url, files=files)
 print(r.status)
+'''

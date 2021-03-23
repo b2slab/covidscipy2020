@@ -18,7 +18,7 @@ Añadido para que funcione en LOCAL
 #nest_asyncio.apply()
 #__import__('IPython').embed()
 from project.Telegram_Chatbot.modulos.analyze_cough import *
-
+from project.Telegram_Chatbot.modulos.json_tools import *
 import numpy as np
 
 
@@ -354,7 +354,7 @@ async def process_has_corona(message: types.Message, state: FSMContext):
 async def process_tiredness(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['vaccine'] = str(message.text == questions[lang]["q26"])
+        data['vaccine'] = (message.text == questions[lang]["q26"])
 
     #markup = types.ReplyKeyboardRemove()
     #await Form.next()
@@ -382,7 +382,7 @@ async def process_dry_cough(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
         data['symptoms'] = {}
-        data['symptoms']['dry cough'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['dry cough'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -403,7 +403,7 @@ async def process_smoker_invalid(message: types.Message):
 async def process_smoker(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['smoker'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['smoker'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
     await message.reply(questions[lang]["q29"])
@@ -423,7 +423,7 @@ async def process_tiredness_invalid(message: types.Message):
 async def process_tiredness(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['cold'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['cold'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
     await message.reply(questions[lang]["q30"])
@@ -443,7 +443,7 @@ async def process_res_difficult_invalid(message: types.Message):
 async def process_loss_smell(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['res_difficult'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['res_difficult'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
     await message.reply(questions[lang]["q31"])
@@ -463,7 +463,7 @@ async def process_headache_invalid(message: types.Message):
 async def process_headache(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['sore_throat'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['sore_throat'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
     await message.reply(questions[lang]["q40"])
@@ -483,7 +483,7 @@ async def process_fever_invalid(message: types.Message):
 async def process_shortness_breath(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['fever'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['fever'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
     await message.reply(questions[lang]["q41"])
@@ -503,7 +503,7 @@ async def process_chest_pain_invalid(message: types.Message):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['fatigue'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['fatigue'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -515,7 +515,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['muscular_pain'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['muscular_pain'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -527,7 +527,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['smell_loss'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['smell_loss'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -538,7 +538,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['pneumonia'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['pneumonia'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -549,7 +549,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['diarrhea'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['diarrhea'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -560,7 +560,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['hypertension'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['hypertension'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -571,7 +571,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['asthma'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['asthma'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -582,7 +582,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['diabetes'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['diabetes'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -593,7 +593,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['CLD'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['CLD'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -604,7 +604,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 async def process_chest_pain(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
-        data['symptoms']['IHD'] = str(message.text == questions[lang]["q26"])
+        data['symptoms']['IHD'] = (message.text == questions[lang]["q26"])
         #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         #markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -678,7 +678,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     else:
         async with state.proxy() as data:
             veredict = analyze_cough(file_path, data)
-            
+
 
     if veredict == None:
         # The audio is not recognised as COUGH
@@ -717,12 +717,13 @@ async def process_others(message: types.Message, state: FSMContext):
         await message.reply(questions[lang]["q35"], reply_markup=markup)
 
         file_path = data['file_path']
-        print(str(file_path))
-        del data['file_path']
-        file = {'upload_file': open(file_path, 'rb'),
-                'json': (None, json.dumps(data.as_dict()), 'application/json')}
 
-        requests.post(API_HOST+'users', json=data.as_dict())
+        del data['file_path']
+        data = convert_bool(data.as_dict())
+        file = {'upload_file': open(file_path, 'rb'),
+                'json': (None, json.dumps(data), 'application/json')}
+
+        requests.post(API_HOST+'users', files=file)
 
     await bot.send_message(
         message.chat.id,
@@ -741,7 +742,6 @@ async def process_others(message: types.Message, state: FSMContext):
     lang = message.from_user.locale.language
     async with state.proxy() as data:
         data['symptoms']['others'] = message.text
-        file_path = data['file_path']
         markup = types.ReplyKeyboardRemove()
         await message.reply(questions[lang]["q35"], reply_markup=markup)
         #await message.reply(file_path, reply_markup=markup)
@@ -761,8 +761,9 @@ async def process_others(message: types.Message, state: FSMContext):
         file_path = data['file_path']
         print(str(file_path))
         del data['file_path']
+        data = convert_bool(data.as_dict())
         file = {'upload_file': open(file_path, 'rb'),
-                 'json': (None, json.dumps(data.as_dict()), 'application/json')}
+                 'json': (None, json.dumps(data), 'application/json')}
 
         requests.post(API_HOST+'users', files=file)
 
