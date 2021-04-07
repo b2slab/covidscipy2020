@@ -142,7 +142,7 @@ def mid_term_feat_extraction(wav_file_path):
 def cough_prediction(X_new, opt_thresh = 0.6):
     # Load the cough recognition model
     joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
-    #joblib_file = "C:/Users/Guillem/Desktop/Bot_Telegram/classification_covid/predict_cough_covid/cough_nocough/gradient_boosting_classifier.pkl"
+    #joblib_file = "C:/Users/Guillem/Desktop/pruebas_audio_telegram/random_forest_classifier.pkl"
     cough_classifier = joblib.load(joblib_file)
 
     # Predict if audio is cough
@@ -205,7 +205,7 @@ def covid_prediction(X_new, metadata, optimal_threshold = 0.8):
 
     # Load the model
     joblib_file = "/app/project/Telegram_Chatbot/modulos/extratree_classifier.pkl"
-    # joblib_file = "C:/Users/Guillem/Desktop/Bot_Telegram/classification_covid/predict_cough_covid/extratree_classifier.pkl"
+    #joblib_file = "C:/Users/Guillem/Desktop/Bot_Telegram/classification_covid/predict_cough_covid/extratree_classifier.pkl"
     extratree_classifier = joblib.load(joblib_file)
 
     # Predictions
