@@ -1,4 +1,9 @@
 def import_languages():
+    """
+    - English
+    - Spanish
+    - Catalan
+    """
     questions = {
         "en":{
             "q1":"Hi there! Please, enter your name.",

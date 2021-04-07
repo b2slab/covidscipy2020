@@ -2,6 +2,13 @@ import json
 import sys
 
 def convert_bool(obj):
+
+    """
+    --Input             dict
+    --Output            dict
+
+    Converts all booleans of a dict input intro strings. Necessary for analyze_cough.
+    """
     if isinstance(obj, bool):
         return str(obj).lower()
     if isinstance(obj, (list, tuple)):

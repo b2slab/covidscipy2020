@@ -51,14 +51,15 @@ class DataBase:
 
     def close(self):
         '''
-        Cerramos connexión con el servidor
+        Closes server connection
         '''
         self.server.stop()
         print("Hemos realizado correctamente la desconexión de la BBDD")
-
+'''
     def store_oga_GridFS(self, file_path, diagnosis, model_prediction):
         filename_oga = file_path.strip('.oga').split('/')[-1]
         db = self.db
         audioDB = gridfs.GridFS(db)
         fileID = audioDB.put(files, filename=filename_oga, diagnosis = diagnosis, covid_positive = model_prediction)
         return str(fileID)
+'''

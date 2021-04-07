@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Api &#8212; covidscipy 2021 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Telegram Chatbot" href="modules.html" />
+    <link rel="prev" title="Welcome to covidscipy’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-project.api.api">
+<span id="api"></span><h1>Api<a class="headerlink" href="#module-project.api.api" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="project.api.api.DataBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">DataBase</span></code><a class="headerlink" href="#project.api.api.DataBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="project.api.api.DataBase.close">
+<code class="sig-name descname"><span class="pre">close</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="project.api.api.DataBase.delete_audio">
+<code class="sig-name descname"><span class="pre">delete_audio</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.delete_audio" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="project.api.api.DataBase.delete_entry">
+<code class="sig-name descname"><span class="pre">delete_entry</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.delete_entry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="project.api.api.DataBase.get_all_users">
+<code class="sig-name descname"><span class="pre">get_all_users</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.get_all_users" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="project.api.api.DataBase.get_user_by_id">
+<code class="sig-name descname"><span class="pre">get_user_by_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.get_user_by_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="project.api.api.DataBase.get_user_by_id_and_name">
+<code class="sig-name descname"><span class="pre">get_user_by_id_and_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.get_user_by_id_and_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="project.api.api.DataBase.store_oga_GridFS">
+<code class="sig-name descname"><span class="pre">store_oga_GridFS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.store_oga_GridFS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="project.api.api.DataBase.write_user">
+<code class="sig-name descname"><span class="pre">write_user</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.DataBase.write_user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="project.api.api.Patient">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">Patient</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagnosis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vaccine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symptoms</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.Patient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Philter for the metadata so when using it in POST, it will only store those with <em>at least</em> the
+<em>dict</em> values listed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.api.api.add_user">
+<code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">add_user</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.add_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>This <strong>POST</strong> method requires a request with a <em>files</em> variable, which must be a dictionary that includes:</p>
+<ul class="simple">
+<li><p>[upload_file]: The cough sample (<em>bytes</em>). The cough sample is originally uploaded in ogg, but the POST request will turn it into bytes. It is stored in GridFS.</p></li>
+<li><p>[json]: The metadata (<em>dict</em>). It has to <em>at least</em> contain the dictionary values stated in the <em>Patient class</em>. Otherwise a status 400 is returned. The metadata is stored in our MongoDB server.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.api.api.base">
+<code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">base</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.base" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="project.api.api.delete_user">
+<code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">delete_user</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.delete_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>This <strong>DELETE</strong> method will delete an entry from the MongoDB and its correspondent audio in GridFS by using both the <em>id</em> and <em>username</em> values of the json.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.api.api.get_user_by_id">
+<code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">get_user_by_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.get_user_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>This <strong>GET</strong> returns all entries with the same <em>id</em> value, which means all entries sent from the same phone.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.api.api.get_user_by_id_and_username">
+<code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">get_user_by_id_and_username</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.get_user_by_id_and_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>This <strong>GET</strong> returns an entry corresponding to an <em>id</em> and <em>username</em> values.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.api.api.get_users">
+<code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">get_users</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.get_users" title="Permalink to this definition">¶</a></dt>
+<dd><p>This <strong>GET</strong> returns all entries.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="project.api.api.symptoms">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">project.api.api.</span></code><code class="sig-name descname"><span class="pre">symptoms</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dry_cough</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_difficult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sore_throat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fever</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fatigue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">muscular_pain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smell_loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pneumonia</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diarrhea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hypertension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asthma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diabetes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">IHD</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.api.api.symptoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">covidscipy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Api</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Telegram Chatbot</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to covidscipy’s documentation!</a></li>
+      <li>Next: <a href="modules.html" title="next chapter">Telegram Chatbot</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Daniel Marin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

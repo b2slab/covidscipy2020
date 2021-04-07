@@ -119,6 +119,10 @@ class symptoms(object):
 
 
 class Patient(object):
+    """
+    Philter for the metadata so when using it in POST, it will only store those with *at least* the
+    *dict* values listed.
+    """
     def __init__(self, id, age, gender,  diagnosis, vaccine, symptoms, *args, **kwargs):
         self.id = id
         self.age = age
@@ -142,6 +146,9 @@ def base():
 
 @app.route('/users', methods=['GET'])
 def get_users():
+    """
+    This **GET** returns all entries.
+    """
     response = DataBase().get_all_users()
     print (json_util.dumps(response))
     return Response(response=json_util.dumps(response),
@@ -150,6 +157,9 @@ def get_users():
 
 @app.route('/users/<id>', methods=['GET'])
 def get_user_by_id(id):
+    """
+    This **GET** returns all entries with the same *id* value, which means all entries sent from the same phone.
+    """
     data = DataBase().get_user_by_id(id)
 
     if data == []:
@@ -162,6 +172,9 @@ def get_user_by_id(id):
 
 @app.route('/users/<id>/<username>', methods=['GET'])
 def get_user_by_id_and_username(id,username):
+    """
+    This **GET** returns an entry corresponding to an *id* and *username* values.
+    """
     data = DataBase().get_user_by_id_and_name(id,username)
 
     if data == []:
@@ -175,7 +188,14 @@ def get_user_by_id_and_username(id,username):
 @app.route('/users', methods=['POST'])
 @limiter.limit("1 per 10 second")
 def add_user():
+    """
+    This **POST** method requires a request with a *files* variable, which must be a dictionary that includes:
 
+    - [upload_file]: The cough sample (*bytes*). The cough sample is originally uploaded in ogg, but the POST request will turn it into bytes. It is stored in GridFS.
+
+    - [json]: The metadata (*dict*). It has to *at least* contain the dictionary values stated in the *Patient class*. Otherwise a status 400 is returned. The metadata is stored in our MongoDB server.
+
+    """
     audio = request.files.to_dict()['upload_file']
     data = json.loads(request.form.get('json', None))
 
@@ -183,9 +203,6 @@ def add_user():
     objectid = DataBase().store_oga_GridFS(files, data)
 
     data['audio_file']['ObjectID'] = objectid
-
-    print(data)
-    print(type(data))
 
     try:
         Patient(**data)
@@ -196,12 +213,6 @@ def add_user():
         return Response(response=json.dumps({"Error": str(inst)}),
                         status=400,
                         mimetype='application/json')
-
-    ##
-    response = DataBase().write_user(data)
-    return Response(response=json.dumps(response),
-                    status=200,
-                    mimetype='application/json')
 """
 @app.route('/users', methods=['PUT'])
 def update_user():
@@ -212,8 +223,12 @@ def update_user():
                     status=200,
                     mimetype='application/json')
 """
+
 @app.route('/users/<id>/<username>', methods=['DELETE'])
 def delete_user(id, username):
+    """
+    This **DELETE** method will delete an entry from the MongoDB and its correspondent audio in GridFS by using both the *id* and *username* values of the json.
+    """
     response = DataBase().delete_entry(id, username)
     print(response)
     if response["Status"] == "Document not found.":
