@@ -1,5 +1,4 @@
 from pydub import AudioSegment
-from pyAudioAnalysis import audioBasicIO
 from pyAudioAnalysis import MidTermFeatures
 import numpy as np
 import pandas as pd
@@ -7,6 +6,12 @@ import opensmile
 import warnings
 import joblib
 import os
+
+## New added dependencies
+import librosa
+from scipy import signal, fft
+# from pyAudioAnalysis import audioBasicIO   ---> No longer needed
+
 
 # Analyze audio cough
 def analyze_cough(ogg_path, data):
@@ -31,20 +36,79 @@ def convert_ogg_to_wav(original_path):
     audio.export(converted_path, format="wav")
     return converted_path
 
-# Extract mid-term features from wav
-def mid_term_feat_extraction(wav_file_path):
+# We define 3 functions in order to create the following:
+# **Lowpass-filter**: the cutoff frequency defines the limit at which frequencies are masked.
+# **Amplification**: the audio gain is defined in such a way that the maximum value of the signal is equal to 1.
+#                    In this way, the entire signal is amplified but its standardization is maintained.
 
-    sampling_rate, signal = audioBasicIO.read_audio_file(wav_file_path)
+def butter_lowpass(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = signal.butter(order, normal_cutoff, btype='low', analog=False)
+    return b, a
+
+def butter_lowpass_filter(data, cutoff, fs, order=5):
+    b, a = butter_lowpass(cutoff, fs, order=order)
+    y = signal.filtfilt(b, a, data)
+    return y
+
+def increase_amplitude(data):
+    max_original_signal = max(data)
+    max_desired = 1
+    factor = max_desired/max_original_signal
+    return data*factor
+
+def extract_features_audio(filename, low_pass_filt = False, cutoff_freq = 4096, amplification = False, compute_FFT = False):
+    # Read the audio
+    signal, sampling_rate = librosa.load(filename, sr = None, mono=True) # Load the audio as Mono (not stereo)
+
     if sampling_rate == 0:
         print('Sampling rate not correct.')
         return None
 
-    signal = audioBasicIO.stereo_to_mono(signal)
-    if signal.shape[0] < float(sampling_rate)/5:
-        print("The duration of the audio is too short.")
-        return None
+    if (low_pass_filt == True):
+        signal = butter_lowpass_filter(signal, cutoff_freq, sampling_rate)
 
-    mid_window, mid_step, short_window, short_step = 0.5, 0.5, 0.05, 0.05
+        if (amplification == True):
+            signal = increase_amplitude(signal)
+
+    # FFT
+
+    if (compute_FFT == True):
+        duration = librosa.core.get_duration(y = signal, sr = sampling_rate)
+        n = int(sampling_rate * duration) # Number of samples of audios
+        yf = fft.rfft(signal)
+        xf = fft.rfftfreq(n, 1 / sampling_rate)
+
+        if len(xf) != len(yf):
+            yf = yf[0:len(xf)]
+
+        # Mel-Spectrogram
+        S = librosa.feature.melspectrogram(y=signal, sr=sampling_rate)
+        S_dB = librosa.power_to_db(S, ref=np.max)
+        return signal, sampling_rate, xf, yf, S_dB
+
+    else:
+        return signal, sampling_rate
+
+
+# Extract mid-term features from wav
+def mid_term_feat_extraction(wav_file_path):
+
+    # sampling_rate, signal = audioBasicIO.read_audio_file(wav_file_path)
+    # if sampling_rate == 0:
+    #     print('Sampling rate not correct.')
+    #     return None
+
+    # signal = audioBasicIO.stereo_to_mono(signal)
+    # if signal.shape[0] < float(sampling_rate)/5:
+    #     print("The duration of the audio is too short.")
+    #     return None
+
+     # Filtering and Amplification
+    signal, sampling_rate = extract_features_audio(wav_file_path, low_pass_filt = True, cutoff_freq = 4096, amplification = True, compute_FFT = False)
+
+    mid_window, mid_step, short_window, short_step = 0.1, 0.1, 0.01, 0.01
     mid_features, _, mid_feature_names = MidTermFeatures.mid_feature_extraction(signal, sampling_rate,
                                                                                 round(mid_window * sampling_rate),
                                                                                 round(mid_step * sampling_rate),
@@ -75,7 +139,7 @@ def mid_term_feat_extraction(wav_file_path):
 
 
 # Load the cough recognition model and predict whether the audio is cough
-def cough_prediction(X_new, opt_thresh = 0.80):
+def cough_prediction(X_new, opt_thresh = 0.6):
     # Load the cough recognition model
     joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
     #joblib_file = "C:/Users/Guillem/Desktop/Bot_Telegram/classification_covid/predict_cough_covid/cough_nocough/gradient_boosting_classifier.pkl"
