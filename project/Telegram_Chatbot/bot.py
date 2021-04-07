@@ -14,10 +14,11 @@ from aiogram.utils import executor
 '''
 Añadido para que funcione en LOCAL
 '''
-
 #import nest_asyncio
 #nest_asyncio.apply()
 #__import__('IPython').embed()
+
+
 from project.Telegram_Chatbot.modulos.analyze_cough import *
 from project.Telegram_Chatbot.modulos.json_tools import *
 import numpy as np
@@ -197,7 +198,7 @@ async def delete_data(message: types.Message):
     if len(data_delete) == 0:
         markup.add(questions[lang]["q61"])
         return await message.reply(questions[lang]["q67"], reply_markup=markup)
-    
+
     else:
         for i in data_delete:
             markup.add(i["username"])
@@ -812,7 +813,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
 
     file_path = '/tmp/{}.oga'.format(file_id)
     #file_path = '/home/dani/covidscipy2020/{}.oga'.format(file_id)
-    # file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
+    #file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
     async with state.proxy() as data:
         data['file_path'] = file_path
