@@ -262,7 +262,7 @@ def mid_term_feat_extraction(wav_file_path):
 
 
 # Load the cough recognition model and predict whether the audio is cough
-def cough_prediction(X_new, opt_thresh = 0.6):
+def cough_prediction(X_new, opt_thresh = 0.5):
     '''
     This function loads the cough recognition model and predicts whether the audio is cough based on the long-term
     averaging of its mid-term (and therefore short-term) features.
