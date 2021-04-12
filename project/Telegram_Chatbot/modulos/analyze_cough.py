@@ -229,7 +229,7 @@ def mid_term_feat_extraction(wav_file_path):
     #     return None
 
      # Filtering and Amplification
-    signal, sampling_rate = extract_features_audio(wav_file_path, low_pass_filt = True, cutoff_freq = 4096, amplification = True, compute_FFT = False)
+    signal, sampling_rate = extract_features_audio(wav_file_path, low_pass_filt = False, cutoff_freq = 4096, amplification = False, compute_FFT = False)
 
     mid_window, mid_step, short_window, short_step = 0.1, 0.1, 0.01, 0.01
     mid_features, _, mid_feature_names = MidTermFeatures.mid_feature_extraction(signal, sampling_rate,
@@ -382,7 +382,7 @@ def covid_prediction(X_new, metadata, optimal_threshold = 0.8):
     # Predictions
     prediction = extratree_classifier.predict_proba(X_new)[:,1]
     print(prediction)
-    
+
     if prediction >= optimal_threshold:
         #print('Cough POSITIVE in COVID-19')
         return True
