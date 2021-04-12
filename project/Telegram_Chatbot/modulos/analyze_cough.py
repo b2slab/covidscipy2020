@@ -289,6 +289,7 @@ def cough_prediction(X_new, opt_thresh = 0.5):
 
     # Predict if audio is cough
     y_pred = cough_classifier.predict_proba(X_new)[:,1]
+    print(y_pred)
 
     if y_pred >= opt_thresh:
         #print('The audio has been recognised as COUGH')
@@ -380,6 +381,8 @@ def covid_prediction(X_new, metadata, optimal_threshold = 0.8):
 
     # Predictions
     prediction = extratree_classifier.predict_proba(X_new)[:,1]
+    print(prediction)
+    
     if prediction >= optimal_threshold:
         #print('Cough POSITIVE in COVID-19')
         return True
