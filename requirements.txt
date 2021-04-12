@@ -19,6 +19,8 @@ decorator==5.0.6
 deprecation==2.1.0
 eyed3==0.9.6
 filetype==1.0.7
+Flask==1.1.2
+Flask-Limiter
 gunicorn
 idna==2.10
 joblib==1.0.1
