@@ -284,6 +284,7 @@ def cough_prediction(X_new, opt_thresh = 0.5):
     '''
     # Load the cough recognition model
     joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
+    #joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
     #joblib_file = "C:/Users/Guillem/Desktop/pruebas_audio_telegram/random_forest_classifier.pkl"
     cough_classifier = joblib.load(joblib_file)
 
