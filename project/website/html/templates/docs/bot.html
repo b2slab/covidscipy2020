@@ -1,0 +1,817 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bot &#8212; covidscipy 2021 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Settings" href="bot_modules.html" />
+    <link rel="prev" title="Telegram Chatbot" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-project.Telegram_Chatbot.bot">
+<span id="bot"></span><h1>Bot<a class="headerlink" href="#module-project.Telegram_Chatbot.bot" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="project.Telegram_Chatbot.bot.Form">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">Form</span></code><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">aiogram.dispatcher.filters.state.StatesGroup</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>State machine:</strong>
+This bot works as a state machine. At each message, the bot will be in one state. Depending on which one, the bot will react accordingly. Languaje (lang) is set on every function.</p>
+</div>
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.CLD">
+<code class="sig-name descname"><span class="pre">CLD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:CLD'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.CLD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.IHD">
+<code class="sig-name descname"><span class="pre">IHD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:IHD'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.IHD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.age">
+<code class="sig-name descname"><span class="pre">age</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:age'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.age" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.asma">
+<code class="sig-name descname"><span class="pre">asma</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:asma'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.asma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.cold">
+<code class="sig-name descname"><span class="pre">cold</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:cold'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.cold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.cough">
+<code class="sig-name descname"><span class="pre">cough</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:cough'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.cough" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.delete">
+<code class="sig-name descname"><span class="pre">delete</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:delete'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.deleting">
+<code class="sig-name descname"><span class="pre">deleting</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:deleting'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.deleting" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.diabetes">
+<code class="sig-name descname"><span class="pre">diabetes</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:diabetes'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.diabetes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.diarrhea">
+<code class="sig-name descname"><span class="pre">diarrhea</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:diarrhea'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.diarrhea" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.dry_cough">
+<code class="sig-name descname"><span class="pre">dry_cough</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:dry_cough'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.dry_cough" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.fatigue">
+<code class="sig-name descname"><span class="pre">fatigue</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:fatigue'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.fatigue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.fever">
+<code class="sig-name descname"><span class="pre">fever</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:fever'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.fever" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.gender">
+<code class="sig-name descname"><span class="pre">gender</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:gender'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.gender" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.has_corona">
+<code class="sig-name descname"><span class="pre">has_corona</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:has_corona'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.has_corona" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.hypertension">
+<code class="sig-name descname"><span class="pre">hypertension</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:hypertension'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.hypertension" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.location">
+<code class="sig-name descname"><span class="pre">location</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:location'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.menu">
+<code class="sig-name descname"><span class="pre">menu</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:menu'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.menu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.muscular">
+<code class="sig-name descname"><span class="pre">muscular</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:muscular'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.muscular" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.others">
+<code class="sig-name descname"><span class="pre">others</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:others'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.others" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.pneumonia">
+<code class="sig-name descname"><span class="pre">pneumonia</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:pneumonia'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.pneumonia" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.res_difficult">
+<code class="sig-name descname"><span class="pre">res_difficult</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:res_difficult'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.res_difficult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.smell">
+<code class="sig-name descname"><span class="pre">smell</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:smell'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.smell" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.smoker">
+<code class="sig-name descname"><span class="pre">smoker</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:smoker'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.smoker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.sore_throat">
+<code class="sig-name descname"><span class="pre">sore_throat</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:sore_throat'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.sore_throat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.start">
+<code class="sig-name descname"><span class="pre">start</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:start'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.upload_Data">
+<code class="sig-name descname"><span class="pre">upload_Data</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:upload_Data'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.upload_Data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.username">
+<code class="sig-name descname"><span class="pre">username</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:username'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.username" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="project.Telegram_Chatbot.bot.Form.vaccine">
+<code class="sig-name descname"><span class="pre">vaccine</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;State</span> <span class="pre">'Form:vaccine'&gt;</span></em><a class="headerlink" href="#project.Telegram_Chatbot.bot.Form.vaccine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.about">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">about</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.about" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>menu</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>“About”</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>menu</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.add_my_data">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">add_my_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.add_my_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>menu</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>“Add data”</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>username</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.cancel_handler">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">cancel_handler</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.cancel_handler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>‘*’</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>command</var></span></kbd></dt>
+<dd><p>/cancel</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>start</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.cmd_start">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">cmd_start</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.cmd_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starting point.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 35%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>State</p></th>
+<th class="head"><p>Message</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>None</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>start</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>‘*’  (any)</p></td>
+<td></td>
+<td><p>Cancel</p></td>
+</tr>
+<tr class="row-odd"><td><p>deleting</p></td>
+<td><p>No</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>delete</p></td>
+<td><p>CANCEL</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>menu</p></td>
+<td><dl class="simple">
+<dt>NOT IN:</dt><dd><ul class="simple">
+<li><p>About</p></li>
+<li><p>Delete data</p></li>
+<li><p>Add data</p></li>
+<li><p>Exit</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="option-list">
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>menu</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.delete_data">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">delete_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.delete_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Performs a <strong>GET</strong> with user’s <em>id</em>. Returns all entries from that <em>id</em>.</dt><dd><table class="docutils align-default">
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>State</p></th>
+<th class="head"><p>Message</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>deleting</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>menu</p></td>
+<td><ul class="simple">
+<li><p>No</p></li>
+<li><p>Delete data</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="option-list">
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>delete</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.deleting_data">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">deleting_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.deleting_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perfoms a <strong>DELETE</strong> on the entry seleected by <em>username</em> variable.
+–Input state              delete
+–Input message            NOT IN: ‘Add data’
+–Output state             deleting</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.exit">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">exit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.exit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>menu</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>“Exit”</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>start</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.main">
+<code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_age">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_age</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_age" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>age</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>digit</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>gender</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘age’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_age_invalid">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_age_invalid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_age_invalid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>age</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>NOT IN: digit</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>age</p>
+</dd>
+</dl>
+<p>Philter so age is digit only.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_chest_pain">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_chest_pain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_chest_pain" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>IHD</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Yes’, ‘No’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>cough</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘symptoms’][‘IHD’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_cough">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_cough</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.voice.Voice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_cough" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>cough</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: voice message</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>others</p>
+</dd>
+</dl>
+<p>Processes cough sample in two steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Checks for duration. If it is not comprissed between 1second and 7 second an error message will be displayed.</p></li>
+<li><p>Analyzes the cough using <em>analyze_cough</em>. Returns <em>veredict</em>:</p></li>
+</ul>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 0%" />
+<col style="width: 7%" />
+<col style="width: 37%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head" colspan="5"><p>Veredict</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="5"><p>None    <a href="#id1"><span class="problematic" id="id2">|</span></a>Audio sample not recognized as cough</p></td>
+</tr>
+<tr class="row-odd"><td colspan="5"><p>False   | Covid negative</p></td>
+</tr>
+<tr class="row-even"><td colspan="5"><p>True    |  Covid positive</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The cough sample is stored in a temporary folder in the Heroku server. Since the audio is downloaded and processed during a single <em>request</em> this causes no trouble. The audio is deleted from this temporary folder after being stored in GridFS anyway.</p>
+</div>
+<ul class="simple">
+<li><p>Stores veredict as [‘audio_file’][‘covid_positive’] in the metadata.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_cough_invalid">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_cough_invalid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_cough_invalid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>cough</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>NOT IN: voice message</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>cough</p>
+</dd>
+</dl>
+<p>Philter so only a voice message is sent.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_dry_cough">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_dry_cough</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_dry_cough" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>dry_cough</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Yes’, ‘No’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>smoker</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘symptoms’][‘dry cough’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_gender">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_gender</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_gender" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>gender</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Male’, ‘Female’, ‘Other’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>location</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘gender’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_gender_invalid">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_gender_invalid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_gender_invalid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>gender</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>NOT IN: ‘Male’, ‘Female’, ‘Other’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>gender</p>
+</dd>
+</dl>
+<p>Philter so gender is a correct input.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_has_corona">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_has_corona</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_has_corona" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>has_corona</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: “Currently positive”, “Had covid in the past”, “Never been diagnosed”</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>vaccine</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘diagnosis’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_has_corona_invalid">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_has_corona_invalid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_has_corona_invalid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>has_corona</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>NOT IN: “Currently positive”, “Had covid in the past”, “Never been diagnosed”</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>has_corona</p>
+</dd>
+</dl>
+<p>Philter so diagnosis is a correct input.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_headache">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_headache</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_headache" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>sore_throat</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Yes’, ‘No’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>fever</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘symptoms’][‘sore_throat’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_location">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_location</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_location" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>location</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>‘Skip’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>has_corona</p>
+</dd>
+</dl>
+<p>Skips location.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_loss_smell">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_loss_smell</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_loss_smell" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>res_difficult</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Yes’, ‘No’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>sore_throat</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘symptoms’][‘res_difficult’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_others">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_others</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_others" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>others</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>NOT IN: ‘Yes’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>Start</p>
+<ul class="simple">
+<li><p>Stores <em>Input message</em> as [‘symptoms’][‘others’] in the metadata.</p></li>
+<li><p>Deletes <em>file_path</em> from the metadata (json).</p></li>
+<li><p>Performs a <strong>POST</strong> request on <em>API_HOST+’users’</em> with a body containing both the metadata and the audio sample in a <em>files</em> dictionary.</p></li>
+<li><p>Resets chatbot.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Metadata is stored in <em>dict</em> format. The DB converts it to BSON automatically when inserting the entry.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_others_write">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_others_write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_others_write" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>others</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>‘Yes’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>others</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_shortness_breath">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_shortness_breath</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_shortness_breath" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>fever</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Yes’, ‘No’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>fatigue</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘symptoms’][‘fever’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_smoker">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_smoker</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_smoker" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>smoker</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Yes’, ‘No’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>cold</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘symptoms’][‘smoker’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_tiredness">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_tiredness</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_tiredness" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>cold</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>IN: ‘Yes’, ‘No’</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>res_difficult</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘symptoms’][‘cold’] in the metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_user_invalid">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_user_invalid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_user_invalid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>username</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>NOT IN: alpha</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>username</p>
+</dd>
+</dl>
+<p>Philter so the username is only alpha.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.bot.process_username">
+<em class="property"><span class="pre">async</span> </em><code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.bot.</span></code><code class="sig-name descname"><span class="pre">process_username</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.types.message.Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">aiogram.dispatcher.storage.FSMContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.bot.process_username" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input <var>state</var></span></kbd></dt>
+<dd><p>username</p>
+</dd>
+<dt><kbd><span class="option">--Input <var>message</var></span></kbd></dt>
+<dd><p>alpha</p>
+</dd>
+<dt><kbd><span class="option">--Output <var>state</var></span></kbd></dt>
+<dd><p>age</p>
+</dd>
+</dl>
+<p>Stores <em>Input message</em> as [‘username’] and the id as [‘id’] in the metadata.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">covidscipy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">Api</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Telegram Chatbot</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bot_modules.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bot_modules.html#database-connection">Database connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bot_modules.html#module-project.Telegram_Chatbot.modulos.json_tools">Json tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bot_modules.html#module-project.Telegram_Chatbot.modulos.languages_chatbot">Languages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Cough%20analyzer.html">Cough analyzer</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Telegram Chatbot</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">Telegram Chatbot</a></li>
+      <li>Next: <a href="bot_modules.html" title="next chapter">Settings</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Daniel Marin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/bot.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

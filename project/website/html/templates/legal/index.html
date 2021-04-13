@@ -1,0 +1,400 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <!--
+    Modified from the Debian original for Ubuntu
+    Last updated: 2016-11-16
+    See: https://launchpad.net/bugs/1288690
+  -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Covid Bot Project, SciPy 2020 </title>
+    <style type="text/css" media="screen">
+  * {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+  }
+
+  body, html {
+    padding: 3px 3px 3px 3px;
+
+    background-color: #D8DBE2;
+
+    font-family: Verdana, sans-serif;
+    font-size: 11pt;
+    text-align: center;
+  }
+
+  div.main_page {
+    position: relative;
+    display: table;
+
+    width: 800px;
+
+    margin-bottom: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px 0px 0px 0px;
+
+    border-width: 2px;
+    border-color: #212738;
+    border-style: solid;
+
+    background-color: #FFFFFF;
+
+    text-align: center;
+  }
+
+  div.page_header {
+    height: 99px;
+    width: 100%;
+
+    background-color: #F5F6F7;
+  }
+
+  div.page_header span {
+    margin: 15px 0px 0px 50px;
+
+    font-size: 180%;
+    font-weight: bold;
+  }
+
+  div.page_header img {
+    margin: 3px 0px 0px 40px;
+
+    border: 0px 0px 0px;
+  }
+
+  div.table_of_contents {
+    clear: left;
+
+    min-width: 200px;
+
+    margin: 3px 3px 3px 3px;
+
+    background-color: #FFFFFF;
+
+    text-align: left;
+  }
+
+  div.table_of_contents_item {
+    clear: left;
+
+    width: 100%;
+
+    margin: 4px 0px 0px 0px;
+
+    background-color: #FFFFFF;
+
+    color: #000000;
+    text-align: left;
+  }
+
+  div.table_of_contents_item a {
+    margin: 6px 0px 0px 6px;
+  }
+
+  div.content_section {
+    margin: 3px 3px 3px 3px;
+
+    background-color: #FFFFFF;
+
+    text-align: left;
+  }
+
+  div.content_section_text {
+    padding: 4px 8px 4px 8px;
+
+    color: #000000;
+    font-size: 100%;
+  }
+
+  div.content_section_text pre {
+    margin: 8px 0px 8px 0px;
+    padding: 8px 8px 8px 8px;
+
+    border-width: 1px;
+    border-style: dotted;
+    border-color: #000000;
+
+    background-color: #F5F6F7;
+
+    font-style: italic;
+  }
+
+  div.content_section_text p {
+    margin-bottom: 6px;
+  }
+
+  div.content_section_text ul, div.content_section_text li {
+    padding: 4px 8px 4px 16px;
+  }
+
+  div.section_header {
+    padding: 3px 6px 3px 6px;
+
+    background-color: #8E9CB2;
+
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 112%;
+    text-align: center;
+  }
+
+  div.section_header_red {
+    background-color: #0C114F;
+  }
+
+  div.section_header_grey {
+    background-color: #9F9386;
+  }
+
+  .floating_element {
+    position: relative;
+    float: left;
+  }
+
+  div.table_of_contents_item a,
+  div.content_section_text a {
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  div.table_of_contents_item a:link,
+  div.table_of_contents_item a:visited,
+  div.table_of_contents_item a:active {
+    color: #000000;
+  }
+
+  div.table_of_contents_item a:hover {
+    background-color: #000000;
+
+    color: #FFFFFF;
+  }
+
+  div.content_section_text a:link,
+  div.content_section_text a:visited,
+   div.content_section_text a:active {
+    background-color: #DCDFE6;
+
+    color: #000000;
+  }
+
+  div.content_section_text a:hover {
+    background-color: #000000;
+
+    color: #DCDFE6;
+  }
+
+  div.validator {
+  }
+    </style>
+  </head>
+  <body>
+    <div class="main_page">
+      <div class="page_header floating_element">
+        <img src="https://www.upc.edu/comunicacio/ca/identitat/descarrega-arxius-grafics/fitxers-marca-principal/upc-positiu-p3005.png" alt="UPC Logo" class="floating_element" width="300"/>
+        <span class="floating_element">
+         The Covid Bot Project
+        </span>
+      </div>
+      <div class="content_section floating_element">
+
+
+        <div class="section_header section_header_red">
+          <div id="about"></div>
+          Legal report
+        </div>
+
+
+          <div class="content_section_text">
+          <p>
+
+
+	    Below there is a brief overview of the legal aspects of the CovidScipy app. It includes
+        relevant parts of the recent law on data protection and how it affects the app, as well as
+        what measures have to be taken.
+          </p>
+              </div>
+        <div class="section_header">
+          <div id="changes"></div>
+               Law
+        </div>
+        <div class="content_section_text">
+          <p>
+Starting May 2018, a new law regarding data protection comes into place. The required legal
+              information which must be displayed to the user is the following:</p>
+            <p><ul>
+                        <li>
+
+			  Existence of the file, its use and who can use it.
+                        </li>
+
+                        <li>
+                          Rights of access, correction, cancellation and opposition.
+                        </li>
+
+                        <li>
+                            Contact information of the <b>Database delegate.</b>
+                        </li>
+
+                        <li>
+			  Judicial basis of the treatment.
+			</li>
+
+                        <li>
+			  How long is information kept and based on what criteria.
+                        </li>
+            <li>
+			  Existence of automated decisions or profile elaboration.
+                        </li>
+            <li>
+			  Transfer of information to other countries.
+                        </li>
+            <li>
+			 Right to make a claim to the Control Authorities.
+                        </li>
+            <li>
+			  Origin of the data [data not obtained from patient].
+                        </li>
+
+			<li>
+            Category of the data [data not obtained from patient].
+          </ul></p>
+            <p>
+            <b>Database delegate</b>: Person in charge of the data that is being kept. Required information must
+            be made available in these time frames:</p>
+
+            <p><ul>
+                        <li>
+                            Data obtained from patient: Right after the data is obtained.
+                        </li>
+
+                        <li>
+                          Data not obtained from patient: Before a month or before first communication with
+                            patient or before communicating to other parties.
+                        </li>
+
+                        <li>
+                            No requirements to ask for information. The completion of this right must be documented.
+                        </li></p>
+                <p> This information can be processed via <b>web forms or email</b>.
+                The information that can be requested includes:</p>
+                    <p><li>
+                          Confirm whether or not their personal data is being processed.
+                        </li>
+
+                        <li>
+                            Provide a copy of the personal data of the patient.
+                        </li>
+                        <li>
+                            Provide information about the processing (such as purposes, categories of personal data, recipients, etc.).
+                        </li></p>
+
+                <p> Regarding <b>Data elimination</b>, this must be done at the user’s request except when: </p>
+
+                        <p><li>
+                            The personal data is needed to exercise the right of freedom of expression.
+                        </li>
+                        <li>
+                            There is a legal obligation to keep the data.
+                        </li>
+                        <li>
+                            For reasons of public interest (e.g. public health, scientific, statistical or historical  research purposes).
+                        </li></p>
+                <p>Another thing to take into account in this new law is that <b>premarked checkboxes</b> are not allowed (e.g. premarked checkbox for receiving advertising). <b>Breaches of security</b> must be  informed to users in less than 72 hours.
+                </p>
+            </ul>
+            </div>
+        <div class="section_header">
+          <div id="display"></div>
+               Display of legal information
+        </div>
+
+        <div class="content_section_text">
+            <p>
+                Information displayed by <b>levels</b>: first level displays basic information with a short description
+while the second level displays additional, more detailed information which can be accessed by
+expanding the first level. This information is split in 5+1 sections:
+            </p>
+	      <p><ul>
+		<li>Person in charge.
+		</li>
+		<li> Objective of the treatment. </li>
+		<li> Legal legitimacy.</li>
+		<li> Third parties that may receive the information.</li>
+		<li> Rights of the people involved. </li>
+		<li>  Origin of the data [in case they are not obtained from the patient.</li>
+	      </ul></p>
+            </div>
+        <div class="section_header">
+            <div id="anonymity"></div>
+                Anonymity
+        </div>
+
+        <div class="content_section_text">
+            The degree of anonymity must be defined for two groups of individuals:
+
+	      <p> <ul>
+		<li><b>Patients</b>: From which the data is acquired. This data is then processed.
+		</li>
+		<li> <b>Users</b>: People/entities that provide the data. These are required to register and must therefore provide personal information. </li>
+
+	      </ul></p>
+
+	    <p><b>Patients</b></p>
+            <p>
+                The information on the patients consists on the methilation of the DNA of the aforementioned.
+Name, last name or other identificators are not recorded in the website’s database so this
+                information could be considered <b>anonymus</b>. Still, because genetic information is treated, it is
+possible data protection legislation applies.
+            </p>
+<p>
+                Legislation on data protection does not apply if there is no way the information can be
+traced back to the patient. Else, the information falls in to the sensitive information category
+and must therefore satisfy more security checks.
+Sensitive data can only be processed with the explicit consent of the user or if it falls into these
+categories:
+            </p>
+
+        <p><ul>
+		<li>The data is processed for the purposes of preventive or occupational medicine,
+assessment of the working capacity of the employee, medical diagnosis, the provision of
+health or social care or treatment, or the management of health or social care systems
+and services on the basis of EU or national law, or on the basis of a contract as a health
+professional
+		</li>
+		<li> The data is processed for reasons of public interest in the field of public health on the
+basis of EU or national law. </li>
+            <li> The data is processed for archiving, scientific or historical research purposes or statistical
+purposes on the basis of EU or national law. </li>
+	      </ul></p>
+            <p><b>Users</b></p>
+            <p>
+                Users are prompted to put their username, affiliation, email, password etc. This falls into the
+data protection law as the information is not anonymous. Therefore, a checkbox in which the
+user agrees with the terms and conditions of the website needs to be checked when registering.
+            </p>
+        </div>
+            <div class="section_header">
+            <div id="research"></div>
+                Research or diagnosis tool
+        </div>
+            <div class="content_section_text">
+            <p>
+                An important detail is if the classificator will be used as a research tool or as a diagnosis tool.
+In case of use as a research tool, an indicator of this condition must be displayed to the user
+(similar to what is done in the german website) and the hospital is therefore not responsible for
+the use that is made of said classificator.
+If, on the other hand, the classificator is used as a diagnosis tool that can influence the treatment that is provided to the patient, it must then be compliant with more legislation and go through
+more exhaustive validation processes.
+            </p>
+
+    </div>
+    <div class="validator">
+
+    </div>
+
+  </body>
+</html>
+

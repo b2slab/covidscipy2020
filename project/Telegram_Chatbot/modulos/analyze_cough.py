@@ -267,11 +267,10 @@ def cough_prediction(X_new, opt_thresh = 0.5):
     This function loads the cough recognition model and predicts whether the audio is cough based on the long-term
     averaging of its mid-term (and therefore short-term) features.
 
-    The classification model has been trained in another script. Basically we have used a dataset containing 500
-    audios. The half of it contains cough audios. On the other hand, the other half contains audios of sneezing, clearing
-    throat and other human sounds. As the dataset has been splited in training/testing, we have been able to compute the
+    It uses a classification model trained with 500 audios divided in two halves; the first half contains cough audios. The second half contains audios of sneezing, clearing
+    throat and other human sounds. As the dataset has been splitted in training/testing, we have been able to compute the
     optimal threshold (0.6) of the model from the ROC curves. The optimal threshold divides the output probability in a way
-    that provides the best comprimise between specificity and sensibility. The model is stored as a pickle (binary data).
+    that provides the best compromise between specificity and sensibility. The model is stored as a pickle (binary data).
 
     Finally, if the outputed probability of the model is equal or larger than the optimal threshold, the input audio is
     classified as a cough. Otherwise, the audio is classified as a no-cough.
@@ -283,8 +282,8 @@ def cough_prediction(X_new, opt_thresh = 0.5):
         - True/False: boolean output depending whether the audio is classified as cough or no-cough respectively.
     '''
     # Load the cough recognition model
-    joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
-    #joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
+    #joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
+    joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
     #joblib_file = "C:/Users/Guillem/Desktop/pruebas_audio_telegram/random_forest_classifier.pkl"
     cough_classifier = joblib.load(joblib_file)
 
@@ -377,6 +376,7 @@ def covid_prediction(X_new, metadata, optimal_threshold = 0.8):
 
     # Load the model
     joblib_file = "/app/project/Telegram_Chatbot/modulos/extratree_classifier.pkl"
+    joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/extratree_classifier.pkl"
     #joblib_file = "C:/Users/Guillem/Desktop/Bot_Telegram/classification_covid/predict_cough_covid/extratree_classifier.pkl"
     extratree_classifier = joblib.load(joblib_file)
 

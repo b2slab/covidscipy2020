@@ -1,0 +1,310 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <!--
+    Modified from the Debian original for Ubuntu
+    Last updated: 2016-11-16
+    See: https://launchpad.net/bugs/1288690
+  -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Covid Bot Project, SciPy 2020 </title>
+    <style type="text/css" media="screen">
+  * {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+  }
+
+  body, html {
+    padding: 3px 3px 3px 3px;
+
+    background-color: #D8DBE2;
+
+    font-family: Verdana, sans-serif;
+    font-size: 11pt;
+    text-align: center;
+  }
+
+  div.main_page {
+    position: relative;
+    display: table;
+
+    width: 800px;
+
+    margin-bottom: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px 0px 0px 0px;
+
+    border-width: 2px;
+    border-color: #212738;
+    border-style: solid;
+
+    background-color: #FFFFFF;
+
+    text-align: center;
+  }
+
+  div.page_header {
+    height: 99px;
+    width: 100%;
+
+    background-color: #F5F6F7;
+  }
+
+  div.page_header span {
+    margin: 15px 0px 0px 50px;
+
+    font-size: 180%;
+    font-weight: bold;
+  }
+
+  div.page_header img {
+    margin: 3px 0px 0px 40px;
+
+    border: 0px 0px 0px;
+  }
+
+  div.table_of_contents {
+    clear: left;
+
+    min-width: 200px;
+
+    margin: 3px 3px 3px 3px;
+
+    background-color: #FFFFFF;
+
+    text-align: left;
+  }
+
+  div.table_of_contents_item {
+    clear: left;
+
+    width: 100%;
+
+    margin: 4px 0px 0px 0px;
+
+    background-color: #FFFFFF;
+
+    color: #000000;
+    text-align: left;
+  }
+
+  div.table_of_contents_item a {
+    margin: 6px 0px 0px 6px;
+  }
+
+  div.content_section {
+    margin: 3px 3px 3px 3px;
+
+    background-color: #FFFFFF;
+
+    text-align: left;
+  }
+
+  div.content_section_text {
+    padding: 4px 8px 4px 8px;
+
+    color: #000000;
+    font-size: 100%;
+  }
+
+  div.content_section_text pre {
+    margin: 8px 0px 8px 0px;
+    padding: 8px 8px 8px 8px;
+
+    border-width: 1px;
+    border-style: dotted;
+    border-color: #000000;
+
+    background-color: #F5F6F7;
+
+    font-style: italic;
+  }
+
+  div.content_section_text p {
+    margin-bottom: 6px;
+  }
+
+  div.content_section_text ul, div.content_section_text li {
+    padding: 4px 8px 4px 16px;
+  }
+
+  div.section_header {
+    padding: 3px 6px 3px 6px;
+
+    background-color: #8E9CB2;
+
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 112%;
+    text-align: justify;
+  }
+
+    div.menu {
+    padding: 6px 12px 6px 12px;
+
+    background-color: #8E9CB2;
+
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 112%;
+    text-align: center;
+  }
+
+  div.section_header_red {
+    background-color: #0c114f;
+  }
+
+  div.section_header_blue {
+    background-color: #a9accd;
+  }
+
+  div.section_header_grey {
+    background-color: #9F9386;
+  }
+
+  .floating_element {
+    position: relative;
+    float: left;
+  }
+
+  div.table_of_contents_item a,
+  div.content_section_text a {
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  div.table_of_contents_item a:link,
+  div.table_of_contents_item a:visited,
+  div.table_of_contents_item a:active {
+    color: #000000;
+  }
+
+  div.table_of_contents_item a:hover {
+    background-color: #000000;
+
+    color: #FFFFFF;
+  }
+
+  div.content_section_text a:link,
+  div.content_section_text a:visited,
+   div.content_section_text a:active {
+    background-color: #DCDFE6;
+
+    color: #000000;
+  }
+
+  div.content_section_text a:hover {
+    background-color: #000000;
+
+    color: #DCDFE6;
+  }
+
+  div.validator {
+  }
+    </style>
+  </head>
+  <body>
+    <div class="main_page">
+      <div class="page_header floating_element">
+        <img src="https://www.upc.edu/comunicacio/ca/identitat/descarrega-arxius-grafics/fitxers-marca-principal/upc-positiu-p3005.png" alt="UPC Logo" class="floating_element" width="300"/>
+        <span class="floating_element">
+         The Covid Bot Project
+        </span>
+      </div>
+      <div class="content_section floating_element">
+
+        <div class="menu section_header_blue">
+          <div id="menu"></div>
+          <a href = "legal/index.html">legal</a> <a href = "docs/index.html">docs</a>
+        </div>
+
+        <div class="section_header section_header_red">
+          <div id="about"></div>
+          About
+        </div>
+        <div class="content_section_text">
+          <p>
+
+
+	    During the exceptional state due to the sars-cov-2 outbreak, the teachers and students of the Scientific Python class from the Master's Degree in Automatic Control And Robotics of 2020 are proposing a joint project to help into the research of the disease. 
+
+          </p>
+
+
+          <p>
+the goals of this project are: a) to build a chatbot capable of gathering voluntary data from patients and carers, b) to organize, curate and analysis this data on a AI system, c) return useful data to users
+          </p>
+
+        </div>
+        <div class="section_header">
+          <div id="changes"></div>
+               Structure
+        </div>
+        <div class="content_section_text">
+          <p>
+The structure of the project covers the following blocks:
+            <ul>
+                        <li>
+                          <tt>Specificaton</tt>
+			  What shoud the system do.
+                        </li>
+
+                        <li>
+                          <tt>Database Storage</tt>
+			  Design and Use of a noSQL database to store data (e.g. Mongodb, https://www.mongodb.com/blog/post/getting-started-with-python-and-mongodb, https://www.w3schools.com/python/python_mongodb_getstarted.asp) 
+                        </li>
+
+                        <li>
+                           <tt>Chatbot Interface</tt>
+ Asynchronous scheme for interaction with users. Definition of state machine in the interaction (https://github.com/aiogram/aiogram, https://docs.python.org/3/library/asyncio.html) 
+                        </li>
+
+                        <li>
+			  <tt>Machine learning</tt>
+			  evelop an algorithm from a set of audios capable of classification. The system can be tested with a set of sample audios made by the class emulating two kind of coughing (https://github.com/tyiannak/pyAudioAnalysis, https://github.com/jsingh811/pyAudioProcessing).
+			</li>
+
+                        <li>
+			  <tt>Documentation, dissemination. </tt>
+			  Creation of a dynamic website programmatically through python (using flask or django, flask is simpler). Parts of the website could connect to the db to show statistics of the system as a small dashboard.
+			  Creation of contents, code documentation (https://docs.python-guide.org/writing/documentation/, https://www.djangoproject.com/start/, https://flask.palletsprojects.com/, with flask you can integrate dash https://plotly.com/dash/)  . 
+                        </li>
+			<li>
+                          <tt>Privacy and ethics</tt> Review legal framework, code a module which recruits and provide legal information and coverage of the project(https://gdpr-info.eu/, support from b2slab and CREB-UPC).
+          </ul>
+        </div>
+
+        <div class="section_header">
+            <div id="docroot"></div>
+                Teams
+        </div>
+
+        <div class="content_section_text">
+            <p>
+	      <ul>
+		<li>Machine learning. Matthias, Christoph, Andrine, Brenda, Pauline, Thibault, Eric
+		</li>
+		<li> Database and system admin.Florian, Christian, Anton , Chrisse and Levente. </li>
+		<li> Website, flask/django and dissemination. Magali, Gerard, Nenzi and Krystof</li>
+		<li> Chatbot. Victoria, Julian, Alex, Eric</li>
+		<li> Privacy and Ethics. Max, Maureen,Nenzi </li>
+		<li>  Project Management: Brenda</li>
+	      </ul>
+	    Teachers: Alexandre Perera, Manel Velasco  
+	    </p>
+            
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+    <div class="validator">
+    </div>
+  </body>
+</html>
+

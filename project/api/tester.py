@@ -69,3 +69,8 @@ files = {'upload_file': open('/home/dani/covidscipy2020/AwACAgQAAxkBAAIS0WBWZuf_
 r = requests.post(url, files=files)
 print(r.status)
 '''
+import pickle
+
+with open("/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl", 'rb') as fin:
+	input_data = pickle.load(fin, encoding='latin1')
+input_data
