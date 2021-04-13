@@ -246,7 +246,7 @@ def mid_term_feat_extraction(wav_file_path):
         mid_df = pd.DataFrame([mid_dict.values()], columns = mid_dict.keys())
 
         # Smile library audio extraction
-        smile = opensmile.Smile(feature_set=opensmile.FeatureSet.eGeMAPSv01b,
+        smile = opensmile.Smile(feature_set=opensmile.FeatureSet.eGeMAPSv02,
                                 feature_level=opensmile.FeatureLevel.Functionals,)
         smile_features = smile.process_signal(signal, sampling_rate)
         smile_df = pd.DataFrame(smile_features).reset_index().iloc[:,2:]
@@ -282,8 +282,8 @@ def cough_prediction(X_new, opt_thresh = 0.5):
         - True/False: boolean output depending whether the audio is classified as cough or no-cough respectively.
     '''
     # Load the cough recognition model
-    #joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
-    joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
+    joblib_file = "/app/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
+    #joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/random_forest_classifier.pkl"
     #joblib_file = "C:/Users/Guillem/Desktop/pruebas_audio_telegram/random_forest_classifier.pkl"
     cough_classifier = joblib.load(joblib_file)
 
@@ -376,12 +376,15 @@ def covid_prediction(X_new, metadata, optimal_threshold = 0.8):
 
     # Load the model
     joblib_file = "/app/project/Telegram_Chatbot/modulos/extratree_classifier.pkl"
-    joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/extratree_classifier.pkl"
-    #joblib_file = "C:/Users/Guillem/Desktop/Bot_Telegram/classification_covid/predict_cough_covid/extratree_classifier.pkl"
+
+    #joblib_file = "/home/dani/covidscipy2020/covidscipy2020/project/Telegram_Chatbot/modulos/extratree_classifier.pkl"
+
+    #joblib_file = "C:/Users/Guillem/Desktop/ExtraTreeClassifier/Covid Cough Training/extratree_classifier.pkl"
+
     extratree_classifier = joblib.load(joblib_file)
 
     # Predictions
-    prediction = extratree_classifier.predict_proba(X_new)[:,1]
+    prediction = extratree_classifier.predict_proba(X)[:,1]
     print(prediction)
 
     if prediction >= optimal_threshold:

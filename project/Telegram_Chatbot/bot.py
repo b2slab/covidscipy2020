@@ -811,8 +811,8 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     file = await bot.get_file(file_id)
     file_path_URL = file.file_path
 
-    #file_path = '/tmp/{}.oga'.format(file_id)
-    file_path = '/home/dani/covidscipy2020/{}.oga'.format(file_id)
+    file_path = '/tmp/{}.oga'.format(file_id)
+    #file_path = '/home/dani/covidscipy2020/{}.oga'.format(file_id)
     #file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
     #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
     async with state.proxy() as data:
@@ -924,7 +924,8 @@ async def process_others(message: types.Message, state: FSMContext):
                  'json': (None, json.dumps(data), 'application/json')}
 
         requests.post(API_HOST+'users', files=file)
-
+        os.remove(file_path)
+        
     await bot.send_message(
             message.chat.id,
             questions[lang]["q4"])
@@ -946,4 +947,5 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
-main()
+
+
