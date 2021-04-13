@@ -84,7 +84,7 @@ class DataBase:
     def store_oga_GridFS(self, files, data):
         db = self.db
         audioDB = gridfs.GridFS(db)
-        fileID = audioDB.put(files, filename=data['audio_file']['filename'], diagnosis=data['diagnosis'],
+        fileID = audioDB.put(files, diagnosis=data['diagnosis'],
                              covid_positive=data['audio_file']['covid_positive'])
         return str(fileID)
 
