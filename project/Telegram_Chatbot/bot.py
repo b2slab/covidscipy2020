@@ -195,15 +195,18 @@ async def delete_data(message: types.Message):
     response = requests.get(API_HOST+'users/%s'%id)
     data_delete = json.loads(response.content)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    if json.loads(response.content)['Status'] == 404:
-        markup.add(questions[lang]["q61"])
-        return await message.reply(questions[lang]["q67"], reply_markup=markup)
 
-    else:
+    try:
         for i in data_delete:
             markup.add(i["username"])
         markup.add(questions[lang]["q61"])
         return await message.reply(questions[lang]["q62"], reply_markup=markup)
+
+    except:
+        markup.add(questions[lang]["q61"])
+        return await message.reply(questions[lang]["q67"], reply_markup=markup)
+
+
 
 @dp.message_handler(lambda message: message.text not in ['CANCEL', 'CANCELAR'], state=Form.delete)
 async def deleting_data(message: types.Message):
@@ -928,16 +931,19 @@ async def process_others(message: types.Message, state: FSMContext):
         file_path = file_path[:-3]+'wav'
         os.remove(file_path)
 
-        await Form.menu.set()
-        id = message.from_user.id
-        name = message.from_user.first_name
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add(questions[lang]["q56"], questions[lang]["q57"])
-        markup.add(questions[lang]["q58"], questions[lang]["q59"])
-        await message.reply(message.chat.id, questions[lang]["q4"])
-        await message.reply(questions[lang]["q60"] % (name, id), reply_markup=markup)
+    await Form.menu.set()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q56"], questions[lang]["q57"])
+    markup.add(questions[lang]["q58"], questions[lang]["q59"])
+    await bot.send_message(message.chat.id, questions[lang]["q4"], reply_markup=markup)
+
+
+
 
         #requests.post(API_HOST+'users', json=data.as_dict())
+
+
+
 
 
 def main():
