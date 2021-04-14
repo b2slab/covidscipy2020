@@ -195,7 +195,7 @@ async def delete_data(message: types.Message):
     response = requests.get(API_HOST+'users/%s'%id)
     data_delete = json.loads(response.content)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    if len(data_delete) == 0:
+    if json.loads(response.content)['Status'] == 404:
         markup.add(questions[lang]["q61"])
         return await message.reply(questions[lang]["q67"], reply_markup=markup)
 
@@ -927,15 +927,17 @@ async def process_others(message: types.Message, state: FSMContext):
         os.remove(file_path)
         file_path = file_path[:-3]+'wav'
         os.remove(file_path)
-        
-    await bot.send_message(
-            message.chat.id,
-            questions[lang]["q4"])
+
+        await Form.menu.set()
+        id = message.from_user.id
+        name = message.from_user.first_name
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add(questions[lang]["q56"], questions[lang]["q57"])
+        markup.add(questions[lang]["q58"], questions[lang]["q59"])
+        await message.reply(message.chat.id, questions[lang]["q4"])
+        await message.reply(questions[lang]["q60"] % (name, id), reply_markup=markup)
 
         #requests.post(API_HOST+'users', json=data.as_dict())
-
-
-    await Form.start.set()
 
 
 def main():
