@@ -925,6 +925,8 @@ async def process_others(message: types.Message, state: FSMContext):
 
         requests.post(API_HOST+'users', files=file)
         os.remove(file_path)
+        file_path = file_path[:-3]+'wav'
+        os.remove(file_path)
         
     await bot.send_message(
             message.chat.id,
@@ -948,4 +950,4 @@ def main():
         #port=WEBAPP_PORT
     )
 
-
+main()

@@ -79,13 +79,14 @@ class DataBase:
 
     def delete_audio(self, audio_id):
         audioDB = gridfs.GridFS(self.db)
-        audioDB.delete(audio_id)
+        audioDB.delete(ObjectId(audio_id))
 
     def store_oga_GridFS(self, files, data):
         db = self.db
         audioDB = gridfs.GridFS(db)
         fileID = audioDB.put(files, diagnosis=data['diagnosis'],
-                             covid_positive=data['audio_file']['covid_positive'])
+                             covid_positive=data['audio_file']['covid_positive'],
+                             username = data['username'], id = data['id'])
         return str(fileID)
 
 
@@ -206,6 +207,10 @@ def add_user():
 
     try:
         Patient(**data)
+        response = DataBase().write_user(data)
+        return Response(response=json.dumps(response),
+                        status=200,
+                        mimetype='application/json')
 
     except Exception as inst:
         print(inst)
@@ -229,6 +234,8 @@ def delete_user(id, username):
     """
     This **DELETE** method will delete an entry from the MongoDB and its correspondent audio in GridFS by using both the *id* and *username* values of the json.
     """
+    data = DataBase().get_user_by_id_and_name(id, username)
+    DataBase().delete_audio(data[0]['audio_file']['ObjectID'])
     response = DataBase().delete_entry(id, username)
     print(response)
     if response["Status"] == "Document not found.":
