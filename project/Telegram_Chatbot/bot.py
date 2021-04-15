@@ -193,7 +193,7 @@ async def delete_data(message: types.Message):
     lang = message.from_user.locale.language
     id = message.from_user.id
     response = requests.get(API_HOST+'users/%s'%id)
-    data_delete = json.loads(response.content)
+
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
 
     if response.status_code == 404:
@@ -201,6 +201,7 @@ async def delete_data(message: types.Message):
         return await message.reply(questions[lang]["q67"], reply_markup=markup)
 
     else:
+        data_delete = json.loads(response.content)
         for i in data_delete:
             markup.add(i["username"])
         markup.add(questions[lang]["q61"])
