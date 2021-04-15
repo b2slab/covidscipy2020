@@ -196,16 +196,15 @@ async def delete_data(message: types.Message):
     data_delete = json.loads(response.content)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
 
-    try:
+    if response.status_code == 404:
+        markup.add(questions[lang]["q61"])
+        return await message.reply(questions[lang]["q67"], reply_markup=markup)
+
+    else:
         for i in data_delete:
             markup.add(i["username"])
         markup.add(questions[lang]["q61"])
         return await message.reply(questions[lang]["q62"], reply_markup=markup)
-
-    except:
-        markup.add(questions[lang]["q61"])
-        return await message.reply(questions[lang]["q67"], reply_markup=markup)
-
 
 
 @dp.message_handler(lambda message: message.text not in ['CANCEL', 'CANCELAR'], state=Form.delete)
