@@ -109,7 +109,7 @@ START CHATBOT
                                                          "Delete data", "Eliminar datos", "Eliminar dades",
                                                          "Add data", "Añadir datos", "Afegir dades",
                                                          "Exit", "Salir", "Sortir"], state=Form.menu)
-async def cmd_start(message: types.Message):
+async def cmd_start(message: types.Message, state: FSMContext):
     """
     Starting point.
 
@@ -137,6 +137,10 @@ async def cmd_start(message: types.Message):
     """
 
     lang = message.from_user.locale.language
+    if lang not in ['es','en','cat']:
+        lang = 'en'
+    async with state.proxy() as data:
+        data['lang'] = lang
     id = message.from_user.id
     name = message.from_user.first_name
     # Si no reconoce idioma, por defecto activa el español
@@ -152,30 +156,32 @@ async def cmd_start(message: types.Message):
 
 
 @dp.message_handler(lambda message: message.text in ["About", "Acerca de", "Sobre nosaltres"], state=Form.menu)
-async def about(message: types.Message):
+async def about(message: types.Message, state: FSMContext):
     """
     --Input state              menu
     --Input message            "About"
     --Output state             menu
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     return await message.reply(questions[lang]["q37"])
 
 @dp.message_handler(lambda message: message.text in ["Add data", "Añadir datos", "Afegir dades"], state=Form.menu)
-async def add_my_data(message: types.Message):
+async def add_my_data(message: types.Message, state: FSMContext):
     """
     --Input state              menu
     --Input message            "Add data"
     --Output state             username
     """
     await Form.username.set()
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     return await message.reply(questions[lang]["q38"], reply_markup=types.ReplyKeyboardRemove())
 
 
 @dp.message_handler(lambda message: message.text in ['Sí', 'Yes'], state=Form.deleting)
 @dp.message_handler(lambda message: message.text in ["No", "Delete data", "Eliminar datos", "Eliminar dades"], state=Form.menu)
-async def delete_data(message: types.Message):
+async def delete_data(message: types.Message, state: FSMContext):
     """
     Performs a **GET** with user's *id*. Returns all entries from that *id*.
         +-------------+---------------+
@@ -190,7 +196,8 @@ async def delete_data(message: types.Message):
         --Output state             delete
     """
     await Form.delete.set()
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     id = message.from_user.id
     response = requests.get(API_HOST+'users/%s'%id)
 
@@ -209,14 +216,15 @@ async def delete_data(message: types.Message):
 
 
 @dp.message_handler(lambda message: message.text not in ['CANCEL', 'CANCELAR'], state=Form.delete)
-async def deleting_data(message: types.Message):
+async def deleting_data(message: types.Message, state: FSMContext):
     """
     Perfoms a **DELETE** on the entry seleected by *username* variable.
     --Input state              delete
     --Input message            NOT IN: 'Add data'
     --Output state             deleting
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     await Form.deleting.set()
     id = message.from_user.id
     response = requests.delete(API_HOST+'users/%s/%s'%(id, message.text))
@@ -225,13 +233,14 @@ async def deleting_data(message: types.Message):
     return await message.reply(questions[lang]["q63"] % json.loads(response.content)['Status'], reply_markup=markup)
 
 @dp.message_handler(lambda message: message.text in ["Exit", "Salir", "Sortir"], state=Form.menu)
-async def exit(message: types.Message):
+async def exit(message: types.Message, state: FSMContext):
     """
     --Input state              menu
     --Input message            "Exit"
     --Output state             start
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     await Form.start.set()
     return await message.reply(questions[lang]["q64"], reply_markup=types.ReplyKeyboardRemove())
 # You can use state '*' if you need to handle all states
@@ -244,7 +253,8 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     --Input command            /cancel
     --Output state             start
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     current_state = await state.get_state()
     if current_state is None:
         return
@@ -256,14 +266,16 @@ async def cancel_handler(message: types.Message, state: FSMContext):
 
 # Check username.
 @dp.message_handler(lambda message: not message.text.isalpha(), state=Form.username)
-async def process_user_invalid(message: types.Message):
+async def process_user_invalid(message: types.Message, state: FSMContext):
     """
     --Input state              username
     --Input message            NOT IN: alpha
     --Output state             username
     Philter so the username is only alpha.
     """
-    lang = message.from_user.locale.language
+
+    async with state.proxy() as data:
+        lang = data['lang']
     return await message.reply(questions[lang]["q6"])
 
 
@@ -276,10 +288,10 @@ async def process_username(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['username'] and the id as ['id'] in the metadata.
     """
-    lang = message.from_user.locale.language
     id = message.from_user.id
     async with state.proxy() as data:
         data['id'] = id
+        lang = data['lang']
         data['username'] = message.text
 
     await Form.next()
@@ -288,7 +300,7 @@ async def process_username(message: types.Message, state: FSMContext):
 
 # Check age. Age has to be a digit
 @dp.message_handler(lambda message: (not message.text.isdigit()) or (int(message.text) not in np.arange(0,121)), state=Form.age)
-async def process_age_invalid(message: types.Message):
+async def process_age_invalid(message: types.Message, state: FSMContext):
     """
     --Input state              age
     --Input message            NOT IN: digit
@@ -296,7 +308,9 @@ async def process_age_invalid(message: types.Message):
 
     Philter so age is digit only.
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
+
     """
     If age is invalid
     """
@@ -311,11 +325,10 @@ async def process_age(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['age'] in the metadata.
     """
-
-    lang = message.from_user.locale.language
     # Update state and data
     async with state.proxy() as data:
         data['age'] = int(message.text)
+        lang = data['lang']
     await Form.next()
     #await state.update_data(age=int(message.text))
 
@@ -327,7 +340,7 @@ async def process_age(message: types.Message, state: FSMContext):
     await message.reply(questions[lang]["q36"], reply_markup=markup)
 
 @dp.message_handler(lambda message: message.text not in ['Male', 'Female', 'Other', 'Hombre', 'Mujer', 'Otro', 'Home', 'Dona', 'Altre'], state=Form.gender)
-async def process_gender_invalid(message: types.Message):
+async def process_gender_invalid(message: types.Message, state: FSMContext):
     """
     --Input state              gender
     --Input message            NOT IN: 'Male', 'Female', 'Other'
@@ -335,7 +348,8 @@ async def process_gender_invalid(message: types.Message):
 
     Philter so gender is a correct input.
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     """
     In this example gender has to be one of: Male, Female, Other.
     """
@@ -355,8 +369,8 @@ async def process_gender(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['gender'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['gender'] = message.text
         #markup = types.ReplyKeyboardRemove()
 
@@ -379,8 +393,8 @@ async def process_location(message, state: FSMContext):
 
     Stores *Input message* as ['location']['latitude'] / ['location']['longitude'] in the metadata. Only available on phone.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['location'] = {}
         data['location']['latitude'] = message.location.latitude
         data['location']['longitude'] = message.location.longitude
@@ -402,8 +416,8 @@ async def process_location(message, state: FSMContext):
 
     Skips location.
     """
-    lang = message.from_user.locale.language
-
+    async with state.proxy() as data:
+        lang = data['lang']
     await Form.next()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q16"])
@@ -414,7 +428,7 @@ async def process_location(message, state: FSMContext):
 @dp.message_handler(lambda message: message.text not in ["Currently positive", "Had covid in the past", "Never been diagnosed",
                                                          "Positivo","Negativo", "Desconocido",
                                                          "Positiu","Negatiu","Desconegut"], state=Form.has_corona)
-async def process_has_corona_invalid(message: types.Message):
+async def process_has_corona_invalid(message: types.Message, state: FSMContext):
     """
     --Input state              has_corona
     --Input message            NOT IN: "Currently positive", "Had covid in the past", "Never been diagnosed"
@@ -422,7 +436,8 @@ async def process_has_corona_invalid(message: types.Message):
 
     Philter so diagnosis is a correct input.
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     """
     Filter.
     """
@@ -441,8 +456,8 @@ async def process_has_corona(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['diagnosis'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['diagnosis'] = message.text
         markup =types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -458,8 +473,8 @@ async def process_tiredness(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['vaccine'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['vaccine'] = (message.text == questions[lang]["q26"])
 
     #markup = types.ReplyKeyboardRemove()
@@ -481,8 +496,8 @@ async def process_dry_cough(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['dry cough'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms'] = {}
         data['symptoms']['dry cough'] = (message.text == questions[lang]["q26"])
 
@@ -501,8 +516,8 @@ async def process_smoker(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['smoker'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['smoker'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
@@ -519,8 +534,8 @@ async def process_tiredness(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['cold'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['cold'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
@@ -536,8 +551,8 @@ async def process_loss_smell(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['res_difficult'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['res_difficult'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
@@ -554,8 +569,8 @@ async def process_headache(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['sore_throat'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['sore_throat'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
@@ -571,8 +586,8 @@ async def process_shortness_breath(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['fever'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['fever'] = (message.text == questions[lang]["q26"])
 
     await Form.next()
@@ -588,8 +603,8 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['fatigue'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['fatigue'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -607,8 +622,8 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['muscular_pain'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['muscular_pain'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -626,8 +641,8 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['smell_loss'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['smell_loss'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -644,8 +659,8 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['pneumonia'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['pneumonia'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -662,8 +677,8 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['diarrhea'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['diarrhea'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -680,8 +695,8 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['hypertension'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['hypertension'] = (message.text == questions[lang]["q26"])
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -698,11 +713,11 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['asthma'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['asthma'] = (message.text == questions[lang]["q26"])
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
     await message.reply(questions[lang]["q48"], reply_markup=markup)
@@ -716,11 +731,12 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['diabetes'] in the metadata.
     """
-    lang = message.from_user.locale.language
+
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['diabetes'] = (message.text == questions[lang]["q26"])
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
     await message.reply(questions[lang]["q49"], reply_markup=markup)
@@ -734,11 +750,11 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['CLD'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['CLD'] = (message.text == questions[lang]["q26"])
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add(questions[lang]["q26"], questions[lang]["q27"])
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
     await Form.next()
     await message.reply(questions[lang]["q50"], reply_markup=markup)
@@ -752,8 +768,8 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
     Stores *Input message* as ['symptoms']['IHD'] in the metadata.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['IHD'] = (message.text == questions[lang]["q26"])
         #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         #markup.add(questions[lang]["q26"], questions[lang]["q27"])
@@ -767,7 +783,7 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
 
 # Message handler if a non voice message is received
 @dp.message_handler(lambda message: types.message.ContentType not in ['voice'], state=Form.cough)
-async def process_cough_invalid(message: types.Message):
+async def process_cough_invalid(message: types.Message, state: FSMContext):
     """
     --Input state              cough
     --Input message            NOT IN: voice message
@@ -775,7 +791,8 @@ async def process_cough_invalid(message: types.Message):
 
     Philter so only a voice message is sent.
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     return await message.reply(questions[lang]["q21"])
 
 
@@ -806,19 +823,19 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
 
     - Stores veredict as ['audio_file']['covid_positive'] in the metadata.
     """
-    lang = message.from_user.locale.language
     # Update state and data
-    await bot.send_message(message.chat.id,questions[lang]["q22"])
-
-    file_id = message.voice.file_id
-    file = await bot.get_file(file_id)
-    file_path_URL = file.file_path
-
-    file_path = '/tmp/{}.oga'.format(file_id)
-    #file_path = '/home/dani/covidscipy2020/{}.oga'.format(file_id)
-    #file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
-    #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
     async with state.proxy() as data:
+        lang = data['lang']
+        await bot.send_message(message.chat.id,questions[lang]["q22"])
+
+        file_id = message.voice.file_id
+        file = await bot.get_file(file_id)
+        file_path_URL = file.file_path
+
+        file_path = '/tmp/{}.oga'.format(file_id)
+        #file_path = '/home/dani/covidscipy2020/{}.oga'.format(file_id)
+        #file_path = 'C:/Users/Guillem/Desktop/prueba_audio/{}.oga'.format(file_id)
+        #Aquí deberemos indicar el directorio dónce guardemos el archivo en el servidor
         data['file_path'] = file_path
 
     await bot.download_file(file_path_URL, file_path)
@@ -890,7 +907,8 @@ async def process_others_write(message: types.Message, state: FSMContext):
     --Output state             others
 
     """
-    lang = message.from_user.locale.language
+    async with state.proxy() as data:
+        lang = data['lang']
     await message.reply(questions[lang]["q65"])
 
 
@@ -909,27 +927,27 @@ async def process_others(message: types.Message, state: FSMContext):
     .. note::
         Metadata is stored in *dict* format. The DB converts it to BSON automatically when inserting the entry.
     """
-    lang = message.from_user.locale.language
     async with state.proxy() as data:
+        lang = data['lang']
         data['symptoms']['others'] = message.text
-        markup = types.ReplyKeyboardRemove()
-        await message.reply(questions[lang]["q35"], reply_markup=markup)
+    markup = types.ReplyKeyboardRemove()
+    await message.reply(questions[lang]["q35"], reply_markup=markup)
         #await message.reply(file_path, reply_markup=markup)
 
 
         #save_features(data.as_dict())
 
-        file_path = data['file_path']
-        print(str(file_path))
-        del data['file_path']
-        data = convert_bool(data.as_dict())
-        file = {'upload_file': open(file_path, 'rb'),
+    file_path = data['file_path']
+    print(str(file_path))
+    del data['file_path']
+    data = convert_bool(data.as_dict())
+    file = {'upload_file': open(file_path, 'rb'),
                  'json': (None, json.dumps(data), 'application/json')}
 
-        requests.post(API_HOST+'users', files=file)
-        os.remove(file_path)
-        file_path = file_path[:-3]+'wav'
-        os.remove(file_path)
+    requests.post(API_HOST+'users', files=file)
+    os.remove(file_path)
+    file_path = file_path[:-3]+'wav'
+    os.remove(file_path)
 
     await Form.menu.set()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
@@ -940,7 +958,7 @@ async def process_others(message: types.Message, state: FSMContext):
 
 
 
-        #requests.post(API_HOST+'users', json=data.as_dict())
+    #requests.post(API_HOST+'users', json=data.as_dict())
 
 
 
@@ -957,5 +975,5 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
-
+main()
 
