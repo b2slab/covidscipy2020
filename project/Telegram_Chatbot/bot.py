@@ -940,6 +940,7 @@ async def process_others(message: types.Message, state: FSMContext):
     file_path = data['file_path']
     print(str(file_path))
     del data['file_path']
+    del data['lang']
     data = convert_bool(data.as_dict())
     file = {'upload_file': open(file_path, 'rb'),
                  'json': (None, json.dumps(data), 'application/json')}
