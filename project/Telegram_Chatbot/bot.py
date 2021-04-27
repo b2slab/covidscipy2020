@@ -928,7 +928,7 @@ async def process_others(message: types.Message, state: FSMContext):
         Metadata is stored in *dict* format. The DB converts it to BSON automatically when inserting the entry.
     """
     async with state.proxy() as data:
-        lang = data['lang']
+        lang = message.from_user.locale.language
         data['symptoms']['others'] = message.text
         markup = types.ReplyKeyboardRemove()
         await message.reply(questions[lang]["q35"], reply_markup=markup)
@@ -946,6 +946,7 @@ async def process_others(message: types.Message, state: FSMContext):
                     'json': (None, json.dumps(data), 'application/json')}
 
         requests.post(API_HOST+'users', files=file)
+
         data['lang'] = lang
     os.remove(file_path)
     file_path = file_path[:-3]+'wav'
