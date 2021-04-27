@@ -162,8 +162,11 @@ async def about(message: types.Message, state: FSMContext):
     --Input message            "About"
     --Output state             menu
     """
+    lang = message.from_user.locale.language
+    if lang not in ['es', 'en', 'cat']:
+        lang = 'en'
     async with state.proxy() as data:
-        lang = data['lang']
+        data['lang'] = lang
     return await message.reply(questions[lang]["q37"])
 
 @dp.message_handler(lambda message: message.text in ["Add data", "Añadir datos", "Afegir dades"], state=Form.menu)
@@ -174,8 +177,11 @@ async def add_my_data(message: types.Message, state: FSMContext):
     --Output state             username
     """
     await Form.username.set()
+    lang = message.from_user.locale.language
+    if lang not in ['es', 'en', 'cat']:
+        lang = 'en'
     async with state.proxy() as data:
-        lang = data['lang']
+        data['lang'] = lang
     return await message.reply(questions[lang]["q38"], reply_markup=types.ReplyKeyboardRemove())
 
 
@@ -196,8 +202,11 @@ async def delete_data(message: types.Message, state: FSMContext):
         --Output state             delete
     """
     await Form.delete.set()
+    lang = message.from_user.locale.language
+    if lang not in ['es', 'en', 'cat']:
+        lang = 'en'
     async with state.proxy() as data:
-        lang = data['lang']
+        data['lang'] = lang
     id = message.from_user.id
     response = requests.get(API_HOST+'users/%s'%id)
 
@@ -239,8 +248,11 @@ async def exit(message: types.Message, state: FSMContext):
     --Input message            "Exit"
     --Output state             start
     """
+    lang = message.from_user.locale.language
+    if lang not in ['es', 'en', 'cat']:
+        lang = 'en'
     async with state.proxy() as data:
-        lang = data['lang']
+        data['lang'] = lang
     await Form.start.set()
     return await message.reply(questions[lang]["q64"], reply_markup=types.ReplyKeyboardRemove())
 # You can use state '*' if you need to handle all states
@@ -946,8 +958,7 @@ async def process_others(message: types.Message, state: FSMContext):
                     'json': (None, json.dumps(data), 'application/json')}
 
         requests.post(API_HOST+'users', files=file)
-
-        data['lang'] = lang
+        
     os.remove(file_path)
     file_path = file_path[:-3]+'wav'
     os.remove(file_path)
