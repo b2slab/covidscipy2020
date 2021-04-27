@@ -159,7 +159,7 @@ def import_languages():
             \n\nSu objetivo es ayudar a la sociedad dándole acceso a una herramienta que sirva para detectar el virus de forma rápida y sencilla. Por ahora, seria de gran ayuda si nos suministrase sus síntomas a través de este bot.\
             \n\nEn el proceso se le harán varias preguntas además de pedirle un mensaje de audio que contenga su tos de modo que podamos usarlos para mejorar nuestros modelos predictivos.\
             \n\nTambien puede añadir información de otra persona si tiene su consentimiento, asimismo como eliminar sus datos en cualquier momento.\
-            \n\nPara más información, por favor visite http://covidbot.upc.edu/",
+            \n\nPara má información, por favor visite http://covidbot.upc.edu/",
 
             "q38":"A continuación puede agregar datos y síntomas propios. También puede optar por facilitarnos los datos de una persona a su cargo.\
             \n\nComenzaremos por su nombre. El nombre que nos proporcione servirá como identificador en el caso de que quiera agregar los datos de sus familiares.\

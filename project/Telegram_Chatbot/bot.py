@@ -930,22 +930,22 @@ async def process_others(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         lang = data['lang']
         data['symptoms']['others'] = message.text
-    markup = types.ReplyKeyboardRemove()
-    await message.reply(questions[lang]["q35"], reply_markup=markup)
+        markup = types.ReplyKeyboardRemove()
+        await message.reply(questions[lang]["q35"], reply_markup=markup)
         #await message.reply(file_path, reply_markup=markup)
 
 
         #save_features(data.as_dict())
 
-    file_path = data['file_path']
-    print(str(file_path))
-    del data['file_path']
-    del data['lang']
-    data = convert_bool(data.as_dict())
-    file = {'upload_file': open(file_path, 'rb'),
-                 'json': (None, json.dumps(data), 'application/json')}
+        file_path = data['file_path']
+        print(str(file_path))
+        del data['file_path']
+        del data['lang']
+        data = convert_bool(data.as_dict())
+        file = {'upload_file': open(file_path, 'rb'),
+                    'json': (None, json.dumps(data), 'application/json')}
 
-    requests.post(API_HOST+'users', files=file)
+        requests.post(API_HOST+'users', files=file)
     os.remove(file_path)
     file_path = file_path[:-3]+'wav'
     os.remove(file_path)
@@ -976,5 +976,5 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
-main()
+
 
