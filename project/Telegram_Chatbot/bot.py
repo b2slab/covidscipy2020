@@ -949,7 +949,7 @@ async def process_others(message: types.Message, state: FSMContext):
     os.remove(file_path)
     file_path = file_path[:-3]+'wav'
     os.remove(file_path)
-
+    lang = data['lang']
     await Form.menu.set()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q56"], questions[lang]["q57"])
