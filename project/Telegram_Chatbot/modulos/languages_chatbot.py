@@ -47,8 +47,8 @@ def import_languages():
             "q37":"Hello, you are chatting with CovidScipy2020's bot.\
             \n\nThis is an experimental tool developed at the Universitat Politècnica de Catalunya (UPC) to better understand Covid-19.\
             \n\nWe want to help society providing a fast tool that can be indicative of a Covid-19 positive. At this stage, you can help us providing your symptoms and interacting with the bot.\
-            \n\nYou will be asked to provide a recording of your coughing and other data that can help the prediction models. You can also add information from someone else if permission is granted.\
-            You can access and delete your data at any time.",
+            \n\nYou will be asked to provide a recording of your coughing and other data that can help the prediction models. You can also add information from someone else if permission is granted. You can access and delete your data at any time.\
+            \n\nFor mor information, please visit http://covidbot.upc.edu/",
 
             "q38":"Okay. You may now add data and symptoms of your own, or from someone else you are responsible of.\
             \n\nWe will begin with your first name, just to identify you in case you add data from your relatives.\
@@ -157,8 +157,9 @@ def import_languages():
 
             "q37":"Hola, está usted hablando con el bot CovidScipy2020. Se trata de una herramienta experimental desarrollada en la Universidad Politécnica de Cataluña (UPC) con el propósito de entender mejor el Covid-19.\
             \n\nSu objetivo es ayudar a la sociedad dándole acceso a una herramienta que sirva para detectar el virus de forma rápida y sencilla. Por ahora, seria de gran ayuda si nos suministrase sus síntomas a través de este bot.\
-            En el proceso se le harán varias preguntas además de pedirle un mensaje de audio que contenga su tos de modo que podamos usarlos para mejorar nuestros modelos predictivos.\
-            \n\nTambien puede añadir información de otra persona si tiene su consentimiento, asimismo como eliminar sus datos en cualquier momento.",
+            \n\nEn el proceso se le harán varias preguntas además de pedirle un mensaje de audio que contenga su tos de modo que podamos usarlos para mejorar nuestros modelos predictivos.\
+            \n\nTambien puede añadir información de otra persona si tiene su consentimiento, asimismo como eliminar sus datos en cualquier momento.\
+            \n\nPara más información, por favor visite http://covidbot.upc.edu/",
 
             "q38":"A continuación puede agregar datos y síntomas propios. También puede optar por facilitarnos los datos de una persona a su cargo.\
             \n\nComenzaremos por su nombre. El nombre que nos proporcione servirá como identificador en el caso de que quiera agregar los datos de sus familiares.\
@@ -265,8 +266,9 @@ def import_languages():
 
             "q37":"Hola, está vosté chatejant amb el bot CovidScipy2020. Es tracta d'una eina experimental desenvolupada en la Universitad Politécnica de Catalunya (UPC) amb el propósit d'entendre millor el Covid-19.\
             \n\nEl seu objectiu és ajudar a la societat donant-li accés a una eina que serveixi per detectar el virus de forma ràpida y senzilla. De moment, seria de gran ajuda si ens subministrés els seus símptomes a través d'aquest bot.\
-            En el procés se li faran varies preguntes a més de demanar-li un missatge d'audio que contingui la seva tos de manera que puguem fer-los servir per millorar els nostres models predictius.\
-            \n\nTambe pot afegir informació d'altra persona amb el seu consentiment, aixi mateix com eliminar les seves dades en qualsevol moment.",
+            \n\nEn el procés se li faran varies preguntes a més de demanar-li un missatge d'audio que contingui la seva tos de manera que puguem fer-los servir per millorar els nostres models predictius.\
+            \n\nTambe pot afegir informació d'altra persona amb el seu consentiment, aixi mateix com eliminar les seves dades en qualsevol moment.\
+            \n\nPer a més informació, si us plau visiti http://covidbot.upc.edu/",
 
             "q38":"A continuació pot afegir les dades i els símptomes propis. També pot optar per facilitar-nos les dades d'una persona al seu càrrec.\
             \n\nComençarem pel seu nom. El nom que ens proporcioni servirà com a identificador en el cas que vulgui afegir les dades dels seus familiars.\
