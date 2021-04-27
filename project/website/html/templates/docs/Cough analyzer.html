@@ -14,7 +14,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Json tools" href="bot_modules.html" />
+    <link rel="prev" title="Settings" href="bot_modules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,37 +33,255 @@
 <span class="target" id="module-project.Telegram_Chatbot.modulos.analyze_cough"></span><dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.analyze_cough.analyze_cough">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">analyze_cough</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ogg_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.analyze_cough" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ogg_path</strong> – Absolute path where the original .ogg audio file has been downloaded from the Telegram API.</p></li>
+<li><p><strong>data</strong> – Metadata extracted from the chatbot user. Only is converted and used in a proper format if the audio contains cough.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns bool</dt>
+<dd class="field-even"><p>True for covid positive, False for covid negative and None for unrecognized audio.</p>
+</dd>
+</dl>
+<p>The function is in charge of calling all the defined functions to maintain a clean script
+and a clear workflow. First, the audio is converted to wav. Then, the long-term features
+(based on mid-term and, therefore, short-term) are extracted from the converted audio.
+In this point, the audio is analyze. Only if the audio contains a cough (accordingly to our
+cough recognition model), the metadata of the chatbot user is extracted and converted to
+a proper format. Additionally, we predict whether the audio has been recorded by a user
+that has COVID-19 or not, accordingly to our covid recognition model.</p>
+<p>Note that if our first cough recognition model does not predict that the audio contains cough,
+the function returns None automatically (without computing the metadata or the covid prediction).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.modulos.analyze_cough.butter_lowpass">
+<code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">butter_lowpass</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.butter_lowpass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cutoff</strong> – The cutoff frequency. Defines the boundary from which the frequencies will be attenuated.</p></li>
+<li><p><strong>fs</strong> – Sampling rate of the signal.</p></li>
+<li><p><strong>order</strong> – Order of the filter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns b</dt>
+<dd class="field-even"><p>Numerator polynomials of the IIR filter (filter coefficients).</p>
+</dd>
+<dt class="field-odd">Returns a</dt>
+<dd class="field-odd"><p>Denominator polynomials of the IIR filter (filter coefficients).</p>
+</dd>
+</dl>
+<p>The function implements a low-pass filter of order 5 (using Butterworth digital filter). The purpose of the
+filter is to attenuate the frequencies whoose values are higher than the defined cutoff.
+The order 5 has been choosen because it provides a compromise between stability and sharpness of
+the transition between preserved and attenuated frequencies.
+Additionally, the cutoff frequency is expressed as the fraction of the Nyquist frequency,
+which at the same time is half the sampling rate of the signal.
+The filter is applied as a consequence that iOS devices record audios with greater spectral information
+(more high-frequency information) than the ones recorded by Android devices.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.modulos.analyze_cough.butter_lowpass_filter">
+<code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">butter_lowpass_filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.butter_lowpass_filter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Original signal (numpy array).</p></li>
+<li><p><strong>cutoff</strong> – Cutoff frequency.</p></li>
+<li><p><strong>fs</strong> – Sampling rate of the signal.</p></li>
+<li><p><strong>order</strong> – Order of the Butterworth filter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns y</dt>
+<dd class="field-even"><p>Filtered signal.</p>
+</dd>
+</dl>
+<p>The function extracts the 5-order low-pass filter coefficients and filters the original signal.
+In this way, the frequencies whose values are higher than the cutoff frequency are masked (attenuated).</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.analyze_cough.check_audio_duration">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">check_audio_duration</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.check_audio_duration" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath</strong> – absolute path where the original .ogg file is located.</p>
+</dd>
+<dt class="field-even">Returns p</dt>
+<dd class="field-even"><p>duration of the audio in seconds (it has decimals).</p>
+</dd>
+</dl>
+<p>The function just quickly verifies the duration of the audio. If the duration is shorter than 1 second
+or larger than 7 seconds, a new cough recording is requested from the user.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.analyze_cough.convert_metadata">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">convert_metadata</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.convert_metadata" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – List of data from the user extracted by the chatbot.</p>
+</dd>
+<dt class="field-even">Returns metadata_bf</dt>
+<dd class="field-even"><p>Pandas DataFrame containing the converted metadata.</p>
+</dd>
+</dl>
+<p>The function converts the data extracted by the chatbot into input metadata for the
+covid recognition model. Basically, all data is boolean except the age. The metadata
+is first builded in a key:value way (dictionary) and then transformed to a pandas
+DataFrame.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.analyze_cough.convert_ogg_to_wav">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">convert_ogg_to_wav</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.convert_ogg_to_wav" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>original_path</strong> – The absolute path where the .ogg audio has been downloaded from the Telegram API.</p>
+</dd>
+<dt class="field-even">Returns converted_path</dt>
+<dd class="field-even"><p>The absolute path where the converted .wav audio has been stored.</p>
+</dd>
+</dl>
+<p>Convertion of original audio from .ogg format to .wav. The .ogg format is the default used by Telegram
+because its size. However, in order to analyze properly the audios, a transformation to a higher quality
+format such as .wav is needed.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.analyze_cough.cough_prediction">
-<code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">cough_prediction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_new</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.cough_prediction" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">cough_prediction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_new</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.cough_prediction" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_new</strong> – Pandas DataFrame which contains a row vector of features from the raw audio.</p></li>
+<li><p><strong>opt_thresh</strong> – The optimal threshold defined as 0.6.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns bool</dt>
+<dd class="field-even"><p>Boolean output depending whether the audio is classified as cough or no-cough respectively.</p>
+</dd>
+</dl>
+<p>This function loads the cough recognition model and predicts whether the audio is cough based on the long-term
+averaging of its mid-term (and therefore short-term) features.</p>
+<p>It uses a classification model trained with 500 audios divided in two halves; the first half contains cough audios. The second half contains audios of sneezing, clearing
+throat and other human sounds. As the dataset has been splitted in training/testing, we have been able to compute the
+optimal threshold (0.6) of the model from the ROC curves. The optimal threshold divides the output probability in a way
+that provides the best compromise between specificity and sensibility. The model is stored as a pickle (binary data).</p>
+<p>Finally, if the outputed probability of the model is equal or larger than the optimal threshold, the input audio is
+classified as a cough. Otherwise, the audio is classified as a no-cough.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.analyze_cough.covid_prediction">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">covid_prediction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_new</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimal_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.covid_prediction" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_new</strong> – pandas DataFrame which contains a row vector of long-term features from the raw audio.</p></li>
+<li><p><strong>metadata</strong> – Pandas DataFrame which contains the metadata (symptomatology) of the user who has cought.</p></li>
+<li><p><strong>optimal_threshold</strong> – The optimal threshold defined as 0.8 (note that the model is not calibrated).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns bool</dt>
+<dd class="field-even"><p>boolean output depending whether the audio is classified as covid cough or no-covid cough respectively.</p>
+</dd>
+</dl>
+<p>The function tries to predict whether a cough audio is recorded by a user that have COVID-19 or not.
+The covid recognition model has been trained with the Coswara dataset. Although several approaches
+has been tried (Transfer Learning of CNN based on spectrogram analysis, Convolutional autoencoders, etc.)
+the one which has provided the best results is the model implemented here (Extreme Randomized Tree classifier).</p>
+<p>It uses not only the bunch of long-term features extracted from an audio in a tabular way, but also the metadata
+of each patient as an input (because the Coswara dataset contained these meta-information). The model is stored
+in binary as a pickle, too.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.modulos.analyze_cough.extract_features_audio">
+<code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">extract_features_audio</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_pass_filt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4096</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_FFT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.extract_features_audio" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – Absolute path where the audio is stored.</p></li>
+<li><p><strong>low_pass_filt</strong> – If True, the signal is filtered.</p></li>
+<li><p><strong>cutoff_freq</strong> – The cutoff frequency. As default, is defined at 4096Hz as we have seen that Android audios reach its maximum peak at this frequency.</p></li>
+<li><p><strong>amplification</strong> – If True, the signal is amplified.</p></li>
+<li><p><strong>compute_FFT</strong> – If True, then the 1D DFT and the Mel-Spectrogram are computed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns signal</dt>
+<dd class="field-even"><p>The signal filtered and amplified (if applicable).</p>
+</dd>
+<dt class="field-odd">Returns sampling_rate</dt>
+<dd class="field-odd"><p>The sampling rate of the signal.</p>
+</dd>
+<dt class="field-even">Returns xf</dt>
+<dd class="field-even"><p>Frequencies [Hz] of the 1D DFT. Note that the maximum frequency is the Nyquist one.</p>
+</dd>
+<dt class="field-odd">Returns yf</dt>
+<dd class="field-odd"><p>Gain of each frequency of the signal in each Frequency bin.</p>
+</dd>
+<dt class="field-even">Returns S_dB</dt>
+<dd class="field-even"><p>Mel-Spectrogram in decibels.</p>
+</dd>
+</dl>
+<p>The function loads the signal and the sampling rate of the audio by using the Librosa library.
+Note that the audio is loaded as a mono signal (not stereo). Then it verifies if the sampling rate is
+correct. Furthermore, it filters the signal by using the low-pass Butterworth filter and amplify it, too.
+Lastly, if it is necessary, it computes the 1-D discrete Fourier Transform in order to work with the signal
+in the Frequency domain. As the signal is symmetric, it only extracts the positive part.
+The Mel-Spectrogram of the signal is also extracted and then transformed to decibels. As we are working
+with human sounds, the mel-spectrogram is better as it scales the original signal accordingly to the human
+audition.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="project.Telegram_Chatbot.modulos.analyze_cough.increase_amplitude">
+<code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">increase_amplitude</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.increase_amplitude" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – Original signal.</p>
+</dd>
+<dt class="field-even">Returns data*factor</dt>
+<dd class="field-even"><p>Amplified signal.</p>
+</dd>
+</dl>
+<p>The function normalize the amplitude of the signal by increasing its gain. Basically, it multiplies
+the signal by a gain factor. In this way, the signal gain ranges from -1 to +1. This is useful because
+the audios recorded by iOS tend to have greater gains than the ones recorded by Android.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.analyze_cough.mid_term_feat_extraction">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.analyze_cough.</span></code><code class="sig-name descname"><span class="pre">mid_term_feat_extraction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wav_file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.analyze_cough.mid_term_feat_extraction" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>wav_file_path</strong> – The absolute path where the converted-to-wav audio is located.</p>
+</dd>
+<dt class="field-even">Returns final_df</dt>
+<dd class="field-even"><p>Pandas DataFrame which contains almost 150 features extracted from the raw audio in a tabular way.</p>
+</dd>
+</dl>
+<p>This function is the core of the script. It find a way to go from low-level audio data samples
+to a higher-level representation of the audio content. We are interested to extract higher-level audio
+features that are capable of discriminating between different audio classes (cough/no-cough, covid/no-covid).
+Basically, the function extracts the mid-term features (based on the short-term ones) from the .wav audio and
+computes the long term averaging of the mid-term statistics.</p>
+<p>The most important concept of audio feature extraction is short-term windowing (or framing): this simply means
+that the audio signal is split into short-term windows (or frames). In this case, we have defined the short-term
+windows as well as the short-term steps equal to 10 msecs. Consequently, there is no-overlapping between windows (or frames).
+For each frame (whoose length is defined by the short-term windows parameter), we extract a set of short-term audio features.
+Those features are extracted directly from the audio sample values (Time domain) as well as from the FFT values (Frequency domain).</p>
+<p>Then, we extract 2 statistics, namely the mean and the std of each short-term feature sequence, using the provided
+mid-term window size. These statistics represents the mid-term features of the audio. Finally, we perform a long-term averaging
+in order to obtain a single large mean feature vector per each audio.</p>
+<p>Additionally, we use the OpenSmile library to extract cepstral features based on the cepstrum for each audio. Then, we concatenate
+both vectors. In this way, for each input audio, we extract a bunch of almost 150 features contained in a row vector. Hopefully, these
+features have enough discriminative information to classify correctly the audios.</p>
+</dd></dl>
 
 </div>
 
@@ -84,23 +302,24 @@
 
 <h3>Navigation</h3>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">bot</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bot_modules.html">Json tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bot_modules.html#module-project.Telegram_Chatbot.modulos.languages_chatbot">Languages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bot_modules.html#cough-analyzer">Cough analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Api</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Telegram Chatbot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bot.html">Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bot_modules.html">Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bot_modules.html#database-connection">Database connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bot_modules.html#module-project.Telegram_Chatbot.modulos.json_tools">Json tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bot_modules.html#module-project.Telegram_Chatbot.modulos.languages_chatbot">Languages</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Cough analyzer</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#api">api</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">bot</a><ul>
-      <li>Previous: <a href="bot_modules.html" title="previous chapter">Json tools</a></li>
+  <li><a href="modules.html">Telegram Chatbot</a><ul>
+      <li>Previous: <a href="bot_modules.html" title="previous chapter">Settings</a></li>
   </ul></li>
   </ul></li>
 </ul>

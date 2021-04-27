@@ -140,7 +140,16 @@
     font-size: 112%;
     text-align: center;
   }
+    div.menu {
+    padding: 6px 12px 6px 12px;
 
+    background-color: #8E9CB2;
+
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 112%;
+    text-align: center;
+  }
   div.section_header_red {
     background-color: #0C114F;
   }
@@ -188,6 +197,31 @@
 
   div.validator {
   }
+  .button {
+  height: 50px;
+  width: 200px;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #DCDFE6;
+}
+
+.button1:hover {
+  background-color: #a9accd;
+  color: white;
+}
     </style>
   </head>
   <body>
@@ -195,11 +229,16 @@
       <div class="page_header floating_element">
         <img src="https://www.upc.edu/comunicacio/ca/identitat/descarrega-arxius-grafics/fitxers-marca-principal/upc-positiu-p3005.png" alt="UPC Logo" class="floating_element" width="300"/>
         <span class="floating_element">
-         The Covid Bot Project
+         The Covidscipy Project
         </span>
       </div>
       <div class="content_section floating_element">
+            <div class="menu section_header_blue">
+          <div id="menu"></div>
+            <a href = "../index.html"><button class="button button1">Covidscipy</button></a>
+            <a href = "../docs/index.html"><button class="button button1">Code docs</button></a>
 
+        </div>
 
         <div class="section_header section_header_red">
           <div id="about"></div>

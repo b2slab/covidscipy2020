@@ -203,6 +203,32 @@
 
   div.validator {
   }
+  .button {
+  height: 50px;
+  width: 200px;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #DCDFE6;
+}
+
+.button1:hover {
+  background-color: #a9accd;
+  color: white;
+}
+
     </style>
   </head>
   <body>
@@ -210,14 +236,16 @@
       <div class="page_header floating_element">
         <img src="https://www.upc.edu/comunicacio/ca/identitat/descarrega-arxius-grafics/fitxers-marca-principal/upc-positiu-p3005.png" alt="UPC Logo" class="floating_element" width="300"/>
         <span class="floating_element">
-         The Covid Bot Project
+         The Covidscipy Project
         </span>
       </div>
       <div class="content_section floating_element">
 
         <div class="menu section_header_blue">
           <div id="menu"></div>
-          <a href = "legal/index.html">legal</a> <a href = "docs/index.html">docs</a>
+            <a href = "legal/index.html"><button class="button button1">Legal disclaimer</button></a>
+            <a href = "docs/index.html"><button class="button button1">Code docs</button></a>
+
         </div>
 
         <div class="section_header section_header_red">
@@ -228,13 +256,13 @@
           <p>
 
 
-	    During the exceptional state due to the sars-cov-2 outbreak, the teachers and students of the Scientific Python class from the Master's Degree in Automatic Control And Robotics of 2020 are proposing a joint project to help into the research of the disease. 
+	    During the exceptional state due to the sars-cov-2 outbreak, the teachers and students of the Scientific Python class from the Master's Degree in Automatic Control And Robotics of 2020 are proposing a joint project to help into the research of the disease. From October 2020, this project was carried on by two students under the UPC sponsorization.
 
           </p>
 
 
           <p>
-the goals of this project are: a) to build a chatbot capable of gathering voluntary data from patients and carers, b) to organize, curate and analysis this data on a AI system, c) return useful data to users
+The goals of this project are: a) to build a chatbot capable of gathering voluntary data from patients and carers, b) to organize, curate and analysis this data on a AI system, c) return useful data to users
           </p>
 
         </div>
@@ -248,27 +276,27 @@ The structure of the project covers the following blocks:
             <ul>
                         <li>
                           <tt>Specificaton</tt>
-			  What shoud the system do.
+			  What does the system do.
                         </li>
 
                         <li>
                           <tt>Database Storage</tt>
-			  Design and Use of a noSQL database to store data (e.g. Mongodb, https://www.mongodb.com/blog/post/getting-started-with-python-and-mongodb, https://www.w3schools.com/python/python_mongodb_getstarted.asp) 
+			  Design and Use of a Mongo noSQL database to store data.
                         </li>
 
                         <li>
                            <tt>Chatbot Interface</tt>
- Asynchronous scheme for interaction with users. Definition of state machine in the interaction (https://github.com/aiogram/aiogram, https://docs.python.org/3/library/asyncio.html) 
+ Asynchronous scheme for interaction with users. Definition of state machine in the interaction. Hosted by Telegram (https://github.com/aiogram/aiogram, https://docs.python.org/3/library/asyncio.html)
                         </li>
 
                         <li>
 			  <tt>Machine learning</tt>
-			  evelop an algorithm from a set of audios capable of classification. The system can be tested with a set of sample audios made by the class emulating two kind of coughing (https://github.com/tyiannak/pyAudioAnalysis, https://github.com/jsingh811/pyAudioProcessing).
+			  Develop an algorithm from a set of audios capable of classification (i.e. Tensorflow). The system can be tested with a set of sample audios made by the class emulating two kind of coughing (https://github.com/tyiannak/pyAudioAnalysis, https://github.com/jsingh811/pyAudioProcessing).
 			</li>
 
                         <li>
 			  <tt>Documentation, dissemination. </tt>
-			  Creation of a dynamic website programmatically through python (using flask or django, flask is simpler). Parts of the website could connect to the db to show statistics of the system as a small dashboard.
+			  Creation of a dynamic website programmatically through python (using flask or django, flask is simpler). Ideally parts of the website could connect to the db to show statistics of the system as a small dashboard.
 			  Creation of contents, code documentation (https://docs.python-guide.org/writing/documentation/, https://www.djangoproject.com/start/, https://flask.palletsprojects.com/, with flask you can integrate dash https://plotly.com/dash/)  . 
                         </li>
 			<li>
@@ -278,7 +306,7 @@ The structure of the project covers the following blocks:
 
         <div class="section_header">
             <div id="docroot"></div>
-                Teams
+                Former Teams
         </div>
 
         <div class="content_section_text">
@@ -295,6 +323,21 @@ The structure of the project covers the following blocks:
 	    Teachers: Alexandre Perera, Manel Velasco  
 	    </p>
             
+        </div>
+
+          <div class="section_header">
+            <div id="docroot"></div>
+                Current delopers
+        </div>
+          <div class="content_section_text">
+            <p>
+
+		Daniel Marin, Guillem Bonilla.
+              </p>
+	    <p>
+	    Teachers: Alexandre Perera, Jordi Fonollosa.
+	    </p>
+
         </div>
 
 

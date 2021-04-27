@@ -45,13 +45,10 @@ def import_languages():
             "q36":"What is your gender?",
 
             "q37":"Hello, you are chatting with CovidScipy2020's bot.\
-            \n\nThis bot is designed to gather data about people who may,\
-            or may not have Sars-covid-2019, in order to better understand the disease\
-            and potentially help you to know if you may be susceptible to have the virus,\
-            just by providing us your symptoms.\
-            \n\nRight now it is only in a data-gathering state, so you would help us a lot\
-            by just adding your information (or someone else's if you have their permission).\
-            \n\nYou can access and delete your data at anyime.",
+            \n\nThis is an experimental tool developed at the Universitat Politècnica de Catalunya (UPC) to better understand Covid-19.\
+            \n\nWe want to help society providing a fast tool that can be indicative of a Covid-19 positive. At this stage, you can help us providing your symptoms and interacting with the bot.\
+            \n\nYou will be asked to provide a recording of your coughing and other data that can help the prediction models. You can also add information from someone else if permission is granted.\
+            You can access and delete your data at any time.",
 
             "q38":"Okay. You may now add data and symptoms of your own, or from someone else you are responsible of.\
             \n\nWe will begin with your first name, just to identify you in case you add data from your relatives.\
@@ -158,11 +155,10 @@ def import_languages():
 
             "q36":"¿Cuál es su género?",
 
-            "q37":"Hola, está usted hablando con el bot llamado CovidScipy2020.\
-            \n\nÉste bot está diseñado para recopilar datos sobre personas y su estado de salud respecto al SARS-COVID-19.\
-            El objetivo del proyecto es comprender mejor la enfermedad y ayudar a los usuarios a saber si son susceptibles de tener el virus. Para hacerlo, le pediremos si nos puede facilitar sus síntomas y una muestra de su tos.\
-            \n\nActualmente, el proyecto aún está en una fase preliminar de almacenamiento de datos. Por lo tanto, si nos pudiera facilitar sus datos nos sería de una tremenda utilidad (o los de otra persona a su cargo y con su consentimiento).\
-            \n\nPor supuesto, usted puede acceder o eliminar la información proporcionada en cualquier momento.",
+            "q37":"Hola, está usted hablando con el bot CovidScipy2020. Se trata de una herramienta experimental desarrollada en la Universidad Politécnica de Cataluña (UPC) con el propósito de entender mejor el Covid-19.\
+            \n\nSu objetivo es ayudar a la sociedad dándole acceso a una herramienta que sirva para detectar el virus de forma rápida y sencilla. Por ahora, seria de gran ayuda si nos suministrase sus síntomas a través de este bot.\
+            En el proceso se le harán varias preguntas además de pedirle un mensaje de audio que contenga su tos de modo que podamos usarlos para mejorar nuestros modelos predictivos.\
+            \n\nTambien puede añadir información de otra persona si tiene su consentimiento, asimismo como eliminar sus datos en cualquier momento.",
 
             "q38":"A continuación puede agregar datos y síntomas propios. También puede optar por facilitarnos los datos de una persona a su cargo.\
             \n\nComenzaremos por su nombre. El nombre que nos proporcione servirá como identificador en el caso de que quiera agregar los datos de sus familiares.\
@@ -267,11 +263,10 @@ def import_languages():
 
             "q36":"Quin és el seu gènere?",
 
-            "q37":"Hola, vostè està parlant amb el bot anomenat CovidScipy2020.\
-            \n\nAquest bot està dissenyat per recopilar dades sobre persones i el seu estat de salut respecte a la SARS-COVID-19.\
-            L'objectiu del projecte és comprendre millor la malaltia i ajudar els usuaris a saber si són susceptibles de tenir el virus. Per fer-ho, li demanarem si ens pot facilitar els seus símptomes i una mostra d'àudio del seu estossec.\
-            \n\nActualment, el projecte encara es troba en una fase preliminar d'emmagatzematge de dades. Per tant, si ens pogués facilitar les seves dades ens seria de molta utilitat (o les d'una altra persona al seu càrrec i amb el seu consentiment). \
-            \n\nPer descomptat, vostè pot accedir o eliminar la informació proporcionada en qualsevol moment.",
+            "q37":"Hola, está vosté chatejant amb el bot CovidScipy2020. Es tracta d'una eina experimental desenvolupada en la Universitad Politécnica de Catalunya (UPC) amb el propósit d'entendre millor el Covid-19.\
+            \n\nEl seu objectiu és ajudar a la societat donant-li accés a una eina que serveixi per detectar el virus de forma ràpida y senzilla. De moment, seria de gran ajuda si ens subministrés els seus símptomes a través d'aquest bot.\
+            En el procés se li faran varies preguntes a més de demanar-li un missatge d'audio que contingui la seva tos de manera que puguem fer-los servir per millorar els nostres models predictius.\
+            \n\nTambe pot afegir informació d'altra persona amb el seu consentiment, aixi mateix com eliminar les seves dades en qualsevol moment.",
 
             "q38":"A continuació pot afegir les dades i els símptomes propis. També pot optar per facilitar-nos les dades d'una persona al seu càrrec.\
             \n\nComençarem pel seu nom. El nom que ens proporcioni servirà com a identificador en el cas que vulgui afegir les dades dels seus familiars.\

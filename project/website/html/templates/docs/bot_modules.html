@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Cough analyzer" href="Cough%20analyzer.html" />
-    <link rel="prev" title="bot" href="modules.html" />
+    <link rel="prev" title="Bot" href="bot.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -42,13 +42,8 @@
 <dl class="py method">
 <dt id="project.Telegram_Chatbot.modulos.database_connection.DataBase.close">
 <code class="sig-name descname"><span class="pre">close</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.database_connection.DataBase.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cerramos connexión con el servidor</p>
+<dd><p>Closes server connection</p>
 </dd></dl>
-
-<dl class="py method">
-<dt id="project.Telegram_Chatbot.modulos.database_connection.DataBase.store_oga_GridFS">
-<code class="sig-name descname"><span class="pre">store_oga_GridFS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagnosis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_prediction</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.database_connection.DataBase.store_oga_GridFS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -58,7 +53,16 @@
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.json_tools.convert_bool">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.json_tools.</span></code><code class="sig-name descname"><span class="pre">convert_bool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.json_tools.convert_bool" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="option-list">
+<dt><kbd><span class="option">--Input</span></kbd></dt>
+<dd><p>dict</p>
+</dd>
+<dt><kbd><span class="option">--Output</span></kbd></dt>
+<dd><p>dict</p>
+</dd>
+</dl>
+<p>Converts all booleans of a dict input intro strings. Necessary for analyze_cough.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-project.Telegram_Chatbot.modulos.languages_chatbot">
@@ -66,7 +70,12 @@
 <dl class="py function">
 <dt id="project.Telegram_Chatbot.modulos.languages_chatbot.import_languages">
 <code class="sig-prename descclassname"><span class="pre">project.Telegram_Chatbot.modulos.languages_chatbot.</span></code><code class="sig-name descname"><span class="pre">import_languages</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#project.Telegram_Chatbot.modulos.languages_chatbot.import_languages" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><ul class="simple">
+<li><p>English</p></li>
+<li><p>Spanish</p></li>
+<li><p>Catalan</p></li>
+</ul>
+</dd></dl>
 
 </div>
 
@@ -87,7 +96,9 @@
 
 <h3>Navigation</h3>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">bot</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">Api</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Telegram Chatbot</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bot.html">Bot</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#database-connection">Database connection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-project.Telegram_Chatbot.modulos.json_tools">Json tools</a></li>
@@ -95,15 +106,14 @@
 <li class="toctree-l2"><a class="reference internal" href="Cough%20analyzer.html">Cough analyzer</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#api">api</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">bot</a><ul>
-      <li>Previous: <a href="modules.html" title="previous chapter">bot</a></li>
+  <li><a href="modules.html">Telegram Chatbot</a><ul>
+      <li>Previous: <a href="bot.html" title="previous chapter">Bot</a></li>
       <li>Next: <a href="Cough%20analyzer.html" title="next chapter">Cough analyzer</a></li>
   </ul></li>
   </ul></li>
