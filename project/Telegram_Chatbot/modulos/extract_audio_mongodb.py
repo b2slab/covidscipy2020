@@ -3,6 +3,7 @@ import gridfs
 import os
 from sshtunnel import SSHTunnelForwarder
 from bson.objectid import ObjectId
+from datetime import datetime
 
 class DataBase:
 
@@ -70,16 +71,20 @@ class DataBase:
         objectid_file = self.find_ObjectID(username)
         if (audioDB.exists({'_id': ObjectId(objectid_file)})==False):
             return "Audio not found"
+
+        date_upload = self.db['fs.files'].find_one({'_id': ObjectId(objectid_file)}, {"uploadDate":1, '_id':0})['uploadDate']
+        date_upload = date_uploaded.strftime("%d %b %Y - %H:%M")
+
         gout = audioDB.get(ObjectId(objectid_file))
         fout = open(output_path + filename + '.oga', 'wb')
         fout.write(gout.read())
         fout.close()
         gout.close()
-        return "Audio successfully stored in {}".format(output_path)
+        return "The Audio was uploaded on {}. Additionally, the Audio has been successfully stored in {}".format(date_upload, output_path)
 
 
 # Connection to database
 MongoDB_ = DataBase()
 
 # Find and store audios by specifying username
-MongoDB_.find_store_audio('Berta', 'C:/Users/Guillem/Desktop/', 'audio_berta')
+MongoDB_.find_store_audio('Marci', 'C:/Users/Guillem/Desktop/', 'audio_marci')
