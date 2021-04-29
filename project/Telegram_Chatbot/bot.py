@@ -901,74 +901,30 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
             data['audio_file'] = {}
             data['audio_file']['covid_positive'] = veredict
 
+            markup = types.ReplyKeyboardRemove()
+            await message.reply(questions[lang]["q35"], reply_markup=markup)
+            # await message.reply(file_path, reply_markup=markup)
 
+            # save_features(data.as_dict())
 
-
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-        markup.add(questions[lang]["q26"], questions[lang]["q27"])
-        await Form.next()
-        return await message.reply(questions[lang]["q55"], reply_markup=markup)
-
-
-
-@dp.message_handler(lambda message: message.text in ['Yes', 'Sí'], state=Form.others)
-async def process_others_write(message: types.Message, state: FSMContext):
-    """
-    --Input state              others
-    --Input message            'Yes'
-    --Output state             others
-
-    """
-    async with state.proxy() as data:
-        lang = data['lang']
-    await message.reply(questions[lang]["q65"])
-
-
-@dp.message_handler(lambda message: message.text not in ['Sí', 'Yes'], state=Form.others)
-async def process_others(message: types.Message, state: FSMContext):
-    """
-    --Input state              others
-    --Input message            NOT IN: 'Yes'
-    --Output state             Start
-
-        - Stores *Input message* as ['symptoms']['others'] in the metadata.
-        - Deletes *file_path* from the metadata (json).
-        - Performs a **POST** request on *API_HOST+'users'* with a body containing both the metadata and the audio sample in a *files* dictionary.
-        - Resets chatbot.
-
-    .. note::
-        Metadata is stored in *dict* format. The DB converts it to BSON automatically when inserting the entry.
-    """
-    async with state.proxy() as data:
-        lang = message.from_user.locale.language
-        data['symptoms']['others'] = message.text
-        markup = types.ReplyKeyboardRemove()
-        await message.reply(questions[lang]["q35"], reply_markup=markup)
-        #await message.reply(file_path, reply_markup=markup)
-
-
-        #save_features(data.as_dict())
-
-        file_path = data['file_path']
-        print(str(file_path))
-        del data['file_path']
-        del data['lang']
-        data = convert_bool(data.as_dict())
-        file = {'upload_file': open(file_path, 'rb'),
+            file_path = data['file_path']
+            print(str(file_path))
+            del data['file_path']
+            del data['lang']
+            data = convert_bool(data.as_dict())
+            file = {'upload_file': open(file_path, 'rb'),
                     'json': (None, json.dumps(data), 'application/json')}
 
-        requests.post(API_HOST+'users', files=file)
-        
-    os.remove(file_path)
-    file_path = file_path[:-3]+'wav'
-    os.remove(file_path)
-    await Form.menu.set()
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add(questions[lang]["q56"], questions[lang]["q57"])
-    markup.add(questions[lang]["q58"], questions[lang]["q59"])
-    await bot.send_message(message.chat.id, questions[lang]["q4"], reply_markup=markup)
+            requests.post(API_HOST + 'users', files=file)
 
-
+        os.remove(file_path)
+        file_path = file_path[:-3] + 'wav'
+        os.remove(file_path)
+        await Form.menu.set()
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        markup.add(questions[lang]["q56"], questions[lang]["q57"])
+        markup.add(questions[lang]["q58"], questions[lang]["q59"])
+        await bot.send_message(message.chat.id, questions[lang]["q4"], reply_markup=markup)
 
 
     #requests.post(API_HOST+'users', json=data.as_dict())
@@ -988,5 +944,5 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
-
+main()
 

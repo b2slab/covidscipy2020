@@ -116,7 +116,6 @@ class symptoms(object):
         self.diabtes = diabetes
         self.CLD = CLD
         self.IHD = IHD
-        #self.others = others
 
 
 class Patient(object):
