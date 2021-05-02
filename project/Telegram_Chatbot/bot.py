@@ -1,6 +1,6 @@
 import logging
 import requests
-import sys
+from datetime import datetime
 from aiogram.utils.executor import start_webhook
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram import Bot, Dispatcher, types
@@ -219,7 +219,11 @@ async def delete_data(message: types.Message, state: FSMContext):
     else:
         data_delete = json.loads(response.content)
         for i in data_delete:
-            markup.add(i["username"])
+            try:
+                markup.add('%s - (%s)'%(i['username'],i['time']))
+            except:
+                markup.add(i['username'])
+
         markup.add(questions[lang]["q61"])
         return await message.reply(questions[lang]["q62"], reply_markup=markup)
 
@@ -908,7 +912,7 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
             # save_features(data.as_dict())
 
             file_path = data['file_path']
-            print(str(file_path))
+            data['time']=datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             del data['file_path']
             del data['lang']
             data = convert_bool(data.as_dict())
@@ -944,5 +948,5 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
-main()
+
 

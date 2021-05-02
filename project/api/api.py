@@ -217,16 +217,7 @@ def add_user():
         return Response(response=json.dumps({"Error": str(inst)}),
                         status=400,
                         mimetype='application/json')
-"""
-@app.route('/users', methods=['PUT'])
-def update_user():
-    data = request.json
-    print(data)
-    response = DataBase().update(data)
-    return Response(response=json.dumps(response),
-                    status=200,
-                    mimetype='application/json')
-"""
+
 
 @app.route('/users/<id>/<username>', methods=['DELETE'])
 def delete_user(id, username):

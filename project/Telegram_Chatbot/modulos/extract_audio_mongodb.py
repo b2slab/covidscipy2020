@@ -87,4 +87,5 @@ class DataBase:
 MongoDB_ = DataBase()
 
 # Find and store audios by specifying username
-MongoDB_.find_store_audio('Marci', 'C:/Users/Guillem/Desktop/', 'audio_marci')
+#MongoDB_.find_store_audio('Marci', 'C:/Users/Guillem/Desktop/', 'audio_marci')
+MongoDB_.find_store_audio('Marci', '/home/dani/covidscipy2020/', 'audio_marci')

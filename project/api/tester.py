@@ -1,5 +1,7 @@
-import requests
-import json
-id = 111212212
-response = requests.get('https://covidscipy2020.herokuapp.com/'+'users/%s'%id)
-print(type(response.status_code))
+from datetime import datetime
+
+now = datetime.now()
+print(type(now))
+print(now)
+dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+print(dt_string)
