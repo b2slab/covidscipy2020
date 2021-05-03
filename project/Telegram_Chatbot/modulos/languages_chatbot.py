@@ -111,7 +111,9 @@ def import_languages():
 
             "q66":"Skip",
 
-            "q67": "No entries found"
+            "q67": "No entries found",
+
+            "q68":"Do you suffer from obesity?"
 
 
 
@@ -222,7 +224,9 @@ def import_languages():
 
             "q66":"Omitir",
 
-            "q67":"No se han econtrado entradas"
+            "q67":"No se han econtrado entradas",
+
+            "q68":"¿Padece usted de obesidad?"
 
         },
         "ca":{
@@ -331,7 +335,9 @@ def import_languages():
 
             "q66":"Ometre",
 
-            "q67": "No s'han trobat entrades"
+            "q67": "No s'han trobat entrades",
+
+            "q68":"Pateix vostè d'obesitat?"
 
         }
     }

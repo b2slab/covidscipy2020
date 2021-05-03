@@ -36,6 +36,14 @@ def analyze_cough(ogg_path, data):
     wav_path = convert_ogg_to_wav(ogg_path)
     X_new = mid_term_feat_extraction(wav_path)
 
+    try:
+        w = open(wav_path)
+    except IOError:
+        print("File not accessible")
+    finally:
+        w.close()
+        os.remove(wav_path)
+
     cough = cough_prediction(X_new)
     if cough == True:
         metadata = convert_metadata(data)

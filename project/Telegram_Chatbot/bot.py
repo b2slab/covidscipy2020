@@ -88,6 +88,8 @@ class Form(StatesGroup):
     CLD = State()
     IHD = State()
 
+    obesity = State()
+
     cough = State()
 
     others = State()
@@ -780,13 +782,34 @@ async def process_chest_pain(message: types.Message, state: FSMContext):
     """
     --Input state              IHD
     --Input message            IN: 'Yes', 'No'
-    --Output state             cough
+    --Output state             obesity
 
     Stores *Input message* as ['symptoms']['IHD'] in the metadata.
     """
     async with state.proxy() as data:
         lang = data['lang']
         data['symptoms']['IHD'] = (message.text == questions[lang]["q26"])
+        #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+        #markup.add(questions[lang]["q26"], questions[lang]["q27"])
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
+    markup.add(questions[lang]["q26"], questions[lang]["q27"])
+
+    await Form.next()
+    await message.reply(questions[lang]["q68"], reply_markup=markup)
+
+@dp.message_handler(lambda message: message.text in ['Sí', 'Yes', 'No'],state=Form.obesity)
+async def process_chest_pain(message: types.Message, state: FSMContext):
+    """
+    --Input state              obesity
+    --Input message            IN: 'Yes', 'No'
+    --Output state             cough
+
+    Stores *Input message* as ['symptoms']['obesity'] in the metadata.
+    """
+    async with state.proxy() as data:
+        lang = data['lang']
+        data['symptoms']['obesity'] = (message.text == questions[lang]["q26"])
         #markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         #markup.add(questions[lang]["q26"], questions[lang]["q27"])
 
@@ -888,17 +911,27 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
     else:
         async with state.proxy() as data:
             veredict = analyze_cough(file_path, data)
+            diagnosis = data['diagnosis']
 
 
     if veredict == None:
         # The audio is not recognised as COUGH
+        try:
+            f = open(file_path)
+        except IOError:
+            print("File not accessible")
+        finally:
+            f.close()
+            os.remove(file_path)
         return await bot.send_message(message.chat.id, questions[lang]["q23"])
 
     else:
-        if veredict == True:
+        if (veredict == True) and (diagnosis not in ["Currently positive", "Positivo", "Positiu"]):
             await bot.send_message(message.chat.id, questions[lang]["q53"])
-        elif veredict == False:
+        elif (veredict == False) and (diagnosis not in ["Currently positive", "Positivo", "Positiu"]):
             await bot.send_message(message.chat.id, questions[lang]["q54"])
+        else:
+            pass
 
         async with state.proxy() as data:
             #objectID = database.store_oga_GridFS(file_path, data['diagnosis'], veredict)
@@ -921,9 +954,14 @@ async def process_cough(message: types.voice.Voice, state: FSMContext):
 
             requests.post(API_HOST + 'users', files=file)
 
-        os.remove(file_path)
-        file_path = file_path[:-3] + 'wav'
-        os.remove(file_path)
+        try:
+            f = open(file_path)
+        except IOError:
+            print("File not accessible")
+        finally:
+            f.close()
+            os.remove(file_path)
+
         await Form.menu.set()
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
         markup.add(questions[lang]["q56"], questions[lang]["q57"])
@@ -948,5 +986,3 @@ def main():
         host=WEBAPP_HOST,
         #port=WEBAPP_PORT
     )
-
-
