@@ -221,11 +221,11 @@ async def delete_data(message: types.Message, state: FSMContext):
     else:
         data_delete = json.loads(response.content)
         for i in data_delete:
-            #try:
-             #   markup.add('%s - (%s)'%(i['username'],i['time']))
+            try:
+                markup.add('%s - (%s)'%(i['username'],i['time']))
 
-            #except:
-            markup.add(i['username'])
+            except:
+                markup.add(i['username'])
 
         markup.add(questions[lang]["q61"])
         return await message.reply(questions[lang]["q62"], reply_markup=markup)
@@ -243,7 +243,7 @@ async def deleting_data(message: types.Message, state: FSMContext):
         lang = data['lang']
     await Form.deleting.set()
     id = message.from_user.id
-    response = requests.delete(API_HOST+'users/%s/%s'%(id, message.text))
+    response = requests.delete(API_HOST+'users/%s/%s'%(id, message.text.split()[0]))
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add(questions[lang]["q26"], questions[lang]["q27"])
     return await message.reply(questions[lang]["q63"] % json.loads(response.content)['Status'], reply_markup=markup)
