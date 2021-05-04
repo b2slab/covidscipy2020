@@ -221,10 +221,11 @@ async def delete_data(message: types.Message, state: FSMContext):
     else:
         data_delete = json.loads(response.content)
         for i in data_delete:
-            try:
-                markup.add('%s - (%s)'%(i['username'],i['time']))
-            except:
-                markup.add(i['username'])
+            #try:
+             #   markup.add('%s - (%s)'%(i['username'],i['time']))
+
+            #except:
+            markup.add(i['username'])
 
         markup.add(questions[lang]["q61"])
         return await message.reply(questions[lang]["q62"], reply_markup=markup)
