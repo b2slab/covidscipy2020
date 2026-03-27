@@ -49,7 +49,7 @@ opensmile
 opt-einsum==3.3.0
 packaging==20.9
 pandas
-paramiko==2.7.2
+paramiko==2.10.1
 parso==0.8.1
 pexpect==4.8.0
 pickleshare==0.7.5
